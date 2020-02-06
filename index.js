@@ -1,9 +1,9 @@
 const canvas = document.getElementById('tetris')
 const context = canvas.getContext('2d') // Not sure what this does
 
-context.scale(20, 20); // make bigger
+context.scale(40, 40); // make bigger
 
-function arenaSweep()
+function arenaSweep() {
   let rowCount = 1;
   outer: for (let y = arena.length - 1; y > 0; --y) {
     for (let x = 0; x < arena[y].length; ++x) {
@@ -90,7 +90,7 @@ function createPiece(type) {
 }
 
  function draw() {
-   context.fillStyle = '#514444'
+   context.fillStyle = '#202028'
    context.fillRect(0, 0, canvas.width, canvas.height)
 
    drawMatrix(arena, {x: 0, y: 0})
@@ -217,7 +217,7 @@ const colors = [
   null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
 ]
 
-const arena = createMatrix(12, 20)
+const arena = createMatrix(10, 20)
 
 const player = {
   pos: { x: 0, y: 0 },
