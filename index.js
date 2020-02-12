@@ -17,10 +17,12 @@ const arena = createMatrix(10, 20)
 const player = {
   pos: { x: 0, y: 0 },
   matrix: null,
-  score: 0
+  score: 0,
+  letter: null
 }
 
 let savedPiece;
+let savedLetter;
 let canSwitch = true;
 
 function arenaSweep() {
@@ -109,10 +111,10 @@ function createPieceMatrix(type) {
     ]
     default:
     return [
-      [0, 5, 0, 0],
-      [0, 5, 0, 0],
-      [0, 5, 0, 0],
-      [0, 5, 0, 0]
+      [0, 5, 1, 0],
+      [0, 5, 4, 0],
+      [0, 5, 3, 0],
+      [0, 5, 2, 0]
     ]
   }
 }
@@ -172,11 +174,13 @@ function playerMove(dir) {
 
 function getTetriminoLetter() {
   const pieces = 'ILJOSTZ'
-  return pieces[pieces.length * Math.random() | 0]
+  const randomNumber = pieces.length * Math.random() | 0
+  return pieces[randomNumber]
 }
 
-function playerReset(piece = createPieceMatrix(getTetriminoLetter())) {
-  player.matrix = piece
+function playerReset(providedLetter = getTetriminoLetter()) {
+  player.letter = providedLetter
+  player.matrix = createPieceMatrix(providedLetter)
   player.pos.y = 0;
   player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
   if (collide(arena, player)) {
@@ -246,14 +250,14 @@ function playerSwitch() {
   if (canSwitch) {
     // prevent another switch this round
     canSwitch = false
-    if (savedPiece) {
-      // grab existing piece and switch
-      [savedPiece, player.matrix] = [player.matrix, savedPiece]
+    if (savedLetter) {
+      // grab saved letter and switch
+      [savedLetter, player.letter] = [player.letter, savedLetter]
       setSaved() // update the savedPiece canvas
-      playerReset(player.matrix) // use saved piece
+      playerReset(player.letter) // use saved piece
     } else {
       // OR save piece to box
-      savedPiece = player.matrix
+      savedLetter = player.letter
       setSaved() // update the savedPiece canvas
       playerReset() // move onto next piece
     }
@@ -280,7 +284,7 @@ const setSaved = () => {
   // have box display piece
   savedContext.fillStyle = '#202028'
   savedContext.fillRect(0, 0, saved.width, saved.height)
-  drawSaved(savedPiece, {x: 0, y: 0});
+  drawSaved(createPieceMatrix(savedLetter), {x: 0, y: 0});
 }
 
 function drawSaved(matrix, offset) {
