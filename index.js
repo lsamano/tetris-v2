@@ -184,14 +184,18 @@ function playerReset(providedLetter = getTetriminoLetter()) {
   player.pos.y = 0;
   player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
   if (collide(arena, player)) {
-    arena.forEach(row => row.fill(0))
-    player.score = 0
-    updateScore()
+    gameOver()
   }
 }
 
+function gameOver() {
+  arena.forEach(row => row.fill(0))
+  player.score = 0
+  updateScore()
+}
+
 function playerRotate(dir) {
-  const pos = player.pos.x
+  const originalPosition = player.pos.x
   let offset = 1
   rotate(player.matrix, dir)
   while (collide(arena, player)) {
@@ -199,7 +203,7 @@ function playerRotate(dir) {
     offset = -(offset + (offset > 0 ? 1 : -1))
     if (offset > player.matrix[0].length) {
       rotate(player.matrix, -dir)
-      player.pos.x = pos
+      player.pos.x = originalPosition
       return;
     }
   }
@@ -284,18 +288,16 @@ const setSaved = () => {
   // have box display piece
   savedContext.fillStyle = '#202028'
   savedContext.fillRect(0, 0, saved.width, saved.height)
-  drawSaved(createPieceMatrix(savedLetter), {x: 0, y: 0});
+  pieceMatrix = createPieceMatrix(savedLetter)
+  drawSaved(pieceMatrix);
 }
 
-function drawSaved(matrix, offset) {
+function drawSaved(matrix) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
         savedContext.fillStyle = colors[value];
-        savedContext.fillRect(
-          x + offset.x,
-          y + offset.y,
-          1, 1)
+        savedContext.fillRect(x, y, 1, 1)
       }
     });
   });
