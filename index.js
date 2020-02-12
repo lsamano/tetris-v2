@@ -4,6 +4,24 @@ const saved = document.getElementById('saved')
 const savedContext = saved.getContext('2d')
 
 context.scale(40, 40); // make bigger
+savedContext.scale(40, 40); // make bigger
+savedContext.fillStyle = '#202028'
+savedContext.fillRect(0, 0, saved.width, saved.height)
+
+const colors = [
+  null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
+]
+
+const arena = createMatrix(10, 20)
+
+const player = {
+  pos: { x: 0, y: 0 },
+  matrix: null,
+  score: 0
+}
+
+let savedPiece;
+let canSwitch = true;
 
 function arenaSweep() {
   let rowCount = 1;
@@ -108,9 +126,6 @@ function drawMatrix(matrix, offset) {
           x + offset.x,
           y + offset.y,
           1, 1)
-        // context.lineWidth = 3;
-        // context.strokeStyle = 'black';
-        // context.stroke()
       }
     });
   });
@@ -199,7 +214,6 @@ function rotate(matrix, dir) {
 
 let dropCounter = 0
 let dropInterval = 1000
-
 let lastTime = 0;
 
 function update(time = 0) {
@@ -220,39 +234,20 @@ function updateScore() {
   score.innerText = player.score
 }
 
-const colors = [
-  null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
-]
-
-const arena = createMatrix(10, 20)
-
-const player = {
-  pos: { x: 0, y: 0 },
-  matrix: null,
-  score: 0
-}
-
-let savedPiece;
-let canSwitch = true;
-
-const playerSwitch = () => {
-  // have box display piece
+function playerSwitch() {
   if (canSwitch) {
     // prevent another switch this round
     canSwitch = false
     if (savedPiece) {
       // grab existing piece and switch
       [savedPiece, player.matrix] = [player.matrix, savedPiece]
-      console.table(savedPiece);
-      setSaved()
-      playerReset(player.matrix)
+      setSaved() // update the savedPiece canvas
+      playerReset(player.matrix) // use saved piece
     } else {
       // OR save piece to box
       savedPiece = player.matrix
-      setSaved()
-      // move onto next piece
-      console.table(player.matrix);
-      playerReset()
+      setSaved() // update the savedPiece canvas
+      playerReset() // move onto next piece
     }
   }
 }
@@ -273,15 +268,25 @@ document.addEventListener('keydown', event => {
   }
 })
 
-savedPlace = createMatrix(160, 160)
-
 const setSaved = () => {
-  // saved.innerText = savedPiece
-  context.fillStyle = 'blue'
-  context.fillRect(0, 0, saved.width, saved.height)
+  // have box display piece
+  savedContext.fillStyle = '#202028'
+  savedContext.fillRect(0, 0, saved.width, saved.height)
+  drawSaved(savedPiece, {x: 0, y: 0});
+}
 
-  drawMatrix(savedPlace, {x: 0, y: 0})
-  drawMatrix(savedPiece, {x: 0, y: 0});
+function drawSaved(matrix, offset) {
+  matrix.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if (value !== 0) {
+        savedContext.fillStyle = colors[value];
+        savedContext.fillRect(
+          x + offset.x,
+          y + offset.y,
+          1, 1)
+      }
+    });
+  });
 }
 
 playerReset()
