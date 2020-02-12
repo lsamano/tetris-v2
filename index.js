@@ -63,48 +63,56 @@ function createMatrix(width, height) {
   return matrix
 }
 
-function createPiece(type) {
-  if (type === 'T') {
+function createPieceMatrix(type) {
+  switch (type) {
+    case 'T':
     return [
       [0, 0, 0],
       [1, 1, 1],
       [0, 1, 0]
     ]
-  } else if (type === 'O') {
+    case 'O':
     return [
       [2, 2],
       [2, 2]
     ]
-  } else if (type === 'L') {
+    case 'Z':
     return [
-      [0, 3, 0],
-      [0, 3, 0],
-      [0, 3, 3]
+      [7, 7, 0],
+      [0, 7, 7],
+      [0, 0, 0]
     ]
-  } else if (type === 'J') {
+    case 'S':
+    return [
+      [0, 6, 6],
+      [6, 6, 0],
+      [0, 0, 0]
+    ]
+    case 'J':
     return [
       [0, 4, 0],
       [0, 4, 0],
       [4, 4, 0]
     ]
-  } else if (type === 'I') {
+    case 'L':
+    return [
+      [0, 3, 0],
+      [0, 3, 0],
+      [0, 3, 3]
+    ]
+    case 'I':
     return [
       [0, 5, 0, 0],
       [0, 5, 0, 0],
       [0, 5, 0, 0],
       [0, 5, 0, 0]
     ]
-  } else if (type === 'S') {
+    default:
     return [
-      [0, 6, 6],
-      [6, 6, 0],
-      [0, 0, 0]
-    ]
-  } else if (type === 'Z') {
-    return [
-      [7, 7, 0],
-      [0, 7, 7],
-      [0, 0, 0]
+      [0, 5, 0, 0],
+      [0, 5, 0, 0],
+      [0, 5, 0, 0],
+      [0, 5, 0, 0]
     ]
   }
 }
@@ -114,7 +122,7 @@ function draw() {
  context.fillRect(0, 0, canvas.width, canvas.height)
 
  drawMatrix(arena, {x: 0, y: 0})
- drawMatrix(player.matrix, player.pos );
+ drawMatrix(player.matrix, player.pos);
 }
 
 function drawMatrix(matrix, offset) {
@@ -162,12 +170,12 @@ function playerMove(dir) {
   }
 }
 
-const getTetriminoLetter = () => {
+function getTetriminoLetter() {
   const pieces = 'ILJOSTZ'
   return pieces[pieces.length * Math.random() | 0]
 }
 
-function playerReset(piece = createPiece(getTetriminoLetter())) {
+function playerReset(piece = createPieceMatrix(getTetriminoLetter())) {
   player.matrix = piece
   player.pos.y = 0;
   player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
