@@ -1,5 +1,7 @@
 const canvas = document.getElementById('tetris')
 const context = canvas.getContext('2d')
+const saved = document.getElementById('saved')
+const savedContext = saved.getContext('2d')
 
 context.scale(40, 40); // make bigger
 
@@ -121,9 +123,9 @@ function merge(arena, player) {
         arena[y + player.pos.y][x + player.pos.x] = value
       }
     });
-
   });
-
+  // if merged, set ability to switch back to true
+  canSwitch = true;
 }
 
 function playerDrop() {
@@ -145,9 +147,13 @@ function playerMove(dir) {
   }
 }
 
-function playerReset() {
+const getTetriminoLetter = () => {
   const pieces = 'ILJOSTZ'
-  player.matrix = createPiece(pieces[pieces.length * Math.random() | 0])
+  return pieces[pieces.length * Math.random() | 0]
+}
+
+function playerReset(piece = createPiece(getTetriminoLetter())) {
+  player.matrix = piece
   player.pos.y = 0;
   player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
   if (collide(arena, player)) {
@@ -212,7 +218,6 @@ function update(time = 0) {
 function updateScore() {
   const score = document.getElementById('score')
   score.innerText = player.score
-
 }
 
 const colors = [
@@ -227,8 +232,35 @@ const player = {
   score: 0
 }
 
+let savedPiece;
+let canSwitch = true;
+
+const playerSwitch = () => {
+  // have box display piece
+  if (canSwitch) {
+    // prevent another switch this round
+    canSwitch = false
+    if (savedPiece) {
+      // grab existing piece and switch
+      [savedPiece, player.matrix] = [player.matrix, savedPiece]
+      console.table(savedPiece);
+      setSaved()
+      playerReset(player.matrix)
+    } else {
+      // OR save piece to box
+      savedPiece = player.matrix
+      setSaved()
+      // move onto next piece
+      console.table(player.matrix);
+      playerReset()
+    }
+  }
+}
+
 document.addEventListener('keydown', event => {
-  if (event.keyCode === 37) {
+  if (event.keyCode === 68) {
+    playerSwitch()
+  } else if (event.keyCode === 37) {
     playerMove(-1)
   } else if (event.keyCode === 39) {
     playerMove(1)
@@ -240,6 +272,17 @@ document.addEventListener('keydown', event => {
     playerRotate(1)
   }
 })
+
+savedPlace = createMatrix(160, 160)
+
+const setSaved = () => {
+  // saved.innerText = savedPiece
+  context.fillStyle = 'blue'
+  context.fillRect(0, 0, saved.width, saved.height)
+
+  drawMatrix(savedPlace, {x: 0, y: 0})
+  drawMatrix(savedPiece, {x: 0, y: 0});
+}
 
 playerReset()
 updateScore()
