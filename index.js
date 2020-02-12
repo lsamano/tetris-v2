@@ -1,5 +1,5 @@
 const canvas = document.getElementById('tetris')
-const context = canvas.getContext('2d') // Not sure what this does
+const context = canvas.getContext('2d')
 
 context.scale(40, 40); // make bigger
 
@@ -35,10 +35,10 @@ function collide(arena, player) {
   return false;
 }
 
-function createMatrix(w, h) {
+function createMatrix(width, height) {
   const matrix = []
-  while (h--) {
-    matrix.push(new Array(w).fill(0))
+  while (height--) {
+    matrix.push(new Array(width).fill(0))
   }
   return matrix
 }
@@ -89,24 +89,26 @@ function createPiece(type) {
   }
 }
 
- function draw() {
-   context.fillStyle = '#202028'
-   context.fillRect(0, 0, canvas.width, canvas.height)
+function draw() {
+ context.fillStyle = '#202028'
+ context.fillRect(0, 0, canvas.width, canvas.height)
 
-   drawMatrix(arena, {x: 0, y: 0})
-   drawMatrix(player.matrix, player.pos );
- }
-
+ drawMatrix(arena, {x: 0, y: 0})
+ drawMatrix(player.matrix, player.pos );
+}
 
 function drawMatrix(matrix, offset) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
-      if (value !==0) {
+      if (value !== 0) {
         context.fillStyle = colors[value];
         context.fillRect(
           x + offset.x,
           y + offset.y,
           1, 1)
+        // context.lineWidth = 3;
+        // context.strokeStyle = 'black';
+        // context.stroke()
       }
     });
   });
