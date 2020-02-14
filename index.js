@@ -177,9 +177,7 @@ function playerDrop() {
   if (collide(arena, player)) {
     player.pos.y--
     merge(arena, player)
-    playerReset()
-    arenaSweep()
-    updateScore()
+    nextTurn()
   }
   dropCounter = 0
 }
@@ -333,13 +331,17 @@ function playerHardDrop() {
       // move back up one, merge with field
       player.pos.y--
       merge(arena, player)
-      playerReset()
-      arenaSweep()
-      updateScore()
+      nextTurn()
       dropCounter = 0
       break;
     }
   }
+}
+
+function nextTurn() {
+  playerReset()
+  arenaSweep()
+  updateScore()
 }
 
 playerReset()
