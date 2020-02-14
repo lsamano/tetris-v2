@@ -21,8 +21,7 @@ const player = {
   score: 0
 }
 
-let savedPiece;
-let savedLetter;
+let heldLetter;
 let canSwitch = true;
 
 function arenaSweep() {
@@ -175,14 +174,15 @@ function playerMove(dir) {
 
 function getTetriminoLetter() {
   const pieces = 'ILJOSTZ'
-  const randomNumber = pieces.length * Math.random() | 0
-  return pieces[randomNumber]
+  const randomIndex = pieces.length * Math.random() | 0
+  return pieces[randomIndex]
 }
 
 function playerReset(providedLetter = getTetriminoLetter()) {
   player.letter = providedLetter
   player.matrix = getPieceMatrix(providedLetter)
   player.pos.y = 0;
+  // sets at middle and lowers it to fit in arena
   player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
   if (collide(arena, player)) {
     gameOver()
@@ -251,19 +251,19 @@ function updateScore() {
   score.innerText = player.score
 }
 
-function playerSwitch() {
+function playerHold() {
   if (canSwitch) {
     // prevent another switch this round
     canSwitch = false
-    if (savedLetter) {
+    if (heldLetter) {
       // grab saved letter and switch
-      [savedLetter, player.letter] = [player.letter, savedLetter]
-      setSaved() // update the savedPiece canvas
+      [heldLetter, player.letter] = [player.letter, heldLetter]
+      updateHeld() // update the savedLetter canvas
       playerReset(player.letter) // use saved piece
     } else {
       // OR save piece to box
-      savedLetter = player.letter
-      setSaved() // update the savedPiece canvas
+      heldLetter = player.letter
+      updateHeld() // update the savedLetter canvas
       playerReset() // move onto next piece
     }
   }
@@ -271,7 +271,7 @@ function playerSwitch() {
 
 document.addEventListener('keydown', event => {
   if (event.keyCode === 68) {
-    playerSwitch()
+    playerHold()
   } else if (event.keyCode === 37) {
     playerMove(-1)
   } else if (event.keyCode === 39) {
@@ -285,11 +285,11 @@ document.addEventListener('keydown', event => {
   }
 })
 
-const setSaved = () => {
+const updateHeld = () => {
   // have box display piece
   savedContext.fillStyle = '#202028'
   savedContext.fillRect(0, 0, saved.width, saved.height)
-  pieceMatrix = getPieceMatrix(savedLetter)
+  pieceMatrix = getPieceMatrix(heldLetter)
   drawSaved(pieceMatrix);
 }
 
