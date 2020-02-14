@@ -123,20 +123,20 @@ function draw() {
  context.fillStyle = '#202028'
  context.fillRect(0, 0, canvas.width, canvas.height)
 
- drawMatrix(arena, {x: 0, y: 0})
- drawMatrix(player.matrix, player.pos);
- // drawMatrix(player.matrix, {x: player.pos.x, y: getGhostCoordinate});
+ drawMatrix(arena, {x: 0, y: 0}) // draws previous board
+ drawMatrix(player.matrix, player.pos); // draws active piece
+ drawMatrix(
+   player.matrix,
+   { x: player.pos.x, y: getGhostCoordinate() },
+    true
+  ); // draw ghost piece
 }
 
-// function getGhostCoordinate() {
-//
-// }
-
-function drawMatrix(matrix, offset) {
+function drawMatrix(matrix, offset, ghost) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        context.fillStyle = colors[value];
+        context.fillStyle = ghost ? 'grey': colors[value]
         context.fillRect(
           x + offset.x,
           y + offset.y,
@@ -144,6 +144,20 @@ function drawMatrix(matrix, offset) {
       }
     });
   });
+}
+
+function getGhostCoordinate() {
+  let ghost = JSON.parse(JSON.stringify(player))
+ while (true) {
+    // move player down until collide
+    ghost.pos.y++
+    if (collide(arena, ghost)) {
+      // move back up one, merge with field
+      ghost.pos.y--
+
+      return ghost.pos.y
+    }
+  }
 }
 
 function merge(arena, player) {
