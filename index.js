@@ -17,8 +17,8 @@ const arena = createMatrix(10, 20)
 const player = {
   pos: { x: 0, y: 0 },
   matrix: null,
-  score: 0,
-  letter: null
+  letter: null,
+  score: 0
 }
 
 let savedPiece;
@@ -32,24 +32,25 @@ function arenaSweep() {
       if (arena[y][x] === 0) {
           continue outer;
       }
-    }
+    } // checks that all pixels are filled
 
     const row = arena.splice(y, 1)[0].fill(0)
     arena.unshift(row);
-    ++y
+    ++y // check next arena row
 
-    player.score += rowCount * 10;
-    rowCount *= 2
+    player.score += rowCount * 100;
+    rowCount = rowCount * 2
   }
 }
 
 function collide(arena, player) {
-  const [m, o] = [player.matrix, player.pos]
-  for (let y = 0; y < m.length; ++y) {
-    for (let x = 0; x < m[y].length; ++x) {
-      if (m[y][x] !== 0 &&
-        (arena[y + o.y] &&
-          arena[y + o.y][x + o.x]) !== 0) {
+  const [playerMatrix, playerPosition] = [player.matrix, player.pos]
+  for (let y = 0; y < playerMatrix.length; ++y) { // per row
+    const arenaRow = arena[y + playerPosition.y]
+    for (let x = 0; x < playerMatrix[y].length; ++x) { // per column
+      const piecePixelIsPresent = (playerMatrix[y][x] !== 0)
+      const arenaPixelIsPresent = (arenaRow && arenaRow[x + playerPosition.x]) !== 0
+      if (piecePixelIsPresent && arenaPixelIsPresent) {
             return true
       }
     }
@@ -58,14 +59,14 @@ function collide(arena, player) {
 }
 
 function createMatrix(width, height) {
-  const matrix = []
+  const newMatrix = []
   while (height--) {
-    matrix.push(new Array(width).fill(0))
+    newMatrix.push(new Array(width).fill(0))
   }
-  return matrix
+  return newMatrix
 }
 
-function createPieceMatrix(type) {
+function getPieceMatrix(type) {
   switch (type) {
     case 'T':
     return [
@@ -180,7 +181,7 @@ function getTetriminoLetter() {
 
 function playerReset(providedLetter = getTetriminoLetter()) {
   player.letter = providedLetter
-  player.matrix = createPieceMatrix(providedLetter)
+  player.matrix = getPieceMatrix(providedLetter)
   player.pos.y = 0;
   player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
   if (collide(arena, player)) {
@@ -288,7 +289,7 @@ const setSaved = () => {
   // have box display piece
   savedContext.fillStyle = '#202028'
   savedContext.fillRect(0, 0, saved.width, saved.height)
-  pieceMatrix = createPieceMatrix(savedLetter)
+  pieceMatrix = getPieceMatrix(savedLetter)
   drawSaved(pieceMatrix);
 }
 
