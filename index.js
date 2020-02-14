@@ -124,12 +124,12 @@ function draw() {
  context.fillRect(0, 0, canvas.width, canvas.height)
 
  drawMatrix(arena, {x: 0, y: 0}) // draws previous board
- drawMatrix(player.matrix, player.pos); // draws active piece
  drawMatrix(
    player.matrix,
    { x: player.pos.x, y: getGhostCoordinate() },
-    true
-  ); // draw ghost piece
+   true
+ ); // draw ghost piece
+ drawMatrix(player.matrix, player.pos); // draws active piece
 }
 
 function drawMatrix(matrix, offset, ghost) {
