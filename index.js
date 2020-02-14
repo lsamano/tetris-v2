@@ -125,7 +125,12 @@ function draw() {
 
  drawMatrix(arena, {x: 0, y: 0})
  drawMatrix(player.matrix, player.pos);
+ // drawMatrix(player.matrix, {x: player.pos.x, y: getGhostCoordinate});
 }
+
+// function getGhostCoordinate() {
+//
+// }
 
 function drawMatrix(matrix, offset) {
   matrix.forEach((row, y) => {
@@ -230,7 +235,7 @@ function rotate(matrix, dir) {
 }
 
 let dropCounter = 0
-let dropInterval = 1000
+let dropInterval = 500
 let lastTime = 0;
 
 function update(time = 0) {
@@ -272,6 +277,8 @@ function playerHold() {
 document.addEventListener('keydown', event => {
   if (event.keyCode === 68) {
     playerHold()
+  } else if (event.keyCode === 38) {
+    playerHardDrop()
   } else if (event.keyCode === 37) {
     playerMove(-1)
   } else if (event.keyCode === 39) {
@@ -302,6 +309,23 @@ function drawSaved(matrix) {
       }
     });
   });
+}
+
+function playerHardDrop() {
+  while (true) {
+    // move player down until collide
+    player.pos.y++
+    if (collide(arena, player)) {
+      // move back up one, merge with field
+      player.pos.y--
+      merge(arena, player)
+      playerReset()
+      arenaSweep()
+      updateScore()
+      dropCounter = 0
+      break;
+    }
+  }
 }
 
 playerReset()
