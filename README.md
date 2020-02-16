@@ -1,13 +1,14 @@
 # Puyo Puyo Tetris II
+This is a Javascript Tetris game.
 
 # Current Features
-- Colors reflect actual Tetris
-- Able to clear lines
-- Able to game over
-- Keeps score
+- Colors reflect actual Tetris pieces.
+- Able to clear lines and earn points towards your score
+- Able to lose the game if it reaches the top
+- Keeps score on bottom
 - Able to hold onto pieces
-- Hard Drop
-- Ghost piece
+- Hard Drop (immediately drops piece into place)
+- Ghost piece (shows where your piece will land if hard-dropped)
 
 # Upcoming Features
 - Piece forecast
