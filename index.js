@@ -25,7 +25,7 @@ let heldLetter;
 let canHold = true;
 
 function arenaSweep() {
-  let rowCount = 1;
+  let rowCount = 0;
   outer: for (let y = arena.length - 1; y > 0; --y) {
     for (let x = 0; x < arena[y].length; ++x) {
       if (arena[y][x] === 0) { // if any pixel is not filled, move onto next row
@@ -36,10 +36,20 @@ function arenaSweep() {
     const row = arena.splice(y, 1)[0].fill(0) // remove row
     arena.unshift(row); // add blank row to top of arena
     ++y // check next arena row
-
-    player.score += rowCount * 100;
-    rowCount = rowCount * 2
+    rowCount += 1
   }
+  if (rowCount > 0) {
+    player.score += calculateScore(rowCount)
+  }
+}
+
+function calculateScore(rowsCleared) {
+  let finalScore = 100
+  let rows = rowsCleared - 1
+  if (rowsCleared === 4) {
+    finalScore += 100
+  }
+  return finalScore + rows * 200
 }
 
 function collide(arena, player) {
