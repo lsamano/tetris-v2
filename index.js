@@ -22,19 +22,19 @@ const player = {
 }
 
 let heldLetter;
-let canSwitch = true;
+let canHold = true;
 
 function arenaSweep() {
   let rowCount = 1;
   outer: for (let y = arena.length - 1; y > 0; --y) {
     for (let x = 0; x < arena[y].length; ++x) {
-      if (arena[y][x] === 0) {
+      if (arena[y][x] === 0) { // if any pixel is not filled, move onto next row
           continue outer;
       }
     } // checks that all pixels are filled
 
-    const row = arena.splice(y, 1)[0].fill(0)
-    arena.unshift(row);
+    const row = arena.splice(y, 1)[0].fill(0) // remove row
+    arena.unshift(row); // add blank row to top of arena
     ++y // check next arena row
 
     player.score += rowCount * 100;
@@ -46,7 +46,7 @@ function collide(arena, player) {
   const [playerMatrix, playerPosition] = [player.matrix, player.pos]
   for (let y = 0; y < playerMatrix.length; ++y) { // per row
     const arenaRow = arena[y + playerPosition.y]
-    for (let x = 0; x < playerMatrix[y].length; ++x) { // per column
+    for (let x = 0; x < playerMatrix[y].length; ++x) { // per column/pixel
       const piecePixelIsPresent = (playerMatrix[y][x] !== 0)
       const arenaPixelIsPresent = (arenaRow && arenaRow[x + playerPosition.x]) !== 0
       if (piecePixelIsPresent && arenaPixelIsPresent) {
@@ -119,7 +119,7 @@ function getPieceMatrix(type) {
   }
 }
 
-function draw() {
+function drawNextTurn() {
  context.fillStyle = '#202028'
  context.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -169,7 +169,7 @@ function merge(arena, player) {
     });
   });
   // if merged, set ability to switch back to true
-  canSwitch = true;
+  canHold = true;
 }
 
 function playerDrop() {
@@ -195,15 +195,13 @@ function getTetriminoLetter() {
   return pieces[randomIndex]
 }
 
-function playerReset(providedLetter = getTetriminoLetter()) {
-  player.letter = providedLetter
-  player.matrix = getPieceMatrix(providedLetter)
+function playerReset(nextLetter = getTetriminoLetter()) {
+  player.letter = nextLetter
+  player.matrix = getPieceMatrix(nextLetter)
   player.pos.y = 0;
   // sets at middle and lowers it to fit in arena
   player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
-  if (collide(arena, player)) {
-    gameOver()
-  }
+  if (collide(arena, player)) return gameOver()
 }
 
 function gameOver() {
@@ -259,7 +257,7 @@ function update(time = 0) {
     playerDrop()
   }
 
-  draw()
+  drawNextTurn()
   requestAnimationFrame(update)
 }
 
@@ -269,9 +267,9 @@ function updateScore() {
 }
 
 function playerHold() {
-  if (canSwitch) {
+  if (canHold) {
     // prevent another switch this round
-    canSwitch = false
+    canHold = false
     if (heldLetter) {
       // grab saved letter and switch
       [heldLetter, player.letter] = [player.letter, heldLetter]
