@@ -1,12 +1,12 @@
 const canvas = document.getElementById('tetris')
 const context = canvas.getContext('2d')
-const saved = document.getElementById('saved')
-const savedContext = saved.getContext('2d')
+const heldCanvas = document.getElementById('held')
+const heldContext = heldCanvas.getContext('2d')
 
 context.scale(40, 40); // make bigger
-savedContext.scale(40, 40); // make bigger
-savedContext.fillStyle = '#202028'
-savedContext.fillRect(0, 0, saved.width, saved.height)
+heldContext.scale(40, 40); // make bigger
+heldContext.fillStyle = '#202028'
+heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
 
 const colors = [
   null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
@@ -314,8 +314,8 @@ document.addEventListener('keydown', event => {
 
 const updateHeld = () => {
   // have box display piece
-  savedContext.fillStyle = '#202028'
-  savedContext.fillRect(0, 0, saved.width, saved.height)
+  heldContext.fillStyle = '#202028'
+  heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
   pieceMatrix = getPieceMatrix(heldLetter)
   drawSaved(pieceMatrix);
 }
@@ -324,8 +324,8 @@ function drawSaved(matrix) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        savedContext.fillStyle = colors[value];
-        savedContext.fillRect(x, y, 1, 1)
+        heldContext.fillStyle = colors[value];
+        heldContext.fillRect(x, y, 1, 1)
       }
     });
   });
