@@ -15,7 +15,7 @@ const colors = [
 const arena = createMatrix(10, 20)
 
 const player = {
-  pos: { x: 0, y: 0 },
+  position: { x: 0, y: 0 },
   matrix: null,
   letter: null,
   score: 0
@@ -53,7 +53,7 @@ function calculateScore(rowsCleared) {
 }
 
 function collide(arena, player) {
-  const [playerMatrix, playerPosition] = [player.matrix, player.pos]
+  const [playerMatrix, playerPosition] = [player.matrix, player.position]
   for (let y = 0; y < playerMatrix.length; ++y) { // per row
     const arenaRow = arena[y + playerPosition.y]
     for (let x = 0; x < playerMatrix[y].length; ++x) { // per column/pixel
@@ -136,10 +136,10 @@ function drawNextTurn() {
  drawMatrix(arena, {x: 0, y: 0}) // draws previous board
  drawMatrix(
    player.matrix,
-   { x: player.pos.x, y: getGhostCoordinate() },
+   { x: player.position.x, y: getGhostCoordinate() },
    true
  ); // draw ghost piece
- drawMatrix(player.matrix, player.pos); // draws active piece
+ drawMatrix(player.matrix, player.position); // draws active piece
 }
 
 function drawMatrix(matrix, offset, ghost) {
@@ -160,12 +160,12 @@ function getGhostCoordinate() {
   let ghost = JSON.parse(JSON.stringify(player))
  while (true) {
     // move player down until collide
-    ghost.pos.y++
+    ghost.position.y++
     if (collide(arena, ghost)) {
       // move back up one, merge with field
-      ghost.pos.y--
+      ghost.position.y--
 
-      return ghost.pos.y
+      return ghost.position.y
     }
   }
 }
@@ -174,7 +174,7 @@ function merge(arena, player) {
   player.matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        arena[y + player.pos.y][x + player.pos.x] = value
+        arena[y + player.position.y][x + player.position.x] = value
       }
     });
   });
@@ -183,9 +183,9 @@ function merge(arena, player) {
 }
 
 function playerDrop() {
-  player.pos.y++
+  player.position.y++
   if (collide(arena, player)) {
-    player.pos.y--
+    player.position.y--
     merge(arena, player)
     nextTurn()
   }
@@ -193,9 +193,9 @@ function playerDrop() {
 }
 
 function playerMove(dir) {
-  player.pos.x += dir
+  player.position.x += dir
   if (collide(arena, player)) {
-    player.pos.x -= dir
+    player.position.x -= dir
   }
 }
 
@@ -208,9 +208,9 @@ function getTetriminoLetter() {
 function playerReset(nextLetter = getTetriminoLetter()) {
   player.letter = nextLetter
   player.matrix = getPieceMatrix(nextLetter)
-  player.pos.y = 0;
+  player.position.y = 0;
   // sets at middle and lowers it to fit in arena
-  player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
+  player.position.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
   if (collide(arena, player)) return gameOver()
 }
 
@@ -221,15 +221,15 @@ function gameOver() {
 }
 
 function playerRotate(dir) {
-  const originalPosition = player.pos.x
+  const originalPosition = player.position.x
   let offset = 1
   rotate(player.matrix, dir)
   while (collide(arena, player)) {
-    player.pos.x += offset
+    player.position.x += offset
     offset = -(offset + (offset > 0 ? 1 : -1))
     if (offset > player.matrix[0].length) {
       rotate(player.matrix, -dir)
-      player.pos.x = originalPosition
+      player.position.x = originalPosition
       return;
     }
   }
@@ -334,10 +334,10 @@ function drawSaved(matrix) {
 function playerHardDrop() {
   while (true) {
     // move player down until collide
-    player.pos.y++
+    player.position.y++
     if (collide(arena, player)) {
       // move back up one, merge with field
-      player.pos.y--
+      player.position.y--
       merge(arena, player)
       nextTurn()
       dropCounter = 0
