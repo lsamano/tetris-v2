@@ -5,23 +5,25 @@ This is a Javascript Tetris game.
 Open `index.html` in your browser to start playing immediately.
 
 # Controls
-← (Left) = Move Left
-→ (Right) = Move Right
-↓ (Down) = Fast Drop
-↑ (Up) = Hard Drop
-🆀 (Q) = Rotate Left
-🆆 (W) = Rotate Right
-🅳 (D) = Hold
+| Key | Action |
+| --- | ------ |
+| ← (Left) | Move Left |
+| → (Right) | Move Right |
+| ↓ (Down) | Fast Drop |
+| ↑ (Up) | Hard Drop |
+| 🆀 (Q) | Rotate Left |
+| 🆆 (W) | Rotate Right |
+| 🅳 (D) | Hold |
 
 Note: You can only hold once per turn.
 
 # Scoring
 | # of Lines Cleared | Points |
 | --- | --- |
-| 1 line | 100pts |
-| 2 lines | 300pts |
-| 3 lines | 500pts |
-| 4 lines (Tetris) | 800pts |
+| 1 line | 100 pts |
+| 2 lines | 300 pts |
+| 3 lines | 500 pts |
+| 4 lines (Tetris) | 800 pts |
 
 # Current Features
 - Colors reflect actual Tetris pieces used in-game
@@ -36,9 +38,6 @@ Note: You can only hold once per turn.
 # Upcoming Features
 - Piece forecast
 - Increased speed based on score
-- Advanced piece spins
-- 2-player mode
-- Websocket mode
 - Graphics
 
 Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA
