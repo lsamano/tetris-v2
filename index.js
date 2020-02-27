@@ -18,7 +18,8 @@ const player = {
   position: { x: 0, y: 0 },
   matrix: null,
   letter: null,
-  score: 0
+  score: 0,
+  dropInterval: 1000
 }
 
 let heldLetter;
@@ -39,7 +40,7 @@ function arenaSweep() {
     rowCount += 1
   }
   if (rowCount > 0) {
-    player.score += calculateScore(rowCount)
+    calculateScore(rowCount)
   }
 }
 
@@ -49,7 +50,20 @@ function calculateScore(rowsCleared) {
   if (rowsCleared === 4) {
     finalScore += 100
   }
-  return finalScore + rows * 200
+  player.score += finalScore + rows * 200
+
+  calculateSpeed(player.score)
+}
+// player.dropInterval = 100
+
+const calculateSpeed = score => {
+  if (score < 100 ) {
+    player.dropInterval = 1000
+  } else if (score < 500) {
+    player.dropInterval = 500
+  } else {
+    player.dropInterval = 200
+  }
 }
 
 function collide(arena, player) {
@@ -255,7 +269,7 @@ function rotate(matrix, dir) {
 }
 
 let dropCounter = 0
-let dropInterval = 500
+// let dropInterval = 500
 let lastTime = 0;
 
 function update(time = 0) {
@@ -263,7 +277,7 @@ function update(time = 0) {
   lastTime = time
 
   dropCounter += deltaTime;
-  if (dropCounter > dropInterval) {
+  if (dropCounter > player.dropInterval) {
     playerDrop()
   }
 
