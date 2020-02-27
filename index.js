@@ -2,11 +2,16 @@ const canvas = document.getElementById('tetris')
 const context = canvas.getContext('2d')
 const heldCanvas = document.getElementById('held')
 const heldContext = heldCanvas.getContext('2d')
+const foreCanvas = document.getElementById('forecast')
+const foreContext = foreCanvas.getContext('2d')
 
 context.scale(40, 40); // make bigger
 heldContext.scale(40, 40); // make bigger
+foreContext.scale(40, 40); // make bigger
 heldContext.fillStyle = '#202028'
 heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
+foreContext.fillStyle = '#202028'
+foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
 
 const colors = [
   null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
@@ -19,7 +24,8 @@ const player = {
   matrix: null,
   letter: null,
   score: 0,
-  dropInterval: 1000
+  dropInterval: 1000,
+  forecastLetter: getTetriminoLetter()
 }
 
 let heldLetter;
@@ -54,15 +60,14 @@ function calculateScore(rowsCleared) {
 
   calculateSpeed(player.score)
 }
-// player.dropInterval = 100
 
 const calculateSpeed = score => {
-  if (score < 100 ) {
+  if (score < 1000 ) {
     player.dropInterval = 1000
-  } else if (score < 500) {
+  } else if (score < 3000) {
+    player.dropInterval = 750
+  } else { // if score >= 500
     player.dropInterval = 500
-  } else {
-    player.dropInterval = 200
   }
 }
 
@@ -222,7 +227,7 @@ function getTetriminoLetter() {
 function playerReset(nextLetter = getTetriminoLetter()) {
   player.letter = nextLetter
   player.matrix = getPieceMatrix(nextLetter)
-  player.position.y = 0;
+  player.position.y = 0
   // sets at middle and lowers it to fit in arena
   player.position.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
   if (collide(arena, player)) return gameOver()
@@ -334,6 +339,25 @@ const updateHeld = () => {
   drawSaved(pieceMatrix);
 }
 
+const updateForecast = () => {
+  // have box display piece
+  foreContext.fillStyle = '#202028'
+  foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
+  pieceMatrix = getPieceMatrix(player.forecastLetter)
+  drawForecast(pieceMatrix);
+}
+
+function drawForecast(matrix) {
+  matrix.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if (value !== 0) {
+        foreContext.fillStyle = colors[value];
+        foreContext.fillRect(x, y, 1, 1)
+      }
+    });
+  });
+}
+
 function drawSaved(matrix) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
@@ -366,6 +390,7 @@ function nextTurn() {
   updateScore()
 }
 
+updateForecast()
 playerReset()
 updateScore()
 update()
