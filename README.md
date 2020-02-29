@@ -34,10 +34,10 @@ Note: You can only hold once per turn.
 - Hard Drop (immediately drops piece into place)
 - Ghost piece (shows where your piece will land if hard-dropped)
 - Accurate point system for 1-4 line clears
+- Increased speed based on score
 
 # Upcoming Features
 - Piece forecast
-- Increased speed based on score
 - Graphics
 
 Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA
