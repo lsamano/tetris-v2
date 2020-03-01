@@ -18,6 +18,8 @@ foreContextB.scale(40, 40);
 foreContextC.scale(40, 40);
 
 // fill with black
+context.fillStyle = '#202028'
+context.fillRect(0, 0, canvas.width, canvas.height)
 heldContext.fillStyle = '#202028'
 heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
 foreContext.fillStyle = '#202028'
@@ -50,11 +52,7 @@ let canHold = true;
 
 function getInitialForecast() {
   const pieces = 'ILJOSTZ'.split("")
-  shuffle(pieces)
-  pieces.forEach((letter, index) => {
-    console.log(letter)
-  })
-  return pieces
+  return shuffle(pieces)
 }
 
 function shuffle(array) {
@@ -244,8 +242,12 @@ function merge(arena, player) {
   canHold = true;
 }
 
-function playerDrop() {
+function playerDrop(purposefulDrop) {
   player.position.y++
+  if (purposefulDrop) {
+    player.score += 1
+    updateScore()
+  }
   if (collide(arena, player)) {
     player.position.y--
     merge(arena, player)
@@ -373,7 +375,7 @@ document.addEventListener('keydown', event => {
   } else if (event.keyCode === 39) {
     playerMove(1)
   } else if (event.keyCode === 40) {
-    playerDrop()
+    playerDrop(true)
   } else if (event.keyCode === 81) {
     playerRotate(-1)
   } else if (event.keyCode === 87) {
@@ -430,12 +432,15 @@ function drawSaved(matrix) {
 }
 
 function playerHardDrop() {
+  const originalPosition = player.position.y
   while (true) {
     // move player down until collide
     player.position.y++
     if (collide(arena, player)) {
       // move back up one, merge with field
       player.position.y--
+      player.score += (player.position.y - originalPosition)
+      updateScore()
       merge(arena, player)
       nextTurn()
       dropCounter = 0
@@ -458,4 +463,5 @@ function startGame() {
   update()
 }
 
-startGame()
+const startButton = document.getElementById("start-button")
+startButton.addEventListener('click', event => startGame())
