@@ -1,0 +1,23 @@
+body {
+  background: dimgrey;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 2em;
+  text-align: center;
+}
+
+#full-game {
+  width: 100%;
+  height: 800px;
+  border: 1px solid #FFFFFF;
+  align-content: center;
+  /* display: flex; */
+  display: inline-flex;
+}
+
+/*  */
+
+.side-box {
+  border: 1px solid #FFFFFF;
+  vertical-align: top;
+}
