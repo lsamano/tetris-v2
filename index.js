@@ -3,19 +3,29 @@ const canvas = document.getElementById('tetris')
 const context = canvas.getContext('2d')
 const heldCanvas = document.getElementById('held')
 const heldContext = heldCanvas.getContext('2d')
-const foreCanvas = document.getElementById('forecast')
+const foreCanvas = document.getElementById('forecast1')
 const foreContext = foreCanvas.getContext('2d')
+const foreCanvasB = document.getElementById('forecast2')
+const foreContextB = foreCanvasB.getContext('2d')
+const foreCanvasC = document.getElementById('forecast3')
+const foreContextC = foreCanvasC.getContext('2d')
 
 // make bigger
 context.scale(40, 40);
 heldContext.scale(40, 40);
 foreContext.scale(40, 40);
+foreContextB.scale(40, 40);
+foreContextC.scale(40, 40);
 
 // fill with black
 heldContext.fillStyle = '#202028'
 heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
 foreContext.fillStyle = '#202028'
 foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
+foreContextB.fillStyle = '#202028'
+foreContextB.fillRect(0, 0, foreCanvasB.width, foreCanvasB.height)
+foreContextC.fillStyle = '#202028'
+foreContextC.fillRect(0, 0, foreCanvasC.width, foreCanvasC.height)
 
 // colors array for obtaining tetris piece colors
 const colors = [
@@ -32,8 +42,7 @@ const player = {
   letter: null, // letter of current piece
   score: 0,
   dropInterval: 1000,
-  forecastArray: getInitialForecast(),
-  forecastLetter: this.forecastArray
+  forecastArray: getInitialForecast()
 }
 
 let heldLetter;
@@ -82,19 +91,17 @@ function arenaSweep() {
     rowCount += 1
   }
   if (rowCount > 0) {
-    calculateScore(rowCount)
+    calculateScore(rowCount - 1)
+    calculateSpeed(player.score)
   }
 }
 
-function calculateScore(rowsCleared) {
-  let finalScore = 100
-  let rows = rowsCleared - 1
-  if (rowsCleared === 4) {
-    finalScore += 100
+function calculateScore(additionalRowsCleared) {
+  let baseScore = 100
+  if (additionalRowsCleared === 3) {
+    baseScore += 100
   }
-  player.score += finalScore + rows * 200
-
-  calculateSpeed(player.score)
+  player.score += baseScore + additionalRowsCleared * 200
 }
 
 function calculateSpeed(score) {
@@ -387,15 +394,25 @@ function updateForecast() {
   foreContext.fillStyle = '#202028'
   foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
   pieceMatrix = getPieceMatrix(player.forecastArray[0])
-  drawForecast(pieceMatrix);
+  drawForecast(pieceMatrix, foreContext);
+
+  foreContextB.fillStyle = '#202028'
+  foreContextB.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
+  pieceMatrix = getPieceMatrix(player.forecastArray[1])
+  drawForecast(pieceMatrix, foreContextB);
+
+  foreContextC.fillStyle = '#202028'
+  foreContextC.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
+  pieceMatrix = getPieceMatrix(player.forecastArray[2])
+  drawForecast(pieceMatrix, foreContextC);
 }
 
-function drawForecast(matrix) {
+function drawForecast(matrix, place) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        foreContext.fillStyle = colors[value];
-        foreContext.fillRect(x, y, 1, 1)
+        place.fillStyle = colors[value];
+        place.fillRect(x, y, 1, 1)
       }
     });
   });
