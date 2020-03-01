@@ -1,3 +1,4 @@
+// Query for canvases
 const canvas = document.getElementById('tetris')
 const context = canvas.getContext('2d')
 const heldCanvas = document.getElementById('held')
@@ -5,31 +6,66 @@ const heldContext = heldCanvas.getContext('2d')
 const foreCanvas = document.getElementById('forecast')
 const foreContext = foreCanvas.getContext('2d')
 
-context.scale(40, 40); // make bigger
-heldContext.scale(40, 40); // make bigger
-foreContext.scale(40, 40); // make bigger
+// make bigger
+context.scale(40, 40);
+heldContext.scale(40, 40);
+foreContext.scale(40, 40);
+
+// fill with black
 heldContext.fillStyle = '#202028'
 heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
 foreContext.fillStyle = '#202028'
 foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
 
+// colors array for obtaining tetris piece colors
 const colors = [
   null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
 ]
 
+// make arena matrix
 const arena = createMatrix(10, 20)
 
+// make default player
 const player = {
   position: { x: 0, y: 0 },
-  matrix: null,
-  letter: null,
+  matrix: null, // matrix of current piece
+  letter: null, // letter of current piece
   score: 0,
   dropInterval: 1000,
-  forecastLetter: getTetriminoLetter()
+  forecastLetter: getTetriminoLetter(),
+  forecastArray: getInitialForecast()
 }
 
 let heldLetter;
 let canHold = true;
+
+function getInitialForecast() {
+  const pieces = 'ILJOSTZ'.split("")
+  shuffle(pieces)
+  pieces.forEach((letter, index) => {
+    console.log(letter)
+  })
+  return pieces
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.random() * currentIndex | 0
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 function arenaSweep() {
   let rowCount = 0;
@@ -61,7 +97,7 @@ function calculateScore(rowsCleared) {
   calculateSpeed(player.score)
 }
 
-const calculateSpeed = score => {
+function calculateSpeed(score) {
   if (score < 1000 ) {
     player.dropInterval = 1000
   } else if (score < 3000) {
@@ -331,7 +367,7 @@ document.addEventListener('keydown', event => {
   }
 })
 
-const updateHeld = () => {
+function updateHeld() {
   // have box display piece
   heldContext.fillStyle = '#202028'
   heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
@@ -339,7 +375,7 @@ const updateHeld = () => {
   drawSaved(pieceMatrix);
 }
 
-const updateForecast = () => {
+function updateForecast() {
   // have box display piece
   foreContext.fillStyle = '#202028'
   foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
@@ -390,7 +426,11 @@ function nextTurn() {
   updateScore()
 }
 
-updateForecast()
-playerReset()
-updateScore()
-update()
+function startGame() {
+  updateForecast()
+  playerReset()
+  updateScore()
+  update()
+}
+
+startGame()
