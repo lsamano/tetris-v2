@@ -8,14 +8,12 @@ body {
 
 #full-game {
   width: 100%;
+  min-width: 720px;
   height: 800px;
   border: 1px solid #FFFFFF;
-  align-content: center;
-  /* display: flex; */
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
 }
-
-/*  */
 
 .side-box {
   border: 1px solid #FFFFFF;
