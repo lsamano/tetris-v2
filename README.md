@@ -33,12 +33,15 @@ Note: You can only hold once per turn.
 - Able to hold onto pieces
 - Hard Drop (immediately drops piece into place)
 - Ghost piece (shows where your piece will land if hard-dropped)
-- Accurate point system for 1-4 line clears
+- Accurate point system for 1-4 line clears and drops
 - Increased speed based on score
+- Piece forecast shows next three pieces
+- Guaranteed one of each letter at the beginning of a session, just like the real game
 
 # Upcoming Features
-- Piece forecast
-- Graphics
+- Improved graphics
+- 2-player mode
+- Websocket mode
 
 Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA
 Edits, improvements, and additional features added by me.
