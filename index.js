@@ -32,8 +32,8 @@ const player = {
   letter: null, // letter of current piece
   score: 0,
   dropInterval: 1000,
-  forecastLetter: getTetriminoLetter(),
-  forecastArray: getInitialForecast()
+  forecastArray: getInitialForecast(),
+  forecastLetter: this.forecastArray
 }
 
 let heldLetter;
@@ -260,9 +260,15 @@ function getTetriminoLetter() {
   return pieces[randomIndex]
 }
 
-function playerReset(nextLetter = getTetriminoLetter()) {
-  player.letter = nextLetter
-  player.matrix = getPieceMatrix(nextLetter)
+function playerReset(providedLetter) {
+  if (!providedLetter) {
+    player.letter = player.forecastArray.shift()
+    const newPiece = getTetriminoLetter()
+    player.forecastArray.push(newPiece)
+  } else {
+    player.letter =  providedLetter
+  }
+  player.matrix = getPieceMatrix(player.letter)
   player.position.y = 0
   // sets at middle and lowers it to fit in arena
   player.position.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0)
@@ -345,6 +351,7 @@ function playerHold() {
       heldLetter = player.letter
       updateHeld() // update the savedLetter canvas
       playerReset() // move onto next piece
+      updateForecast()
     }
   }
 }
@@ -379,7 +386,7 @@ function updateForecast() {
   // have box display piece
   foreContext.fillStyle = '#202028'
   foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
-  pieceMatrix = getPieceMatrix(player.forecastLetter)
+  pieceMatrix = getPieceMatrix(player.forecastArray[0])
   drawForecast(pieceMatrix);
 }
 
@@ -422,13 +429,14 @@ function playerHardDrop() {
 
 function nextTurn() {
   playerReset()
+  updateForecast()
   arenaSweep()
   updateScore()
 }
 
 function startGame() {
-  updateForecast()
   playerReset()
+  updateForecast()
   updateScore()
   update()
 }
