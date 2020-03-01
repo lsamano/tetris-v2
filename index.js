@@ -464,4 +464,9 @@ function startGame() {
 }
 
 const startButton = document.getElementById("start-button")
-startButton.addEventListener('click', event => startGame())
+startButton.addEventListener('click', event => {
+  startButton.disabled = true
+  startButton.classList.remove("hoverable")
+  startButton.classList.add("disabled")
+  startGame()
+})
