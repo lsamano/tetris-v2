@@ -111,17 +111,17 @@ class Tetris {
     // have box display piece
     this.foreContext.fillStyle = '#202028'
     this.foreContext.fillRect(0, 0, this.foreCanvas.width, this.foreCanvas.height)
-    const pieceMatrixA = getPieceMatrix(this.player.forecastArray[0])
+    const pieceMatrixA = this.getPieceMatrix(this.player.forecastArray[0])
     this.drawSideBox(pieceMatrixA, this.foreContext);
 
     this.foreContextB.fillStyle = '#202028'
     this.foreContextB.fillRect(0, 0, this.foreCanvas.width, this.foreCanvas.height)
-    const pieceMatrixB = getPieceMatrix(this.player.forecastArray[1])
+    const pieceMatrixB = this.getPieceMatrix(this.player.forecastArray[1])
     this.drawSideBox(pieceMatrixB, this.foreContextB);
 
     this.foreContextC.fillStyle = '#202028'
     this.foreContextC.fillRect(0, 0, this.foreCanvas.width, this.foreCanvas.height)
-    const pieceMatrixC = getPieceMatrix(this.player.forecastArray[2])
+    const pieceMatrixC = this.getPieceMatrix(this.player.forecastArray[2])
     this.drawSideBox(pieceMatrixC, this.foreContextC);
   }
 
@@ -129,7 +129,7 @@ class Tetris {
     // have box display piece
     this.heldContext.fillStyle = '#202028'
     this.heldContext.fillRect(0, 0, this.heldCanvas.width, this.heldCanvas.height)
-    const pieceMatrix = getPieceMatrix(this.player.heldLetter)
+    const pieceMatrix = this.getPieceMatrix(this.player.heldLetter)
     this.drawSideBox(pieceMatrix, this.heldContext);
   }
 
@@ -142,6 +142,60 @@ class Tetris {
         }
       });
     });
+  }
+
+  getPieceMatrix(type) {
+    switch (type) {
+      case 'T':
+      return [
+        [0, 1, 0],
+        [1, 1, 1],
+        [0, 0, 0]
+      ]
+      case 'O':
+      return [
+        [2, 2],
+        [2, 2]
+      ]
+      case 'Z':
+      return [
+        [7, 7, 0],
+        [0, 7, 7],
+        [0, 0, 0]
+      ]
+      case 'S':
+      return [
+        [0, 6, 6],
+        [6, 6, 0],
+        [0, 0, 0]
+      ]
+      case 'J':
+      return [
+        [4, 0, 0],
+        [4, 4, 4],
+        [0, 0, 0]
+      ]
+      case 'L':
+      return [
+        [0, 0, 3],
+        [3, 3, 3],
+        [0, 0, 0]
+      ]
+      case 'I':
+      return [
+        [0, 5, 0, 0],
+        [0, 5, 0, 0],
+        [0, 5, 0, 0],
+        [0, 5, 0, 0]
+      ]
+      default:
+      return [
+        [0, 5, 1, 0],
+        [0, 6, 4, 0],
+        [0, 7, 3, 0],
+        [0, 5, 2, 0]
+      ]
+    }
   }
   // End of Tetris Class
 }

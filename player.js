@@ -119,16 +119,22 @@ class Player {
   reset(providedLetter) {
     if (!providedLetter) {
       this.letter = this.forecastArray.shift()
-      const newPiece = getTetriminoLetter()
+      const newPiece = this.getTetriminoLetter()
       this.forecastArray.push(newPiece)
     } else {
       this.letter =  providedLetter
     }
-    this.matrix = getPieceMatrix(this.letter)
+    this.matrix = this.tetris.getPieceMatrix(this.letter)
     this.position.y = 0
     // sets at middle and lowers it to fit in this.arena
     this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
     if (this.arena.collide(this)) return gameOver()
+  }
+
+  getTetriminoLetter() {
+    const pieces = 'ILJOSTZ'
+    const randomIndex = pieces.length * Math.random() | 0
+    return pieces[randomIndex]
   }
 
   calculateScore(additionalRowsCleared) {
