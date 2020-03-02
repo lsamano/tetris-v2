@@ -34,6 +34,10 @@ const colors = [
   null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
 ]
 
+const ghostColors = [
+  null, '#cda5f3', '#fff099', '#ffd199', '#9999ff', '#c2f0f0', '#ccff99', '#e996a6'
+]
+
 // make arena matrix
 const arena = new Arena(10, 20)
 
@@ -62,9 +66,9 @@ function getPieceMatrix(type) {
   switch (type) {
     case 'T':
     return [
-      [0, 0, 0],
+      [0, 1, 0],
       [1, 1, 1],
-      [0, 1, 0]
+      [0, 0, 0]
     ]
     case 'O':
     return [
@@ -85,15 +89,15 @@ function getPieceMatrix(type) {
     ]
     case 'J':
     return [
-      [0, 4, 0],
-      [0, 4, 0],
-      [4, 4, 0]
+      [4, 0, 0],
+      [4, 4, 4],
+      [0, 0, 0]
     ]
     case 'L':
     return [
-      [0, 3, 0],
-      [0, 3, 0],
-      [0, 3, 3]
+      [0, 0, 3],
+      [3, 3, 3],
+      [0, 0, 0]
     ]
     case 'I':
     return [
@@ -105,8 +109,8 @@ function getPieceMatrix(type) {
     default:
     return [
       [0, 5, 1, 0],
-      [0, 5, 4, 0],
-      [0, 5, 3, 0],
+      [0, 6, 4, 0],
+      [0, 7, 3, 0],
       [0, 5, 2, 0]
     ]
   }
@@ -129,7 +133,7 @@ function drawMatrix(matrix, offset, ghost) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        context.fillStyle = ghost ? 'grey': colors[value]
+        context.fillStyle = ghost ? ghostColors[value]: colors[value]
         context.fillRect(
           x + offset.x,
           y + offset.y,
@@ -178,8 +182,10 @@ function update(time = 0) {
 }
 
 function updateScore() {
+  const amountOfDigits = player.score.toString().length
+  const zeroesToAdd = 10 - amountOfDigits
   const score = document.getElementById('score')
-  score.innerText = player.score
+  score.innerText = "0".repeat(zeroesToAdd) + player.score.toString()
 }
 
 document.addEventListener('keydown', event => {
@@ -259,6 +265,7 @@ function startGame() {
   player.reset()
   updateForecast()
   updateScore()
+  // const score = document.getElementById('score')
   update()
 }
 
