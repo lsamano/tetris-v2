@@ -4,25 +4,47 @@
     <meta charset="utf-8">
     <title>Puyo Puyo Tetris II</title>
     <link rel="stylesheet" href="index.css">
+    <script src='arena.js' defer></script>
+    <script src='tetris.js' defer></script>
+    <script src='player.js' defer></script>
+    <script src='index.js' defer></script>
   </head>
   <body>
-    <div id="full-game">
+    <div class="full-game">
       <div class="left-column">
-        <canvas id='held' class='side-box' width='160' height='160'></canvas>
-        <button id="start-button" class="hoverable">Start Game</button>
-
+        HOLD
+        <canvas class='side-box held' width='160' height='160'></canvas>
+        <!-- <button id="start-button" class="hoverable">Start Game</button> -->
       </div>
-      <canvas id='tetris' width='400' height='800'></canvas>
-      <div style="width: 160px;">
-        <canvas id='forecast1' class='side-box' width='160' height='160'></canvas>
-        <canvas id='forecast2' class='side-box' width='160' height='160'></canvas>
-        <canvas id='forecast3' class='side-box' width='160' height='160'></canvas>
+      <div class="mid-column">
+        <canvas class='tetris' width='400' height='800'></canvas>
+        <div class="score">-</div>
+      </div>
+      <div class="right-column">
+        NEXT
+        <canvas class='side-box forecast1' width='160' height='160'></canvas>
+        <canvas class='side-box forecast2' width='160' height='160'></canvas>
+        <canvas class='side-box forecast3' width='160' height='160'></canvas>
       </div>
     </div>
-    <div id="score">-</div>
-    <script src='arena.js'></script>
-    <script src='tetris.js'></script>
-    <script src='player.js'></script>
-    <script src='index.js'></script>
+    <div class="full-game">
+      <div class="left-column">
+        HOLD
+        <canvas class='side-box held' width='160' height='160'></canvas>
+        <!-- <button id="start-button" class="hoverable">Start Game</button> -->
+      </div>
+      <div class="mid-column">
+        <canvas class='tetris' width='400' height='800'></canvas>
+        <div class="score">-</div>
+      </div>
+      <div class="right-column">
+        NEXT
+        <canvas class='side-box forecast1' width='160' height='160'></canvas>
+        <canvas class='side-box forecast2' width='160' height='160'></canvas>
+        <canvas class='side-box forecast3' width='160' height='160'></canvas>
+      </div>
+    </div>
+
+
   </body>
 </html>

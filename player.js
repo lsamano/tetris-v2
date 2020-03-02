@@ -62,12 +62,12 @@ class Player {
     this.position.y++
     if (purposefulDrop) {
       this.score += 1
-      updateScore()
+      this.tetris.updateScore(this.score)
     }
     if (this.arena.collide(this)) {
       this.position.y--
       this.arena.merge(this)
-      nextTurn()
+      this.nextTurn()
     }
     this.dropCounter = 0
   }
@@ -100,9 +100,9 @@ class Player {
         // move back up one, merge with field
         this.position.y--
         this.score += (this.position.y - originalPosition)
-        updateScore()
+        this.tetris.updateScore(this.score)
         this.arena.merge(this)
-        nextTurn()
+        this.nextTurn()
         this.dropCounter = 0
         break;
       }
@@ -128,7 +128,7 @@ class Player {
     this.position.y = 0
     // sets at middle and lowers it to fit in this.arena
     this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
-    if (this.arena.collide(this)) return gameOver()
+    if (this.arena.collide(this)) return this.tetris.gameOver()
   }
 
   getTetriminoLetter() {
@@ -153,6 +153,13 @@ class Player {
     } else { // if score >= 500
       this.dropInterval = 500
     }
+  }
+
+  nextTurn() {
+    this.reset()
+    this.tetris.updateForecast()
+    this.arena.sweep(this)
+    this.tetris.updateScore(this.score)
   }
 
   getInitialForecast() {

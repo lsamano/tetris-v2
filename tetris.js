@@ -1,16 +1,18 @@
 class Tetris {
-  constructor(canvas, heldCanvas, foreCanvas, foreCanvasB, foreCanvasC) {
-    this.canvas = canvas
-    this.heldCanvas = heldCanvas
-    this.foreCanvas = foreCanvas
-    this.foreCanvasB = foreCanvasB
-    this.foreCanvasC = foreCanvasC
+  constructor(element, canvas, heldCanvas, foreCanvas, foreCanvasB, foreCanvasC) {
+    this.element = element
+    // Query for canvases
+    this.canvas = element.querySelector('.tetris')
+    this.heldCanvas = element.querySelector('.held')
+    this.foreCanvas = element.querySelector('.forecast1')
+    this.foreCanvasB = element.querySelector('.forecast2')
+    this.foreCanvasC = element.querySelector('.forecast3')
 
-    this.context = canvas.getContext('2d')
-    this.heldContext = heldCanvas.getContext('2d')
-    this.foreContext = foreCanvas.getContext('2d')
-    this.foreContextB = foreCanvasB.getContext('2d')
-    this.foreContextC = foreCanvasC.getContext('2d')
+    this.context = this.canvas.getContext('2d')
+    this.heldContext = this.heldCanvas.getContext('2d')
+    this.foreContext = this.foreCanvas.getContext('2d')
+    this.foreContextB = this.foreCanvasB.getContext('2d')
+    this.foreContextC = this.foreCanvasC.getContext('2d')
 
     // make bigger
     this.context.scale(40, 40);
@@ -21,15 +23,15 @@ class Tetris {
 
     // fill with black
     this.context.fillStyle = '#202028'
-    this.context.fillRect(0, 0, canvas.width, canvas.height)
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
     this.heldContext.fillStyle = '#202028'
-    this.heldContext.fillRect(0, 0, heldCanvas.width, heldCanvas.height)
+    this.heldContext.fillRect(0, 0, this.heldCanvas.width, this.heldCanvas.height)
     this.foreContext.fillStyle = '#202028'
-    this.foreContext.fillRect(0, 0, foreCanvas.width, foreCanvas.height)
+    this.foreContext.fillRect(0, 0, this.foreCanvas.width, this.foreCanvas.height)
     this.foreContextB.fillStyle = '#202028'
-    this.foreContextB.fillRect(0, 0, foreCanvasB.width, foreCanvasB.height)
+    this.foreContextB.fillRect(0, 0, this.foreCanvasB.width, this.foreCanvasB.height)
     this.foreContextC.fillStyle = '#202028'
-    this.foreContextC.fillRect(0, 0, foreCanvasC.width, foreCanvasC.height)
+    this.foreContextC.fillRect(0, 0, this.foreCanvasC.width, this.foreCanvasC.height)
 /////////////////////////////
 
     // make arena matrix
@@ -59,6 +61,8 @@ class Tetris {
       requestAnimationFrame(update)
     }
 
+    this.updateForecast()
+    this.updateScore(0)
     update();
   }
 
@@ -196,6 +200,19 @@ class Tetris {
         [0, 5, 2, 0]
       ]
     }
+  }
+
+  updateScore(newScore) {
+    const amountOfDigits = newScore.toString().length
+    const zeroesToAdd = 10 - amountOfDigits
+    const score = this.element.querySelector('.score')
+    score.innerText = "0".repeat(zeroesToAdd) + newScore.toString()
+  }
+
+  gameOver() {
+    this.arena.clear()
+    this.player.score = 0
+    this.updateScore(0)
   }
   // End of Tetris Class
 }

@@ -4,14 +4,19 @@ body {
   font-family: sans-serif;
   font-size: 2em;
   text-align: center;
+  display: flex;
 }
 
 .left-column {
   width: 162px;
 }
 
-#full-game {
-  width: 100%;
+.right-column {
+  width: 160px;
+}
+
+.full-game {
+  width: 50%;
   min-width: 720px;
   height: 800px;
   border: 1px solid #FFFFFF;
