@@ -35,30 +35,10 @@ const colors = [
 ]
 
 // make arena matrix
-const arena = createMatrix(10, 20)
+const arena = new Arena(10, 20)
 
 // make default player
 const player = new Player;
-
-function arenaSweep() {
-  let rowCount = 0;
-  outer: for (let y = arena.length - 1; y > 0; --y) {
-    for (let x = 0; x < arena[y].length; ++x) {
-      if (arena[y][x] === 0) { // if any pixel is not filled, move onto next row
-          continue outer;
-      }
-    } // checks that all pixels are filled
-
-    const row = arena.splice(y, 1)[0].fill(0) // remove row
-    arena.unshift(row); // add blank row to top of arena
-    ++y // check next arena row
-    rowCount += 1
-  }
-  if (rowCount > 0) {
-    calculateScore(rowCount - 1)
-    calculateSpeed(player.score)
-  }
-}
 
 function calculateScore(additionalRowsCleared) {
   let baseScore = 100
@@ -76,29 +56,6 @@ function calculateSpeed(score) {
   } else { // if score >= 500
     player.dropInterval = 500
   }
-}
-
-function collide(arena, player) {
-  const [playerMatrix, playerPosition] = [player.matrix, player.position]
-  for (let y = 0; y < playerMatrix.length; ++y) { // per row
-    const arenaRow = arena[y + playerPosition.y]
-    for (let x = 0; x < playerMatrix[y].length; ++x) { // per column/pixel
-      const piecePixelIsPresent = (playerMatrix[y][x] !== 0)
-      const arenaPixelIsPresent = (arenaRow && arenaRow[x + playerPosition.x]) !== 0
-      if (piecePixelIsPresent && arenaPixelIsPresent) {
-            return true
-      }
-    }
-  }
-  return false;
-}
-
-function createMatrix(width, height) {
-  const newMatrix = []
-  while (height--) {
-    newMatrix.push(new Array(width).fill(0))
-  }
-  return newMatrix
 }
 
 function getPieceMatrix(type) {
@@ -159,7 +116,7 @@ function drawNextTurn() {
  context.fillStyle = '#202028'
  context.fillRect(0, 0, canvas.width, canvas.height)
 
- drawMatrix(arena, {x: 0, y: 0}) // draws previous board
+ drawMatrix(arena.matrix, {x: 0, y: 0}) // draws previous board
  drawMatrix(
    player.matrix,
    { x: player.position.x, y: getGhostCoordinate() },
@@ -187,25 +144,13 @@ function getGhostCoordinate() {
  while (true) {
     // move player down until collide
     ghost.position.y++
-    if (collide(arena, ghost)) {
-      // move back up one, merge with field
+    if (arena.collide(ghost)) {
+      // move back up one
       ghost.position.y--
 
       return ghost.position.y
     }
   }
-}
-
-function merge(arena, player) {
-  player.matrix.forEach((row, y) => {
-    row.forEach((value, x) => {
-      if (value !== 0) {
-        arena[y + player.position.y][x + player.position.x] = value
-      }
-    });
-  });
-  // if merged, set ability to switch back to true
-  player.canHold = true;
 }
 
 function getTetriminoLetter() {
@@ -215,7 +160,7 @@ function getTetriminoLetter() {
 }
 
 function gameOver() {
-  arena.forEach(row => row.fill(0))
+  arena.clear()
   player.score = 0
   updateScore()
 }
@@ -306,7 +251,7 @@ function drawSaved(matrix) {
 function nextTurn() {
   player.reset()
   updateForecast()
-  arenaSweep()
+  arena.sweep()
   updateScore()
 }
 

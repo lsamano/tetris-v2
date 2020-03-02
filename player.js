@@ -14,7 +14,7 @@ class Player {
 
   move(dir) {
     this.position.x += dir
-    if (collide(arena, this)) {
+    if (arena.collide(this)) {
       this.position.x -= dir
     }
   }
@@ -23,10 +23,11 @@ class Player {
     const originalPosition = this.position.x
     let offset = 1
     this._rotateMatrix(this.matrix, dir)
-    while (collide(arena, this)) {
+    while (arena.collide(this)) {
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
       if (offset > this.matrix[0].length) {
+        console.log("no turn");
         this._rotateMatrix(this.matrix, -dir)
         this.position.x = originalPosition
         return;
@@ -59,9 +60,9 @@ class Player {
       this.score += 1
       updateScore()
     }
-    if (collide(arena, this)) {
+    if (arena.collide(this)) {
       this.position.y--
-      merge(arena, this)
+      arena.merge(this)
       nextTurn()
     }
     this.dropCounter = 0
@@ -91,12 +92,12 @@ class Player {
     while (true) {
       // move this down until collide
       this.position.y++
-      if (collide(arena, this)) {
+      if (arena.collide(this)) {
         // move back up one, merge with field
         this.position.y--
         this.score += (this.position.y - originalPosition)
         updateScore()
-        merge(arena, this)
+        arena.merge(this)
         nextTurn()
         this.dropCounter = 0
         break;
@@ -122,8 +123,8 @@ class Player {
     this.matrix = getPieceMatrix(this.letter)
     this.position.y = 0
     // sets at middle and lowers it to fit in arena
-    this.position.x = (arena[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
-    if (collide(arena, this)) return gameOver()
+    this.position.x = (arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
+    if (arena.collide(this)) return gameOver()
   }
 
   getInitialForecast() {

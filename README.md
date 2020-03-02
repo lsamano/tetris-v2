@@ -43,5 +43,8 @@ Note: You can only hold once per turn.
 - 2-player mode
 - Websocket mode
 
+# Known Bugs
+- You sometimes cannot rotate the I piece when it is furthest to the right
+
 Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA
 Edits, improvements, and additional features added by me.
