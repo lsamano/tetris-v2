@@ -1,5 +1,7 @@
 class Player {
-  constructor() {
+  constructor(tetris) {
+    this.tetris = tetris
+    this.arena = tetris.arena
     this.position = { x: 0, y: 0 }
     this.matrix = null // matrix of current piece
     this.letter = null // letter of current piece
@@ -10,11 +12,13 @@ class Player {
     this.dropInterval = 1000
     this.dropCounter = 0
     this.forecastArray = this.getInitialForecast()
+
+    this.reset()
   }
 
   move(dir) {
     this.position.x += dir
-    if (arena.collide(this)) {
+    if (this.arena.collide(this)) {
       this.position.x -= dir
     }
   }
@@ -23,7 +27,7 @@ class Player {
     const originalPosition = this.position.x
     let offset = 1
     this._rotateMatrix(this.matrix, dir)
-    while (arena.collide(this)) {
+    while (this.arena.collide(this)) {
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
       if (offset > this.matrix[0].length) {
@@ -60,9 +64,9 @@ class Player {
       this.score += 1
       updateScore()
     }
-    if (arena.collide(this)) {
+    if (this.arena.collide(this)) {
       this.position.y--
-      arena.merge(this)
+      this.arena.merge(this)
       nextTurn()
     }
     this.dropCounter = 0
@@ -75,14 +79,14 @@ class Player {
       if (this.heldLetter) {
         // grab saved letter and switch
         [this.heldLetter, this.letter] = [this.letter, this.heldLetter]
-        updateHeld() // update the savedLetter canvas
+        this.tetris.updateHeld() // update the savedLetter canvas
         this.reset(this.letter) // use saved piece
       } else {
         // OR save piece to box
         this.heldLetter = this.letter
-        updateHeld() // update the savedLetter canvas
+        this.tetris.updateHeld() // update the savedLetter canvas
         this.reset() // move onto next piece
-        updateForecast()
+        this.tetris.updateForecast()
       }
     }
   }
@@ -92,12 +96,12 @@ class Player {
     while (true) {
       // move this down until collide
       this.position.y++
-      if (arena.collide(this)) {
+      if (this.arena.collide(this)) {
         // move back up one, merge with field
         this.position.y--
         this.score += (this.position.y - originalPosition)
         updateScore()
-        arena.merge(this)
+        this.arena.merge(this)
         nextTurn()
         this.dropCounter = 0
         break;
@@ -122,9 +126,27 @@ class Player {
     }
     this.matrix = getPieceMatrix(this.letter)
     this.position.y = 0
-    // sets at middle and lowers it to fit in arena
-    this.position.x = (arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
-    if (arena.collide(this)) return gameOver()
+    // sets at middle and lowers it to fit in this.arena
+    this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
+    if (this.arena.collide(this)) return gameOver()
+  }
+
+  calculateScore(additionalRowsCleared) {
+    let baseScore = 100
+    if (additionalRowsCleared === 3) {
+      baseScore += 100
+    }
+    this.score += baseScore + additionalRowsCleared * 200
+  }
+
+  calculateSpeed() {
+    if (this.score < 1000 ) {
+      this.dropInterval = 1000
+    } else if (this.score < 3000) {
+      this.dropInterval = 750
+    } else { // if score >= 500
+      this.dropInterval = 500
+    }
   }
 
   getInitialForecast() {

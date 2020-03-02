@@ -7,7 +7,7 @@ class Arena {
     this.matrix = newMatrix
   }
 
-  sweep() {
+  sweep(player) {
     let rowCount = 0;
     outer: for (let y = this.matrix.length - 1; y > 0; --y) {
       for (let x = 0; x < this.matrix[y].length; ++x) {
@@ -22,8 +22,8 @@ class Arena {
       rowCount += 1
     }
     if (rowCount > 0) {
-      calculateScore(rowCount - 1)
-      calculateSpeed(player.score)
+      player.calculateScore(rowCount - 1)
+      player.calculateSpeed()
     }
   }
 
