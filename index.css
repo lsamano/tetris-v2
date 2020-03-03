@@ -8,7 +8,7 @@ body {
 }
 
 .left-column {
-  width: 162px;
+  width: 160px;
 }
 
 .right-column {
@@ -17,8 +17,7 @@ body {
 
 .full-game {
   width: 50%;
-  min-width: 720px;
-  height: 800px;
+  min-width: 630px;
   border: 1px solid #FFFFFF;
   display: flex;
   justify-content: center;

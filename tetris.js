@@ -15,11 +15,11 @@ class Tetris {
     this.foreContextC = this.foreCanvasC.getContext('2d')
 
     // make bigger
-    this.context.scale(40, 40);
-    this.heldContext.scale(40, 40);
-    this.foreContext.scale(40, 40);
-    this.foreContextB.scale(40, 40);
-    this.foreContextC.scale(40, 40);
+    this.context.scale(35, 35);
+    this.heldContext.scale(35, 35);
+    this.foreContext.scale(35, 35);
+    this.foreContextB.scale(35, 35);
+    this.foreContextC.scale(35, 35);
 
     // fill with black
     this.context.fillStyle = '#202028'
