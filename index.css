@@ -4,6 +4,7 @@ body {
   font-family: sans-serif;
   font-size: 2em;
   text-align: center;
+  height: 98vh;
   display: flex;
   background: linear-gradient(270deg, #ac511d, #c82858, #28b2c8, #28c84a, #c8c528, #2879c8, #6b28c8);
   background-size: 1400% 1400%;
@@ -11,8 +12,6 @@ body {
   -webkit-animation: AnimationName 100s ease infinite;
   -moz-animation: AnimationName 100s ease infinite;
   animation: AnimationName 100s ease infinite;
-
-
 }
 @-webkit-keyframes AnimationName {
   0%{background-position:0% 50%}
