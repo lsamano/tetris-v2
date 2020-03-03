@@ -29,18 +29,18 @@ Note: You can only hold once per turn.
 - Colors reflect actual Tetris pieces used in-game
 - Able to clear lines and earn points towards your score
 - Able to lose the game if it reaches the top
-- Keeps score on bottom
-- Able to hold onto pieces
-- Hard Drop (immediately drops piece into place)
+- Keeps score
+- Increases speed based on score
+- Able to hold pieces
+- Able to Hard Drop (immediately drops piece into place)
 - Ghost piece (shows where your piece will land if hard-dropped)
 - Accurate point system for 1-4 line clears and drops
-- Increased speed based on score
 - Piece forecast shows next three pieces
 - Guaranteed one of each letter at the beginning of a session, just like the real game
+- 2-player mode
 
 # Upcoming Features
 - Improved graphics
-- 2-player mode
 - Websocket mode
 
 # Known Bugs
