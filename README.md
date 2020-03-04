@@ -5,15 +5,27 @@ This is a Javascript Tetris game.
 Open `index.html` in your browser to start playing immediately.
 
 # Controls
+1st Player
+| Key | Action |
+| --- | ------ |
+| 🅰 (A) | Move Left |
+| 🅳 (D) | Move Right |
+| 🆂 (S) | Fast Drop |
+| 🆆 (W) | Hard Drop |
+| 1️⃣ (1) | Rotate Left |
+| 2️⃣ (2) | Rotate Right |
+| 3️⃣ (3)| Hold |
+
+2nd Player
 | Key | Action |
 | --- | ------ |
 | ← (Left) | Move Left |
 | → (Right) | Move Right |
 | ↓ (Down) | Fast Drop |
 | ↑ (Up) | Hard Drop |
-| 🆀 (Q) | Rotate Left |
-| 🆆 (W) | Rotate Right |
-| 🅳 (D) | Hold |
+| 🅺 (K) | Rotate Left |
+| 🅻 (L) | Rotate Right |
+| [﹒] (Period) | Hold |
 
 Note: You can only hold once per turn.
 
