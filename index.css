@@ -1,0 +1,98 @@
+body {
+  /* background: dimgrey; */
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 2em;
+  text-align: center;
+  height: 98vh;
+  display: flex;
+  background: linear-gradient(270deg, #ac511d, #c82858, #28b2c8, #28c84a, #c8c528, #2879c8, #6b28c8);
+  background-size: 1400% 1400%;
+
+  -webkit-animation: AnimationName 100s ease infinite;
+  -moz-animation: AnimationName 100s ease infinite;
+  animation: AnimationName 100s ease infinite;
+}
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.left-column {
+  width: 160px;
+}
+
+.right-column {
+  width: 160px;
+}
+
+.full-game {
+  width: 50%;
+  min-width: 630px;
+  border: 1px solid #FFFFFF;
+  display: flex;
+  justify-content: center;
+}
+
+.side-box {
+  border: 1px solid #FFFFFF;
+  vertical-align: top;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Button styles below imported from https://codepen.io/davidicus/pen/emgQKJ */
+
+button {
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 45px;
+  margin: 0 0 2em;
+  max-width: 160px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+  background-color:  coral;
+
+  @media(min-width: 600px) {
+    margin: 0 1em 2em;
+  }
+
+  &:hover { text-decoration: none; }
+
+}
+
+.hoverable {
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, .5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.hoverable:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388;
+}

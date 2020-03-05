@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Puyo Puyo Tetris II</title>
+    <link rel="stylesheet" href="index.css">
+    <script src='client/arena.js' defer></script>
+    <script src='client/tetris.js' defer></script>
+    <script src='client/player.js' defer></script>
+    <script src='client/tetrisManager.js' defer></script>
+    <script src='client/connectionManager.js' defer></script>
+    <script src='client/index.js' defer></script>
+  </head>
+  <body>
+    <template id="full-game-template">
+      <div class="full-game">
+        <div class="left-column">
+          HOLD
+          <canvas class='side-box held' width='140' height='140'></canvas>
+          <!-- <button id="start-button" class="hoverable">Start Game</button> -->
+        </div>
+        <div class="mid-column">
+          <br/>
+          <canvas class='tetris' width='350' height='700'></canvas>
+          <div class="score">-</div>
+        </div>
+        <div class="right-column">
+          NEXT
+          <canvas class='side-box forecast1' width='140' height='140'></canvas>
+          <canvas class='side-box forecast2' width='140' height='140'></canvas>
+          <canvas class='side-box forecast3' width='140' height='140'></canvas>
+        </div>
+      </div>
+    </template>
+
+  </body>
+</html>
