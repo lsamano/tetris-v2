@@ -1,33 +1,27 @@
-const bothGames = [];
-
-const playerElements = document.querySelectorAll('.full-game');
-[...playerElements].forEach(element => {
-  // make default tetris
-  const tetris = new Tetris(element);
-  bothGames.push(tetris);
-})
+const tetrisManager = new TetrisManager(document);
+const localTetris = tetrisManager.createPlayer();
 
 const keyListener = event => {
   // [hold, up, left, right, down, rotaLeft, rotaRight],
   [
     [51, 87, 65, 68, 83, 49, 50],
-    [190, 38, 37, 39, 40, 75, 76],
+    // [190, 38, 37, 39, 40, 75, 76],
   ].forEach((key, index) => {
-    const player = bothGames[index].player
-    if (event.keyCode === key[0]) {
+    const player = localTetris.player
+    if (event.keyCode === 68) {
       player.hold()
-    } else if (event.keyCode === key[1]) {
+    } else if (event.keyCode === 38) {
       player.hardDrop()
-    } else if (event.keyCode === key[2]) {
+    } else if (event.keyCode === 37) {
       player.move(-1)
-    } else if (event.keyCode === key[3]) {
+    } else if (event.keyCode === 39) {
       player.move(1)
-    } else if (event.keyCode === key[5]) {
-      player.rotate(-1)
-    } else if (event.keyCode === key[6]) {
-      player.rotate(1)
-    } else if (event.keyCode === key[4]) {
+    } else if (event.keyCode === 40) {
       player.drop(true)
+    } else if (event.keyCode === 81) {
+      player.rotate(-1)
+    } else if (event.keyCode === 87) {
+      player.rotate(1)
     }
   })
 }
