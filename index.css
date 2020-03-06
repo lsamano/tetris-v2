@@ -37,10 +37,14 @@ body {
   width: 160px;
 }
 
+.full-game.local {
+  border-color: #fff;
+}
+
 .full-game {
   width: 50%;
   min-width: 630px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #707070;
   display: flex;
   justify-content: center;
 }

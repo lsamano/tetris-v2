@@ -40,6 +40,10 @@ class Tetris {
     // make default player
     this.player = new Player(this);
 
+    this.player.events.listen('score', score => {
+      this.updateScore(score);
+    });
+
     // colors array for obtaining tetris piece colors
     this.colors = [
       null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
@@ -51,19 +55,22 @@ class Tetris {
 
     let lastTime = 0
 
-    const update = (time = 0) => {
+    this._update = (time = 0) => {
       const deltaTime = time - lastTime;
       lastTime = time
 
       this.player.update(deltaTime)
 
       this.drawNextTurn()
-      requestAnimationFrame(update)
+      requestAnimationFrame(this._update)
     }
 
     this.updateForecast()
     this.updateScore(0)
-    update();
+  }
+
+  run() {
+    this._update();
   }
 
   drawNextTurn() {
@@ -188,8 +195,8 @@ class Tetris {
       case 'I':
       return [
         [0, 0, 0, 0],
-        [0, 0, 0, 0],
         [5, 5, 5, 5],
+        [0, 0, 0, 0],
         [0, 0, 0, 0]
       ]
       default:
@@ -207,12 +214,6 @@ class Tetris {
     const zeroesToAdd = 10 - amountOfDigits
     const score = this.element.querySelector('.score')
     score.innerText = "0".repeat(zeroesToAdd) + newScore.toString()
-  }
-
-  gameOver() {
-    this.arena.clear()
-    this.player.score = 0
-    this.updateScore(0)
   }
   // End of Tetris Class
 }

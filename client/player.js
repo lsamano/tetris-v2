@@ -6,6 +6,8 @@ class Player {
     this.matrix = null // matrix of current piece
     this.letter = null // letter of current piece
 
+    this.events = new Events();
+
     this.canHold = true
     this.heldLetter = null
     this.score = 0
@@ -20,7 +22,9 @@ class Player {
     this.position.x += dir
     if (this.arena.collide(this)) {
       this.position.x -= dir
+      return;
     }
+    this.events.emit('position', this.position);
   }
 
   rotate(dir) {
@@ -60,16 +64,18 @@ class Player {
 
   drop(purposefulDrop) {
     this.position.y++
+    this.dropCounter = 0
     if (purposefulDrop) {
       this.score += 1
-      this.tetris.updateScore(this.score)
+      this.events.emit('score', this.score);
     }
     if (this.arena.collide(this)) {
       this.position.y--
       this.arena.merge(this)
       this.nextTurn()
+      return;
     }
-    this.dropCounter = 0
+    this.events.emit('position', this.position);
   }
 
   hold() {
@@ -100,7 +106,7 @@ class Player {
         // move back up one, merge with field
         this.position.y--
         this.score += (this.position.y - originalPosition)
-        this.tetris.updateScore(this.score)
+        this.events.emit('score', this.score);
         this.arena.merge(this)
         this.nextTurn()
         this.dropCounter = 0
@@ -131,6 +137,12 @@ class Player {
     if (this.arena.collide(this)) return this.tetris.gameOver()
   }
 
+  gameOver() {
+    this.arena.clear()
+    this.score = 0
+    this.events.emit('score', this.score);
+  }
+
   getTetriminoLetter() {
     const pieces = 'ILJOSTZ'
     const randomIndex = pieces.length * Math.random() | 0
@@ -159,7 +171,7 @@ class Player {
     this.reset()
     this.tetris.updateForecast()
     this.arena.sweep(this)
-    this.tetris.updateScore(this.score)
+    this.events.emit('score', this.score);
   }
 
   getInitialForecast() {

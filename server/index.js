@@ -3,8 +3,6 @@ const WebSocketServer = require('ws').Server;
 const Session = require('./session');
 const Client = require('./client');
 
-
-
 const server = new WebSocketServer({port: 9000});
 
 const sessions = new Map;
@@ -15,6 +13,10 @@ function createId(length = 6, chars = 'abcdefghjkmnopqrstwxyz0123456789') {
     id += chars[Math.random() * chars.length | 0];
   }
   return id;
+}
+
+function createClient(conn, id = createId()) {
+  return new Client(conn, id);
 }
 
 function createSession(id = createId()) {
@@ -32,9 +34,22 @@ function getSession(id) {
   return sessions.get(id)
 }
 
+function broadcastSession(session) {
+  const clients = [...session.clients];
+  clients.forEach(client => {
+    client.send({
+      type: 'session-broadcast',
+      peers: {
+        you: client.id,
+        clients: clients.map(client => client.id)
+      }
+    })
+  })
+}
+
 server.on('connection', conn => {
   console.log("Connection established");
-  const client = new Client(conn);
+  const client = createClient(conn);
 
   conn.on('message', message => {
     console.log('Message received', message);
@@ -50,6 +65,8 @@ server.on('connection', conn => {
     } else if (data.type === 'join-session') {
       const session = getSession(data.id) || createSession(data.id);
       session.join(client);
+
+      broadcastSession(session);
     }
 
     console.log('Sessions', sessions);
@@ -64,5 +81,7 @@ server.on('connection', conn => {
         sessions.delete(session.id);
       }
     }
+
+    broadcastSession(session);
   })
 })
