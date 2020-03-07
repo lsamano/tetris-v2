@@ -27,7 +27,7 @@ Note: You can only hold once per turn.
 
 # Current Features
 - Colors reflect actual Tetris pieces used in-game
-- Able to clear lines and earn points towards your score
+- Able to clear lines and earn points
 - Able to lose the game if it reaches the top
 - Keeps score
 - Increases speed based on score
@@ -37,11 +37,15 @@ Note: You can only hold once per turn.
 - Accurate point system for 1-4 line clears and drops
 - Piece forecast shows next three pieces
 - Guaranteed one of each letter at the beginning of a session, just like the real game
-- 2-player mode
 
 # Upcoming Features
-- Improved graphics
-- Websocket mode
+- Ability to play with other people (via WebSockets)
+- Ability to attack opponent player
+- Ability to start the game
+- Better game over mechanics
+- Improved graphics (from Puyo Puyo Tetris)
+- Advanced spins
+
 
 # Known Bugs
 - You sometimes cannot rotate the I piece when it is furthest to the right
