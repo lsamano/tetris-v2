@@ -7,7 +7,9 @@ class ConnectionManager {
   }
 
   connect(address) {
-    this.conn = new WebSocket(address);
+    var HOST = address.replace(/^http/, 'ws')
+    this.conn = new WebSocket(HOST);
+    // this.conn = new WebSocket(address);
 
     this.conn.addEventListener('open', event => {
       console.log('Connection established');
