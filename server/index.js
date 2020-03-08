@@ -1,8 +1,20 @@
-const WebSocketServer = require('ws').Server;
+const PORT = process.env.PORT || 9000;
+const INDEX = '../index.html';
+
+const express = require('express');
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+
+// const WebSocketServer = require('ws').Server;
 const Session = require('./session');
 const Client = require('./client');
 
-const server = new WebSocketServer({port: 9000});
+// const server = new WebSocketServer({port: 9000});
+const { Server } = require('ws');
+const wss = new Server({ server });
 
 const sessions = new Map;
 
@@ -51,9 +63,11 @@ function broadcastSession(session) {
   })
 }
 
-server.on('connection', conn => {
+wss.on('connection', (conn, req) => {
   console.log("Connection established");
   const client = createClient(conn);
+
+  console.log(req.connection.remoteAddress);
 
   conn.on('message', message => {
     console.log('Message received', message);

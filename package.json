@@ -1,0 +1,30 @@
+{
+  "name": "puyo-puyo-tetris-ii",
+  "version": "1.0.0",
+  "description": "This is a Javascript Tetris game.",
+  "main": "index.js",
+  "dependencies": {
+    "bufferutil": "^4.0.1",
+    "express": "^4.17.1",
+    "utf-8-validate": "^5.0.2",
+    "ws": "^7.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lsamano/puyo-puyo-tetris-ii.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lsamano/puyo-puyo-tetris-ii/issues"
+  },
+  "homepage": "https://github.com/lsamano/puyo-puyo-tetris-ii#readme",
+  "engines": {
+    "node": "13.1.x"
+  }
+}
