@@ -1,16 +1,20 @@
 const PORT = process.env.PORT || 9000;
-const INDEX = '../index.html';
 
 const express = require('express');
-const server = express()
-
-server.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+const server = express();
+var path = require("path");
 
 server.use(express.static(__dirname + '/'));
+server.use('/client', express.static('client'))
+// server.use('/views', express.static('client'))
+
+server.use((req, res) => res.sendFile('index.html', { root: __dirname }))
+
+server.listen(PORT, () => console.log(`Listening on ${PORT}`));
+
 
 server.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
+  res.sendFile(path.join(__dirname + '/../client/index.html'));
 });
 
 // const WebSocketServer = require('ws').Server;
@@ -19,8 +23,9 @@ const Client = require('./client');
 
 // const server = new WebSocketServer({port: 9000});
 const { Server } = require('ws');
-const wss = new Server({ server });
+const wss = new Server({ server, port:8000 });
 
+console.log("hi", wss);
 const sessions = new Map;
 
 function createId(length = 6, chars = 'abcdefghjkmnopqrstwxyz0123456789') {

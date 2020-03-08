@@ -4,9 +4,9 @@ const localTetris = tetrisManager.createPlayer();
 localTetris.element.classList.add('local');
 localTetris.run();
 
-// const PORT = process.env.PORT || 9000;
+const PORT = 8000;
 const connectionManager = new ConnectionManager(tetrisManager);
-connectionManager.connect("https://hidden-fortress-31934.herokuapp.com/");
+connectionManager.connect(`http://localhost:${PORT}` || "https://hidden-fortress-31934.herokuapp.com/");
 
 const keyListener = event => {
   // [hold, up, left, right, down, rotaLeft, rotaRight],
