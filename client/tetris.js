@@ -85,6 +85,7 @@ class Tetris {
    ); // draw ghost piece
    this.drawMatrix(this.player.matrix, this.player.position); // draws active piece
    this.updateHeld();
+   this.updateForecast();
   }
 
   drawMatrix(matrix, offset, ghost) {
@@ -238,6 +239,7 @@ class Tetris {
               matrix: this.player.matrix,
               position: this.player.position,
               score: this.player.score,
+              forecastArray: this.player.forecastArray
           },
       };
   }
@@ -245,6 +247,7 @@ class Tetris {
   unserialize(state) {
     this.arena = Object.assign(state.arena);
     this.player = Object.assign(state.player);
+    this.forecastArray = Object.assign(state.forecastArray);
     this.updateScore(this.player.score);
     this.drawNextTurn();
   }

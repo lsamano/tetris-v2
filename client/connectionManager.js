@@ -41,7 +41,7 @@ class ConnectionManager {
   watchEvents() {
     const local = this.localTetris;
     const player = local.player;
-    ['position', 'matrix', 'score', 'heldLetter'].forEach(prop => {
+    ['position', 'matrix', 'score', 'heldLetter', 'forecastArray'].forEach(prop => {
       player.events.listen(prop, value => {
         this.send({
           type: 'state-update',
@@ -91,7 +91,6 @@ class ConnectionManager {
     if (!this.peers.has(id)) {
       console.log(id);
       throw new Error('Client does not exist', id);
-      // debugger
     }
     const tetris = this.peers.get(id);
     tetris[fragment][prop] = value;
