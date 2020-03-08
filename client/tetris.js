@@ -141,17 +141,17 @@ class Tetris {
     // have box display piece
     this.foreContext.fillStyle = '#202028'
     this.foreContext.fillRect(0, 0, this.foreCanvas.width, this.foreCanvas.height)
-    const pieceMatrixA = this.getPieceMatrix(this.player.forecastArray[0])
+    const pieceMatrixA = this.getPieceMatrix(this.player.forecast[0])
     this.drawSideBox(pieceMatrixA, this.foreContext);
 
     this.foreContextB.fillStyle = '#202028'
     this.foreContextB.fillRect(0, 0, this.foreCanvas.width, this.foreCanvas.height)
-    const pieceMatrixB = this.getPieceMatrix(this.player.forecastArray[1])
+    const pieceMatrixB = this.getPieceMatrix(this.player.forecast[1])
     this.drawSideBox(pieceMatrixB, this.foreContextB);
 
     this.foreContextC.fillStyle = '#202028'
     this.foreContextC.fillRect(0, 0, this.foreCanvas.width, this.foreCanvas.height)
-    const pieceMatrixC = this.getPieceMatrix(this.player.forecastArray[2])
+    const pieceMatrixC = this.getPieceMatrix(this.player.forecast[2])
     this.drawSideBox(pieceMatrixC, this.foreContextC);
   }
 
@@ -239,15 +239,16 @@ class Tetris {
               matrix: this.player.matrix,
               position: this.player.position,
               score: this.player.score,
-              forecastArray: this.player.forecastArray
+              heldLetter: this.player.heldLetter,
+              forecast: this.player.forecast
           },
       };
   }
 
   unserialize(state) {
+    console.log(state);
     this.arena = Object.assign(state.arena);
     this.player = Object.assign(state.player);
-    this.forecastArray = Object.assign(state.forecastArray);
     this.updateScore(this.player.score);
     this.drawNextTurn();
   }

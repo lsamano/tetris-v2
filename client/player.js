@@ -13,7 +13,7 @@ class Player {
     this.score = 0
     this.dropInterval = 1000
     this.dropCounter = 0
-    this.forecastArray = this.getInitialForecast()
+    this.forecast = this.getInitialForecast()
 
     this.reset();
   }
@@ -125,9 +125,9 @@ class Player {
 
   reset(providedLetter) {
     if (!providedLetter) {
-      this.letter = this.forecastArray.shift()
+      this.letter = this.forecast.shift()
       const newPiece = this.getTetriminoLetter()
-      this.forecastArray.push(newPiece)
+      this.forecast.push(newPiece)
     } else {
       this.letter =  providedLetter
     }
@@ -141,7 +141,7 @@ class Player {
     this.events.emit('position', this.position);
     this.events.emit('matrix', this.matrix);
     this.events.emit('heldLetter', this.heldLetter);
-    this.events.emit('forecastArray', this.forecastArray);
+    this.events.emit('forecast', this.forecast);
   }
 
   gameOver() {
