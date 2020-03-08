@@ -140,6 +140,7 @@ class Player {
 
     this.events.emit('position', this.position);
     this.events.emit('matrix', this.matrix);
+    this.events.emit('heldLetter', this.heldLetter);
   }
 
   gameOver() {

@@ -84,6 +84,7 @@ class Tetris {
      true
    ); // draw ghost piece
    this.drawMatrix(this.player.matrix, this.player.position); // draws active piece
+   this.updateHeld();
   }
 
   drawMatrix(matrix, offset, ghost) {
@@ -155,10 +156,12 @@ class Tetris {
 
   updateHeld() {
     // have box display piece
-    this.heldContext.fillStyle = '#202028'
-    this.heldContext.fillRect(0, 0, this.heldCanvas.width, this.heldCanvas.height)
-    const pieceMatrix = this.getPieceMatrix(this.player.heldLetter)
-    this.drawSideBox(pieceMatrix, this.heldContext);
+    if (this.player.heldLetter) {
+      this.heldContext.fillStyle = '#202028'
+      this.heldContext.fillRect(0, 0, this.heldCanvas.width, this.heldCanvas.height)
+      const pieceMatrix = this.getPieceMatrix(this.player.heldLetter)
+      this.drawSideBox(pieceMatrix, this.heldContext);
+    }
   }
 
   drawSideBox(matrix, providedContext) {

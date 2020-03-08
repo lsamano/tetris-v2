@@ -41,7 +41,7 @@ class ConnectionManager {
   watchEvents() {
     const local = this.localTetris;
     const player = local.player;
-    ['position', 'matrix', 'score'].forEach(prop => {
+    ['position', 'matrix', 'score', 'heldLetter'].forEach(prop => {
       player.events.listen(prop, value => {
         this.send({
           type: 'state-update',
