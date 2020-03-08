@@ -7,9 +7,11 @@ class ConnectionManager {
   }
 
   connect(address) {
-    var HOST = address.replace(/^http/, 'ws')
+    this.conn = new WebSocket(address);
+
+    // var HOST = address.replace(/^http/, 'ws')
     // var HOST = 'ws://localhost:9000'
-    this.conn = new WebSocket(HOST);
+    // this.conn = new WebSocket(HOST);
     // this.conn = new WebSocket(address);
 
     this.conn.addEventListener('open', event => {
