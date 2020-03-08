@@ -7,6 +7,8 @@ const server = express()
 server.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
+server.use(express.static(__dirname + '/'));
+
 server.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
