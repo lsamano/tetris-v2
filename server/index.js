@@ -3,10 +3,13 @@ const INDEX = '../index.html';
 
 const express = require('express');
 const server = express()
-  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+
+server.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-
+server.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
 
 // const WebSocketServer = require('ws').Server;
 const Session = require('./session');
