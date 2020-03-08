@@ -15,7 +15,7 @@ class Player {
     this.dropCounter = 0
     this.forecastArray = this.getInitialForecast()
 
-    this.reset()
+    this.reset();
   }
 
   move(dir) {
@@ -41,6 +41,7 @@ class Player {
         return;
       }
     }
+    this.events.emit('matrix', this.matrix);
   }
 
   _rotateMatrix(matrix, dir) {
@@ -134,7 +135,11 @@ class Player {
     this.position.y = 0
     // sets at middle and lowers it to fit in this.arena
     this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
-    if (this.arena.collide(this)) return this.tetris.gameOver()
+
+    if (this.arena.collide(this)) return this.gameOver()
+
+    this.events.emit('position', this.position);
+    this.events.emit('matrix', this.matrix);
   }
 
   gameOver() {

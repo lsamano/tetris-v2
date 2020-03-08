@@ -5,6 +5,8 @@ class Arena {
       newMatrix.push(new Array(width).fill(0))
     }
     this.matrix = newMatrix
+
+    this.events = new Events;
   }
 
   sweep(player) {
@@ -25,6 +27,7 @@ class Arena {
       player.calculateScore(rowCount - 1)
       player.calculateSpeed()
     }
+    this.events.emit('matrix', this.matrix);
   }
 
   collide(player) {
@@ -52,9 +55,11 @@ class Arena {
     });
     // if merged, set ability to switch back to true
     player.canHold = true;
+    this.events.emit('matrix', this.matrix);
   }
 
   clear() {
-    this.matrix.forEach(row => row.fill(0))
+    this.matrix.forEach(row => row.fill(0));
+    this.events.emit('matrix', this.matrix);
   }
 }

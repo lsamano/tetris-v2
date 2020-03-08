@@ -1,5 +1,5 @@
 class Tetris {
-  constructor(element, canvas, heldCanvas, foreCanvas, foreCanvasB, foreCanvasC) {
+  constructor(element) {
     this.element = element
     // Query for canvases
     this.canvas = element.querySelector('.tetris')
@@ -35,7 +35,7 @@ class Tetris {
 /////////////////////////////
 
     // make arena matrix
-    this.arena = new Arena(10, 20)
+    this.arena = new Arena(10, 20);
 
     // make default player
     this.player = new Player(this);
@@ -100,6 +100,21 @@ class Tetris {
     });
   }
 
+  ghostCollide(arena, player) {
+    const [playerMatrix, playerPosition] = [player.matrix, player.position]
+    for (let y = 0; y < playerMatrix.length; ++y) { // per row
+      const arenaRow = arena.matrix[y + playerPosition.y]
+      for (let x = 0; x < playerMatrix[y].length; ++x) { // per column/pixel
+        const piecePixelIsPresent = (playerMatrix[y][x] !== 0)
+        const arenaPixelIsPresent = (arenaRow && arenaRow[x + playerPosition.x]) !== 0
+        if (piecePixelIsPresent && arenaPixelIsPresent) {
+              return true
+        }
+      }
+    }
+    return false;
+  }
+
   getGhostCoordinate() {
     // create ghost of player
     // let ghost = JSON.parse(JSON.stringify(this.player))
@@ -109,11 +124,13 @@ class Tetris {
     }
      while (true) {
       // move player down until collide
-      ghost.position.y++
-      if (this.arena.collide(ghost)) {
+      ghost.position.y++;
+      // console.log(this.arena);
+      // debugger
+      if (this.ghostCollide(this.arena, ghost)) {
         // move back up one
-        ghost.position.y--
-        return ghost.position.y
+        ghost.position.y--;
+        return ghost.position.y;
       }
     }
   }
@@ -207,6 +224,26 @@ class Tetris {
         [0, 5, 2, 0]
       ]
     }
+  }
+
+  serialize() {
+      return {
+          arena: {
+              matrix: this.arena.matrix,
+          },
+          player: {
+              matrix: this.player.matrix,
+              position: this.player.position,
+              score: this.player.score,
+          },
+      };
+  }
+
+  unserialize(state) {
+    this.arena = Object.assign(state.arena);
+    this.player = Object.assign(state.player);
+    this.updateScore(this.player.score);
+    this.drawNextTurn();
   }
 
   updateScore(newScore) {

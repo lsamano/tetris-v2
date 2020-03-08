@@ -6,7 +6,7 @@ class TetrisManager {
   }
 
   createPlayer() {
-    const element = this.document.importNode(this.template.content, true).children[0]
+    const element = this.document.importNode(this.template.content, true).children[0];
     const tetris = new Tetris(element);
     this.instances.add(tetris);
 
@@ -17,5 +17,11 @@ class TetrisManager {
   removePlayer(tetris) {
     this.instances.delete(tetris)
     this.document.body.removeChild(tetris.element);
+  }
+
+  sortPlayers(tetrisGames) {
+    tetrisGames.forEach(tetris => {
+      this.document.body.appendChild(tetris.element);
+    })
   }
 }
