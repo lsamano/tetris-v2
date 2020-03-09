@@ -113,7 +113,6 @@ class Tetris {
 
   getGhostCoordinate() {
     // create ghost of player
-    // let ghost = JSON.parse(JSON.stringify(this.player))
     const ghost = {
       matrix: [...this.player.matrix],
       position: {...this.player.position}
@@ -121,8 +120,7 @@ class Tetris {
      while (true) {
       // move player down until collide
       ghost.position.y++;
-      // console.log(this.arena);
-      // debugger
+
       if (this.ghostCollide(this.arena, ghost)) {
         // move back up one
         ghost.position.y--;
@@ -210,8 +208,8 @@ class Tetris {
       default:
       return [
         [0, 5, 1, 0],
-        [0, 6, 4, 0],
-        [0, 7, 3, 0],
+        [8, 6, 4, 8],
+        [8, 7, 3, 8],
         [0, 5, 2, 0]
       ]
     }

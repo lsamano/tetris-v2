@@ -35,7 +35,6 @@ class Player {
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
       if (offset > this.matrix[0].length) {
-        console.log("no turn");
         this._rotateMatrix(this.matrix, -direction)
         this.position.x = originalPosition
         return;
