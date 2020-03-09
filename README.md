@@ -38,14 +38,14 @@ Note: You can only hold once per turn.
 - Piece forecast shows next three pieces
 - Guaranteed one of each letter at the beginning of a session, just like the real game
 - Ability to play with other people via WebSockets
+- Ability to attack opponent player (called garbage lines)
+- Ability to nullify garbage lines
 
 # Upcoming Features
-- Ability to attack opponent player
 - Ability to start the game at will
 - Better game over mechanics
 - Improved graphics (from Puyo Puyo Tetris)
 - Advanced spins
-
 
 # Known Bugs
 - You sometimes cannot rotate the I piece when it is furthest to the right
