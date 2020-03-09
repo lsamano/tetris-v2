@@ -180,8 +180,9 @@ class Player {
   }
 
   calculateGarbage(rowsCleared) {
+    const adjustedLines = rowsCleared < 4 ? rowsCleared - 1 : rowsCleared;
     if (this.incomingGarbage > 0) { // if garbage
-      const leftover = rowsCleared - this.incomingGarbage;
+      const leftover = adjustedLines - this.incomingGarbage;
       if (leftover > 0) { // if cleared > garbage
         this.incomingGarbage = 0;
         this.events.emit('garbage', leftover);
@@ -189,13 +190,16 @@ class Player {
         this.incomingGarbage = -leftover;
       }
     } else { // no garbage, immediately send attack
-      this.events.emit('garbage', rowsCleared);
+
+      this.events.emit('garbage', adjustedLines);
     }
   }
 
   nextTurn() {
     const rowsCleared = this.arena.sweep(this);
-    this.calculateGarbage(rowsCleared);
+    if (rowsCleared > 0) {
+      this.calculateGarbage(rowsCleared);
+    }
 
     this.reset()
     this.tetris.updateForecast()
