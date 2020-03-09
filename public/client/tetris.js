@@ -1,49 +1,31 @@
 class Tetris {
   constructor(element) {
     this.element = element
-    // Query for canvases
 
-    for (let i = 0; i < 5; i++) {
-      const currentForeCanvas = `foreCanvas${i}`;
-      const currentForeContext = `foreContext${i}`;
+    // Set up forecast
+    this.forecastElements = element.querySelectorAll('.forecast');
+    this.forecastElements.forEach((element, i) => {
+      const currentForeContext = `foreContext${i}`
 
-      this[currentForeCanvas] = element.querySelector(`.forecast${i}`)
-      this[currentForeContext] = this[currentForeCanvas].getContext('2d')
+      this[currentForeContext] = element.getContext('2d');
       this[currentForeContext].scale(30, 30);
-      this[currentForeContext].fillStyle = '#202028'
-      this[currentForeContext].fillRect(0, 0, this[currentForeCanvas].width, this[currentForeCanvas].height)
-    }
+      this[currentForeContext].fillStyle = '#202028';
+      this[currentForeContext].fillRect(0, 0, element.width, element.height);
+    });
 
+    // Set up canvas
     this.canvas = element.querySelector('.tetris')
-    this.heldCanvas = element.querySelector('.held')
-    // this.foreCanvas1 = element.querySelector('.forecast1')
-    // this.foreCanvas2 = element.querySelector('.forecast2')
-    // this.foreCanvas3 = element.querySelector('.forecast3')
-
     this.context = this.canvas.getContext('2d')
-    this.heldContext = this.heldCanvas.getContext('2d')
-    // this.foreContext1 = this.foreCanvas1.getContext('2d')
-    // this.foreContext2 = this.foreCanvas2.getContext('2d')
-    // this.foreContext3 = this.foreCanvas3.getContext('2d')
-
-    // make bigger
     this.context.scale(35, 35);
-    this.heldContext.scale(30, 30);
-    // this.foreContextB.scale(30, 30);
-    // this.foreContextC.scale(30, 30);
-    // this.foreContextD.scale(30, 30);
-
-    // fill with black
     this.context.fillStyle = '#202028'
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+
+    // Set up held
+    this.heldCanvas = element.querySelector('.held')
+    this.heldContext = this.heldCanvas.getContext('2d')
+    this.heldContext.scale(30, 30);
     this.heldContext.fillStyle = '#202028'
     this.heldContext.fillRect(0, 0, this.heldCanvas.width, this.heldCanvas.height)
-    // this.foreContextB.fillStyle = '#202028'
-    // this.foreContextB.fillRect(0, 0, this.foreCanvasB.width, this.foreCanvasB.height)
-    // this.foreContextC.fillStyle = '#202028'
-    // this.foreContextC.fillRect(0, 0, this.foreCanvasC.width, this.foreCanvasC.height)
-    // this.foreContextD.fillStyle = '#202028'
-    // this.foreContextD.fillRect(0, 0, this.foreCanvasD.width, this.foreCanvasD.height)
 /////////////////////////////
 
     // make arena matrix
@@ -150,20 +132,14 @@ class Tetris {
   }
 
   updateForecast() {
-    // have forecast boxes display piece
-    for (let i = 0; i < 5; i++) {
-      const foreContext = `foreContext${i}`;
-      const foreCanvas = `foreCanvas${i}`;
+    this.forecastElements.forEach((element, i) => {
+      const currentForeContext = `foreContext${i}`
 
-      this[foreContext].fillStyle = '#202028';
-      this[foreContext].fillRect(
-        0, 0,
-        this[foreCanvas].width,
-        this[foreCanvas].height
-      );
+      this[currentForeContext].fillStyle = '#202028';
+      this[currentForeContext].fillRect(0, 0, element.width, element.height);
       const pieceMatrix = this.getPieceMatrix(this.player.forecast[i]);
-      this.drawSideBox(pieceMatrix, this[foreContext]);
-    }
+      this.drawSideBox(pieceMatrix, this[currentForeContext]);
+    })
   }
 
   updateHeld() {
