@@ -109,7 +109,6 @@ class ConnectionManager {
   }
 
   updateSelf(rowCount) {
-    // debugger
     localTetris.player.incomingGarbage = rowCount;
   }
 

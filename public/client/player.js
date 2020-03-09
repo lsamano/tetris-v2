@@ -13,6 +13,7 @@ class Player {
     this.score = 0
     this.dropInterval = 1000
     this.dropCounter = 0
+    this.incomingGarbage = 0
     this.forecast = this.getInitialForecast();
 
     this.reset();
@@ -125,7 +126,7 @@ class Player {
   reset(providedLetter) {
     if (this.incomingGarbage > 0) {
       this.arena.receiveAttack(this, this.incomingGarbage);
-      this.incomingGarbage = 0
+      this.incomingGarbage = 0;
     }
 
     if (!providedLetter) {
@@ -178,10 +179,26 @@ class Player {
     }
   }
 
+  calculateGarbage(rowsCleared) {
+    if (this.incomingGarbage > 0) { // if garbage
+      const leftover = rowsCleared - this.incomingGarbage;
+      if (leftover > 0) { // if cleared > garbage
+        this.incomingGarbage = 0;
+        this.events.emit('garbage', leftover);
+      } else { // didn't block enough
+        this.incomingGarbage = -leftover;
+      }
+    } else { // no garbage, immediately send attack
+      this.events.emit('garbage', rowsCleared);
+    }
+  }
+
   nextTurn() {
+    const rowsCleared = this.arena.sweep(this);
+    this.calculateGarbage(rowsCleared);
+
     this.reset()
     this.tetris.updateForecast()
-    this.arena.sweep(this)
     this.events.emit('score', this.score);
   }
 

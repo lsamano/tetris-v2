@@ -26,9 +26,10 @@ class Arena {
     if (rowCount > 0) {
       player.calculateScore(rowCount - 1)
       player.calculateSpeed()
-      player.events.emit('garbage', rowCount);
+      // player.events.emit('garbage', rowCount);
     }
     this.events.emit('matrix', this.matrix);
+    return rowCount;
   }
 
   receiveAttack(player, rowCount) {

@@ -48,6 +48,7 @@ class Tetris {
     ]
 
     let lastTime = 0
+    // this.garbageTime = 0;
 
     this._update = (time = 0) => {
       const deltaTime = time - lastTime;
