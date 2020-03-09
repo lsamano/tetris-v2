@@ -13,30 +13,30 @@ class Player {
     this.score = 0
     this.dropInterval = 1000
     this.dropCounter = 0
-    this.forecast = this.getInitialForecast()
+    this.forecast = this.getInitialForecast();
 
     this.reset();
   }
 
-  move(dir) {
-    this.position.x += dir
+  move(direction) {
+    this.position.x += direction
     if (this.arena.collide(this)) {
-      this.position.x -= dir
+      this.position.x -= direction
       return;
     }
     this.events.emit('position', this.position);
   }
 
-  rotate(dir) {
+  rotate(direction) {
     const originalPosition = this.position.x
     let offset = 1
-    this._rotateMatrix(this.matrix, dir)
+    this._rotateMatrix(this.matrix, direction)
     while (this.arena.collide(this)) {
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
       if (offset > this.matrix[0].length) {
         console.log("no turn");
-        this._rotateMatrix(this.matrix, -dir)
+        this._rotateMatrix(this.matrix, -direction)
         this.position.x = originalPosition
         return;
       }
@@ -44,7 +44,7 @@ class Player {
     this.events.emit('matrix', this.matrix);
   }
 
-  _rotateMatrix(matrix, dir) {
+  _rotateMatrix(matrix, direction) {
     for (let y = 0; y < matrix.length; y++) {
       for (let x = 0; x < y; x++) {
         [
@@ -56,7 +56,7 @@ class Player {
         ]
       }
     }
-    if (dir > 0) {
+    if (direction > 0) {
       matrix.forEach(row => row.reverse())
     } else {
       matrix.reverse()

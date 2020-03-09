@@ -2,7 +2,7 @@
 This is a Javascript Tetris game.
 
 # Setup
-Open `index.html` in your browser to start playing immediately.
+In the project directory, run `npm install` and `npm start`. Go to `localhost:9000` in your browser to start playing immediately.
 
 # Controls
 | Key | Action |
@@ -18,12 +18,12 @@ Open `index.html` in your browser to start playing immediately.
 Note: You can only hold once per turn.
 
 # Scoring
-| # of Lines Cleared | Points |
-| --- | --- |
-| 1 line | 100 pts |
-| 2 lines | 300 pts |
-| 3 lines | 500 pts |
-| 4 lines (Tetris) | 800 pts |
+| # of Lines Cleared | Points | Garbage Lines Sent |
+| --- | --- | --- |
+| 1 line | 100 pts | 0 lines |
+| 2 lines | 300 pts | 1 line |
+| 3 lines | 500 pts |  2 lines |
+| 4 lines (Tetris) | 800 pts |  4 lines |
 
 # Current Features
 - Colors reflect actual Tetris pieces used in-game
@@ -37,11 +37,11 @@ Note: You can only hold once per turn.
 - Accurate point system for 1-4 line clears and drops
 - Piece forecast shows next three pieces
 - Guaranteed one of each letter at the beginning of a session, just like the real game
+- Ability to play with other people via WebSockets
 
 # Upcoming Features
-- Ability to play with other people (via WebSockets)
 - Ability to attack opponent player
-- Ability to start the game
+- Ability to start the game at will
 - Better game over mechanics
 - Improved graphics (from Puyo Puyo Tetris)
 - Advanced spins
