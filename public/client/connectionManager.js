@@ -50,6 +50,12 @@ class ConnectionManager {
         })
       })
     })
+    player.events.listen('garbage', value => {
+      this.send({
+        type: 'update-my-state',
+        rowCount: value
+      })
+    })
 
     const arena = local.arena;
     ['matrix'].forEach(prop => {
@@ -102,6 +108,11 @@ class ConnectionManager {
     }
   }
 
+  updateSelf(rowCount) {
+    // debugger
+    localTetris.arena.receiveAttack(localTetris.player, rowCount);
+  }
+
   receive(message) {
     const data = JSON.parse(message);
     if (data.type === 'session-created') {
@@ -110,6 +121,9 @@ class ConnectionManager {
       this.updateManager(data.peers);
     } else if (data.type === 'state-update') {
       this.updatePeer(data.clientId, data.fragment, data.state);
+    } else if (data.type === 'update-my-state') {
+      // debugger
+      this.updateSelf(data.rowCount);
     }
   }
 

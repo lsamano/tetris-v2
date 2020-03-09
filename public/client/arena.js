@@ -26,6 +26,7 @@ class Arena {
     if (rowCount > 0) {
       player.calculateScore(rowCount - 1)
       player.calculateSpeed()
+      player.events.emit('garbage', rowCount);
     }
     this.events.emit('matrix', this.matrix);
   }
@@ -38,6 +39,7 @@ class Arena {
     for(let i = 0; i < times; i++){
         this.matrix.push([...newLine]);
     }
+    this.events.emit('matrix', this.matrix);
   }
 
   collide(player) {

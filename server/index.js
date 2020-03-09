@@ -88,6 +88,8 @@ wss.on('connection', (conn, req) => {
       const [prop, value] = data.state;
       client.state[data.fragment][prop] = value;
       client.broadcast(data);
+    } else if (data.type === 'update-my-state') {
+      client.broadcast(data);
     }
   })
 
