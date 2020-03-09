@@ -123,6 +123,11 @@ class Player {
   }
 
   reset(providedLetter) {
+    if (this.incomingGarbage > 0) {
+      this.arena.receiveAttack(this, this.incomingGarbage);
+      this.incomingGarbage = 0
+    }
+
     if (!providedLetter) {
       this.letter = this.forecast.shift()
       const newPiece = this.getTetriminoLetter()

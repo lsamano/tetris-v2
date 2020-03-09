@@ -110,7 +110,7 @@ class ConnectionManager {
 
   updateSelf(rowCount) {
     // debugger
-    localTetris.arena.receiveAttack(localTetris.player, rowCount);
+    localTetris.player.incomingGarbage = rowCount;
   }
 
   receive(message) {
