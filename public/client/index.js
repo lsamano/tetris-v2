@@ -11,10 +11,10 @@ connectionManager.connect(`ws://${window.location.hostname}:${window.location.po
 
 const keyListener = event => {
   // [hold, up, left, right, down, rotaLeft, rotaRight],
-  [
-    [51, 87, 65, 68, 83, 49, 50],
-    // [190, 38, 37, 39, 40, 75, 76],
-  ].forEach((key, index) => {
+  // [
+  //   [51, 87, 65, 68, 83, 49, 50, 71],
+  //   // [190, 38, 37, 39, 40, 75, 76],
+  // ].forEach((key, index) => {
     const player = localTetris.player
     if (event.keyCode === 68) {
       player.hold()
@@ -30,8 +30,10 @@ const keyListener = event => {
       player.rotate(-1)
     } else if (event.keyCode === 87) {
       player.rotate(1)
+    } else if (event.keyCode === 71) {
+      player.arena.receiveAttack(player, 4)
     }
-  })
+  // })
 }
 
 document.addEventListener('keydown', keyListener)

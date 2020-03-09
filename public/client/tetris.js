@@ -46,7 +46,7 @@ class Tetris {
 
     // colors array for obtaining tetris piece colors
     this.colors = [
-      null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032'
+      null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032', 'grey'
     ]
 
     this.ghostColors = [

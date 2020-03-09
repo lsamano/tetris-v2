@@ -30,6 +30,16 @@ class Arena {
     this.events.emit('matrix', this.matrix);
   }
 
+  receiveAttack(player, rowCount) {
+    const newLine = player.shuffle([0, 8, 8, 8, 8, 8, 8, 8, 8, 8])
+    this.matrix.splice(0, rowCount)
+
+    let times = rowCount;
+    for(let i = 0; i < times; i++){
+        this.matrix.push([...newLine]);
+    }
+  }
+
   collide(player) {
     const [playerMatrix, playerPosition] = [player.matrix, player.position]
     for (let y = 0; y < playerMatrix.length; ++y) { // per row
