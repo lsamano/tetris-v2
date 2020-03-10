@@ -1,6 +1,7 @@
 class Tetris {
   constructor(element) {
     this.element = element
+    this.paused = false
 
     // Set up forecast
     this.forecastElements = element.querySelectorAll('.forecast');
@@ -57,10 +58,12 @@ class Tetris {
       this.player.update(deltaTime)
 
       this.drawNextTurn()
+      if (this.paused) {
+        return;
+      }
       requestAnimationFrame(this._update)
     }
 
-    this.updateForecast()
     this.updateScore(0)
   }
 
@@ -244,6 +247,11 @@ class Tetris {
     const zeroesToAdd = 10 - amountOfDigits
     const score = this.element.querySelector('.score')
     score.innerText = "0".repeat(zeroesToAdd) + newScore.toString()
+  }
+
+  togglePaused() {
+    this.paused = !this.paused;
+    this.run();
   }
   // End of Tetris Class
 }

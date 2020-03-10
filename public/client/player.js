@@ -29,19 +29,18 @@ class Player {
   }
 
   rotate(direction) {
-    const originalPosition = this.position.x
-    let offset = 1
+    const originalPosition = this.position.x;
+    let offset = 1;
     this._rotateMatrix(this.matrix, direction)
     while (this.arena.collide(this)) {
+      // this.dropCounter -= 50;
+      // console.log('slow', this.dropCounter);
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
       if (offset > this.matrix[0].length) {
         this._rotateMatrix(this.matrix, -direction)
         this.position.x = originalPosition
         return;
-      } else {
-        this.dropCounter -= 50;
-        console.log('slow');
       }
     }
     this.events.emit('matrix', this.matrix);

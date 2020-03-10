@@ -14,6 +14,7 @@ In the project directory, run `npm install` and `npm start`. Go to `localhost:90
 | 🆀 (Q) | Rotate Left |
 | 🆆 (W) | Rotate Right |
 | 🅳 (D) | Hold |
+| [   ] (Space) | Pause |
 
 Note: You can only hold once per turn.
 
@@ -49,6 +50,7 @@ Note: You can only hold once per turn.
 
 # Known Bugs
 - You sometimes cannot rotate the I piece when it is furthest to the right
+- Stacked garbage lines >4 all come with the same hole
 
 Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA
 Edits, improvements, and additional features added by me.
