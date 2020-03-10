@@ -121,7 +121,6 @@ class ConnectionManager {
     } else if (data.type === 'state-update') {
       this.updatePeer(data.clientId, data.fragment, data.state);
     } else if (data.type === 'update-my-state') {
-      // debugger
       this.updateSelf(data.rowCount);
     }
   }
