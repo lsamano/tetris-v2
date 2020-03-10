@@ -109,7 +109,7 @@ class ConnectionManager {
   }
 
   updateSelf(rowCount) {
-    localTetris.player.incomingGarbage = rowCount;
+    localTetris.player.incomingGarbage += rowCount;
   }
 
   receive(message) {

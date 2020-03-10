@@ -13,7 +13,7 @@ class Player {
     this.score = 0
     this.dropInterval = 1000
     this.dropCounter = 0
-    this.incomingGarbage = 0
+    this.incomingGarbage = 0;
     this.forecast = this.getInitialForecast();
 
     this.reset();
@@ -39,6 +39,9 @@ class Player {
         this._rotateMatrix(this.matrix, -direction)
         this.position.x = originalPosition
         return;
+      } else {
+        this.dropCounter -= 50;
+        console.log('slow');
       }
     }
     this.events.emit('matrix', this.matrix);
@@ -190,7 +193,6 @@ class Player {
         this.incomingGarbage = -leftover;
       }
     } else { // no garbage, immediately send attack
-
       this.events.emit('garbage', adjustedLines);
     }
   }
