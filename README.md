@@ -48,8 +48,7 @@ Note: You can only hold once per turn.
 - Improved graphics (from Puyo Puyo Tetris)
 - Advanced spins
 
-# Known Bugs
-- You sometimes cannot rotate the I piece when it is furthest to the right
+# Known Bugs/Issues
 - Stacked garbage lines >4 all come with the same hole
 
 Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA

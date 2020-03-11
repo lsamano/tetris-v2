@@ -37,7 +37,7 @@ class Player {
       // console.log('slow', this.dropCounter);
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
-      if (offset > this.matrix[0].length) {
+      if (offset > this.matrix[0].length + 1) {
         this._rotateMatrix(this.matrix, -direction)
         this.position.x = originalPosition
         return;
