@@ -41,17 +41,12 @@ const keyListener = event => {
 
 document.addEventListener('keydown', keyListener)
 
-function startGame() {
-  // tetris.updateForecast()
-  // tetris.updateScore()
-  // tetris.update()
+function startGame(event) {
+  startButton.disabled = true
+  startButton.classList.remove("hoverable")
+  startButton.classList.add("disabled")
   localTetris.run();
 }
 
 const startButton = localTetris.element.querySelector(".start-button")
-startButton.addEventListener('click', event => {
-  startButton.disabled = true
-  startButton.classList.remove("hoverable")
-  startButton.classList.add("disabled")
-  startGame()
-})
+startButton.addEventListener('click', startGame)

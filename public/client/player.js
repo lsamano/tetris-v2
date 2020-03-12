@@ -33,8 +33,6 @@ class Player {
     let offset = 1;
     this._rotateMatrix(this.matrix, direction)
     while (this.arena.collide(this)) {
-      // this.dropCounter -= 50;
-      // console.log('slow', this.dropCounter);
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
       if (offset > this.matrix[0].length + 1) {
