@@ -3,30 +3,29 @@ class Tetris {
     this.element = element
     this.paused = false
 
+    // Initializes canvases as dary grey and scales them
+    const initializeBox = (element, contextString, scaleAmount) => {
+      this[contextString] = element.getContext('2d')
+      this[contextString].scale(scaleAmount, scaleAmount);
+      this[contextString].fillStyle = '#202028'
+      this[contextString].fillRect(0, 0, element.width, element.height)
+    }
+
     // Set up forecast
     this.forecastElements = element.querySelectorAll('.forecast');
     this.forecastElements.forEach((element, i) => {
       const currentForeContext = `foreContext${i}`
-
-      this[currentForeContext] = element.getContext('2d');
-      this[currentForeContext].scale(30, 30);
-      this[currentForeContext].fillStyle = '#202028';
-      this[currentForeContext].fillRect(0, 0, element.width, element.height);
+      initializeBox(element, currentForeContext, 30)
     });
 
     // Set up canvas
     this.canvas = element.querySelector('.tetris')
-    this.context = this.canvas.getContext('2d')
-    this.context.scale(35, 35);
-    this.context.fillStyle = '#202028'
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    initializeBox(this.canvas, "context", 35)
 
     // Set up held
     this.heldCanvas = element.querySelector('.held')
-    this.heldContext = this.heldCanvas.getContext('2d')
-    this.heldContext.scale(30, 30);
-    this.heldContext.fillStyle = '#202028'
-    this.heldContext.fillRect(0, 0, this.heldCanvas.width, this.heldCanvas.height)
+    initializeBox(this.heldCanvas, "heldContext", 30)
+
 /////////////////////////////
 
     // make arena matrix
@@ -43,13 +42,12 @@ class Tetris {
     this.colors = [
       null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032', 'grey'
     ]
-
+    // ghost colors
     this.ghostColors = [
       null, '#cda5f3', '#fff099', '#ffd199', '#9999ff', '#c2f0f0', '#ccff99', '#e996a6'
     ]
 
     let lastTime = 0
-    // this.garbageTime = 0;
 
     this._update = (time = 0) => {
       const deltaTime = time - lastTime;
@@ -64,6 +62,7 @@ class Tetris {
       requestAnimationFrame(this._update)
     }
 
+    // Set intial score at 0
     this.updateScore(0)
   }
 
@@ -74,6 +73,9 @@ class Tetris {
   drawNextTurn() {
    this.context.fillStyle = '#202028'
    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+   // const img = new Image();
+   // img.src = "https://puyonexus.com/mediawiki/images/9/95/Character_Schezo_PuyoPuyo7_4.png"
+   // this.context.drawImage(img, 0, 0)
 
    this.drawMatrix(this.arena.matrix, {x: 0, y: 0}) // draws previous board
    this.drawMatrix(
@@ -135,7 +137,7 @@ class Tetris {
 
   updateForecast() {
     this.forecastElements.forEach((element, i) => {
-      const currentForeContext = `foreContext${i}`
+      const currentForeContext = `foreContext${i}`;
 
       this[currentForeContext].fillStyle = '#202028';
       this[currentForeContext].fillRect(0, 0, element.width, element.height);
