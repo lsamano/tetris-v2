@@ -41,11 +41,24 @@ const keyListener = event => {
 
 document.addEventListener('keydown', keyListener)
 
+function playMusic() {
+  const sound = document.createElement("audio");
+  sound.src = "audio/awesome-awesome-tetris-remix.mp3";
+  sound.setAttribute("preload", "auto");
+  sound.setAttribute("controls", "none");
+  sound.loop = true;
+  sound.style.display = "none";
+  document.body.appendChild(sound);
+  sound.play();
+}
+
 function startGame(event) {
   startButton.disabled = true
   startButton.classList.remove("hoverable")
   startButton.classList.add("disabled")
   localTetris.run();
+
+  // playMusic();
 }
 
 const startButton = localTetris.element.querySelector(".start-button")
