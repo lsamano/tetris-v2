@@ -100,20 +100,12 @@ class Player {
 
   hardDrop() {
     const originalPosition = this.position.y
-    while (true) {
-      // move this down until collide
-      this.position.y++
-      if (this.arena.collide(this)) {
-        // move back up one, merge with field
-        this.position.y--
-        this.score += (this.position.y - originalPosition)
-        this.events.emit('score', this.score);
-        this.arena.merge(this)
-        this.nextTurn()
-        this.dropCounter = 0
-        break;
-      }
-    }
+    this.position.y = this.tetris.getGhostCoordinate()
+    this.score += (this.position.y - originalPosition)
+    this.events.emit('score', this.score);
+    this.arena.merge(this)
+    this.nextTurn()
+    this.dropCounter = 0
   }
 
   update(deltaTime) {
