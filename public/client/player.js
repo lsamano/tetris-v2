@@ -63,20 +63,11 @@ class Player {
     }
   }
 
-  drop(purposefulDrop) {
-    this.position.y++
-    this.dropCounter = 0
-    if (purposefulDrop) {
-      this.score += 1
-      this.events.emit('score', this.score);
+  update(deltaTime) {
+    this.dropCounter += deltaTime;
+    if (this.dropCounter > this.dropInterval) {
+      this.drop()
     }
-    if (this.arena.collide(this)) {
-      this.position.y--
-      this.arena.merge(this)
-      this.nextTurn()
-      return;
-    }
-    this.events.emit('position', this.position);
   }
 
   hold() {
@@ -98,6 +89,22 @@ class Player {
     }
   }
 
+  drop(purposefulDrop) {
+    this.position.y++
+    this.dropCounter = 0
+    if (purposefulDrop) {
+      this.score += 1
+      this.events.emit('score', this.score);
+    }
+    if (this.arena.collide(this)) {
+      this.position.y--
+      this.arena.merge(this)
+      this.nextTurn()
+      return;
+    }
+    this.events.emit('position', this.position);
+  }
+
   hardDrop() {
     const originalPosition = this.position.y
     this.position.y = this.tetris.getGhostCoordinate()
@@ -108,31 +115,44 @@ class Player {
     this.dropCounter = 0
   }
 
-  update(deltaTime) {
-    this.dropCounter += deltaTime;
-    if (this.dropCounter > this.dropInterval) {
-      this.drop()
+  nextTurn() {
+    // calculate rows cleared
+    const rowsCleared = this.arena.sweep(this);
+
+    // nullify incoming garbage
+    if (rowsCleared > 0) {
+      this.calculateGarbage(rowsCleared);
     }
+
+    // put player back on top with new letter
+    this.reset()
+    this.tetris.updateForecast()
+    this.events.emit('score', this.score);
   }
 
   reset(providedLetter) {
+    // if there is incoming garbage, receive the attack
     if (this.incomingGarbage > 0) {
       this.arena.receiveAttack(this, this.incomingGarbage);
       this.incomingGarbage = 0;
     }
 
     if (!providedLetter) {
+      // if this is a normal turn, get next letter from forecast
       this.letter = this.forecast.shift()
       const newPiece = this.getTetriminoLetter()
       this.forecast.push(newPiece)
     } else {
+      // if this follows a hold, use the former held letter
       this.letter =  providedLetter
     }
+
+    // set player at top with new piece
     this.matrix = this.tetris.getPieceMatrix(this.letter)
     this.position.y = 0
-    // sets at middle and lowers it to fit in this.arena
-    this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)
+    this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)     // sets at middle and lowers it to fit in this.arena
 
+    // if there is collision upon reset, end game
     if (this.arena.collide(this)) return this.gameOver()
 
     this.events.emit('position', this.position);
@@ -184,17 +204,6 @@ class Player {
     } else { // no garbage, immediately send attack
       this.events.emit('garbage', adjustedLines);
     }
-  }
-
-  nextTurn() {
-    const rowsCleared = this.arena.sweep(this);
-    if (rowsCleared > 0) {
-      this.calculateGarbage(rowsCleared);
-    }
-
-    this.reset()
-    this.tetris.updateForecast()
-    this.events.emit('score', this.score);
   }
 
   getInitialForecast() {

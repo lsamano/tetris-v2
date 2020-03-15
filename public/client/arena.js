@@ -24,9 +24,8 @@ class Arena {
       rowCount += 1
     }
     if (rowCount > 0) {
-      player.calculateScore(rowCount - 1)
-      player.calculateSpeed()
-      // player.events.emit('garbage', rowCount);
+      player.calculateScore(rowCount - 1);
+      player.calculateSpeed();
     }
     this.events.emit('matrix', this.matrix);
     return rowCount;
