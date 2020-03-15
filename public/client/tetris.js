@@ -1,7 +1,7 @@
 class Tetris {
   constructor(element) {
     this.element = element
-    this.paused = false
+    this.paused = true
 
     // Initializes canvases as dary grey and scales them
     const initializeBox = (element, contextString, scaleAmount) => {

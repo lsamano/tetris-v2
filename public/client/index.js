@@ -56,8 +56,9 @@ function startGame(event) {
   startButton.disabled = true
   startButton.classList.remove("hoverable")
   startButton.classList.add("disabled")
-  localTetris.run();
 
+  localTetris.paused = false;
+  localTetris.run();
   // playMusic();
 }
 
