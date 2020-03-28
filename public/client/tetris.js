@@ -73,9 +73,6 @@ class Tetris {
   drawNextTurn() {
    this.context.fillStyle = '#202028'
    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
-   // const img = new Image();
-   // img.src = "https://puyonexus.com/mediawiki/images/9/95/Character_Schezo_PuyoPuyo7_4.png"
-   // this.context.drawImage(img, 0, 0)
 
    this.drawMatrix(this.arena.matrix, {x: 0, y: 0}) // draws previous board
    this.drawMatrix(
@@ -255,5 +252,4 @@ class Tetris {
     this.paused = !this.paused;
     this.run();
   }
-  // End of Tetris Class
 }
