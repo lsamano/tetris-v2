@@ -1,4 +1,4 @@
-# Tetris V.2
+# Tetris v2
 This is a Javascript Tetris game.
 
 # Setup
