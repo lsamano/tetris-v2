@@ -1,4 +1,4 @@
-# Puyo Puyo Tetris II
+# Tetris V.2
 This is a Javascript Tetris game.
 
 # Setup
