@@ -2,7 +2,9 @@
 This is a Javascript Tetris game.
 
 # Setup
-In the project directory, run `npm install` and `npm start`. Go to `localhost:9000` in your browser to start playing immediately.
+In the project directory, run `npm install` and `npm start`. 
+
+Go to `localhost:9000` in your browser and press space to start playing immediately.
 
 # Goal of the Game
 Drop pieces to the bottom of the screen. When you fill up an entire row, they will clear and earn you points.
