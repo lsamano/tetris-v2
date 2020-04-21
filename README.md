@@ -53,6 +53,7 @@ Note: You can only hold once per turn.
 # Latest Updates
 - Ability to start the game at will
 - Made player unable to rotate on key repeat
+- Better Game Over mechanics
 
 # Faithful Recreation
 - Colors reflect actual Tetris pieces used in-game
@@ -61,7 +62,6 @@ Note: You can only hold once per turn.
 
 # Upcoming Features
 - Implementing SRS (for advanced spins and wall kicks)
-- Better Game Over mechanics
 - Improved graphics (from Puyo Puyo Tetris)
 - Ability to play using https
 
