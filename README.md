@@ -62,13 +62,14 @@ Note: You can only hold once per turn.
 
 # Upcoming Features
 - Implementing SRS (for advanced spins and wall kicks)
-- Improved graphics (from Puyo Puyo Tetris)
+- Improved graphics
 - Ability to play using https
 
 # Known Bugs/Issues
-- Joining a session of a player who hasn't started their game yet reveals to you what their first piece and forecast is, even though those shouldn't show up right away.
+- Joining a session of a player who hasn't started their game yet reveals to you what their first piece and forecast is, even though those shouldn't show up right away
 - Add WebSocket ability to run on https
 - Stacked garbage lines >4 all have the same hole, which doesn't reflect the real game well
 
-Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA
-Edits, improvements, and additional features added by me.
+# Sources
+Project started using this tutorial: https://youtu.be/H2aW5V46khA
+All improvements, and additional features added by me.
