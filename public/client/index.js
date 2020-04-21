@@ -11,35 +11,46 @@ localTetris.element.classList.add('local');
 const connectionManager = new ConnectionManager(tetrisManager);
 connectionManager.connect(`ws://${window.location.hostname}:${window.location.port}`);
 
-const keyListener = event => {
-  if (event.keyCode === 32) { // Space
-    return localTetris.togglePaused()
-  }
+const repetitiveKeyListener = event => {
   if (localTetris.paused === false) {
     const player = localTetris.player
-    if (event.keyCode === 68) { // D
-      player.hold()
-    } else if (event.keyCode === 38) { // Up
+    if (event.code === "ArrowUp") { // Up
       player.hardDrop()
-    } else if (event.keyCode === 37) { // Left
+    } else if (event.code === "ArrowLeft") { // Left
       player.move(-1)
-    } else if (event.keyCode === 39) { // Right
+    } else if (event.code === "ArrowRight") { // Right
       player.move(1)
-    } else if (event.keyCode === 40) { // Down
+    } else if (event.code === "ArrowDown") { // Down
       player.drop(true)
-    } else if (event.keyCode === 81) { // Q
+    }
+  }
+}
+
+const singleKeyListener = event => {
+  if (event.repeat) return;
+
+  if (event.code === "Space") { // Pause game
+    return localTetris.togglePaused()
+  }
+
+  if (localTetris.paused === false) {
+    const player = localTetris.player
+    if (event.code === "KeyD") { // D
+      player.hold()
+    } else if (event.code === "KeyQ") { // rotate left, (ccw)
       player.rotate(-1)
-    } else if (event.keyCode === 87) { // W
+    } else if (event.code === "KeyW") { // rotate right (cw)
       player.rotate(1)
-    } else if (event.keyCode === 71) { // G
+    } else if (event.code === "KeyG") {
       player.arena.receiveAttack(player, 4)
-    } else if (event.keyCode === 72) { // G
+    } else if (event.code === "KeyH") {
       player.arena.receiveAttack(player, 2)
     }
   }
 }
 
-document.addEventListener('keydown', keyListener)
+document.addEventListener('keydown', repetitiveKeyListener)
+document.addEventListener('keydown', singleKeyListener)
 
 function playMusic() {
   const sound = document.createElement("audio");

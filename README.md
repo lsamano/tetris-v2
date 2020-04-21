@@ -41,15 +41,19 @@ Note: You can only hold once per turn.
 - Ability to play with other people via WebSockets
 - Ability to attack opponent player (called garbage lines)
 - Ability to nullify garbage lines
+
+# Latest Updates
 - Ability to start the game at will
+- Made player unable to rotate on key repeat
 
 # Upcoming Features
 - Implementing SRS (for advanced spins and wall kicks)
-- Better game over mechanics
+- Better Game Over mechanics
 - Improved graphics (from Puyo Puyo Tetris)
 
 # Known Bugs/Issues
 - Stacked garbage lines >4 all come with the same hole
+- Add WebSocket ability to run on https
 
 Bootstrapped using this tutorial: https://youtu.be/H2aW5V46khA
 Edits, improvements, and additional features added by me.
