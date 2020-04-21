@@ -80,10 +80,11 @@ class Player {
         this.tetris.updateHeld() // update the savedLetter canvas
         this.reset(this.letter) // use saved piece
       } else {
-        // OR save piece to box
-        this.heldLetter = this.letter
-        this.tetris.updateHeld() // update the savedLetter canvas
         this.reset() // move onto next piece
+        // save new piece to box
+        this.heldLetter = this.letter
+        // update the savedLetter canvas
+        this.tetris.updateHeld()
         this.tetris.updateForecast()
       }
     }
@@ -132,9 +133,11 @@ class Player {
 
   reset(providedLetter) {
     // if there is incoming garbage, receive the attack
-    if (this.incomingGarbage > 0) {
-      this.arena.receiveAttack(this, this.incomingGarbage);
-      this.incomingGarbage = 0;
+    if (!providedLetter && this.incomingGarbage > 0) {
+      if (this.heldLetter) {
+        this.arena.receiveAttack(this, this.incomingGarbage);
+        this.incomingGarbage = 0;
+      }
     }
 
     if (!providedLetter) {
