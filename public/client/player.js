@@ -78,9 +78,9 @@ class Player {
         // grab saved letter and switch
         [this.heldLetter, this.letter] = [this.letter, this.heldLetter]
         this.tetris.updateHeld() // update the savedLetter canvas
-        this.reset(this.letter) // use saved piece
+        this.reset(this.letter, true) // use saved piece
       } else {
-        this.reset() // move onto next piece
+        this.reset(null, true) // move onto next piece
         // save new piece to box
         this.heldLetter = this.letter
         // update the savedLetter canvas
@@ -131,13 +131,11 @@ class Player {
     this.events.emit('score', this.score);
   }
 
-  reset(providedLetter) {
+  reset(providedLetter, fromHold) {
     // if there is incoming garbage, receive the attack
-    if (!providedLetter && this.incomingGarbage > 0) {
-      if (this.heldLetter) {
-        this.arena.receiveAttack(this, this.incomingGarbage);
-        this.incomingGarbage = 0;
-      }
+    if (!fromHold && this.incomingGarbage > 0) {
+      this.arena.receiveAttack(this, this.incomingGarbage);
+      this.incomingGarbage = 0;
     }
 
     if (!providedLetter) {
