@@ -2,6 +2,7 @@ class Tetris {
   constructor(element) {
     this.element = element
     this.paused = true
+    this.gameEnded = false
 
     // Initializes canvases as dary grey and scales them
     const initializeBox = (element, contextString, scaleAmount) => {
@@ -249,7 +250,9 @@ class Tetris {
   }
 
   togglePaused() {
-    this.paused = !this.paused;
-    this.run();
+    if (!this.gameEnded) {
+      this.paused = !this.paused;
+      this.run();
+    }
   }
 }

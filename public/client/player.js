@@ -153,8 +153,12 @@ class Player {
     this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)     // sets at middle and lowers it to fit in this.arena
 
     // if there is collision upon reset, end game
-    if (this.arena.collide(this)) return this.gameOver()
-
+    if (this.arena.collide(this)) {
+      // merges final piece onto arena
+      this.matrix.shift()
+      this.arena.merge(this)
+      this.gameOver()
+    }
     this.events.emit('position', this.position);
     this.events.emit('matrix', this.matrix);
     this.events.emit('heldLetter', this.heldLetter);
@@ -162,9 +166,9 @@ class Player {
   }
 
   gameOver() {
-    this.arena.clear()
-    this.score = 0
-    this.events.emit('score', this.score);
+    // pauses game and ends it
+    this.tetris.paused = true
+    this.tetris.gameEnded = true
   }
 
   getTetriminoLetter() {
