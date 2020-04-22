@@ -80,12 +80,12 @@ class Player {
         this.tetris.updateHeld() // update the savedLetter canvas
         this.reset(this.letter, true) // use saved piece
       } else {
-        this.reset(null, true) // move onto next piece
         // save new piece to box
         this.heldLetter = this.letter
         // update the savedLetter canvas
         this.tetris.updateHeld()
         this.tetris.updateForecast()
+        this.reset(null, true) // move onto next piece
       }
     }
   }
