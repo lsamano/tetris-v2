@@ -32,13 +32,16 @@ class Arena {
   }
 
   receiveAttack(player, rowCount) {
+    // randomly decide placement of hole in line
     const newLine = player.shuffle([0, 8, 8, 8, 8, 8, 8, 8, 8, 8])
-    this.matrix.splice(0, rowCount)
 
-    let times = rowCount;
-    for(let i = 0; i < times; i++){
+    // remove x top rows of matrix
+    this.matrix.splice(0, rowCount)
+    // repopulate the matrix from the bottom
+    for (let i = 0; i < rowCount; i++) {
         this.matrix.push([...newLine]);
     }
+
     this.events.emit('matrix', this.matrix);
   }
 
