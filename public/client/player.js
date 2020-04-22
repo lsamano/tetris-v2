@@ -191,7 +191,7 @@ class Player {
       this.dropInterval = 1000
     } else if (this.score < 3000) {
       this.dropInterval = 750
-    } else { // if score >= 500
+    } else { // if score >= 3000
       this.dropInterval = 500
     }
   }
