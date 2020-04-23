@@ -108,7 +108,7 @@ class ConnectionManager {
   }
 
   updateSelf(rowCount) {
-    localTetris.player.incomingGarbage += rowCount;
+    localTetris.player.incomingGarbage.push(rowCount);
     // TODO: visualize rows in pillar
     // TODO: emit event for opponent to see
   }
