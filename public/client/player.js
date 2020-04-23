@@ -13,7 +13,7 @@ class Player {
     this.score = 0
     this.dropInterval = 1000
     this.dropCounter = 0
-    this.incomingGarbage = 0;
+    this.incomingGarbage = [];
     this.forecast = this.getInitialForecast();
 
     this.reset();
@@ -133,9 +133,9 @@ class Player {
 
   reset(providedLetter, fromHold) {
     // if there is incoming garbage, receive the attack
-    if (!fromHold && this.incomingGarbage > 0) {
+    if (!fromHold && this.incomingGarbage.length > 0) {
       this.arena.receiveAttack(this, this.incomingGarbage);
-      this.incomingGarbage = 0;
+      this.incomingGarbage = [];
     }
 
     if (!providedLetter) {
@@ -196,16 +196,29 @@ class Player {
     }
   }
 
+  removeGarbage(attackAmount) {
+    // grab oldest incomingGarbage and subtract our leftover/rowsCleared
+    const leftoverAttackLines = attackAmount - this.incomingGarbage[0];
+
+    // if we ran out of leftover/rowsCleared, set oldestGarb to new number remainder
+    if (leftoverAttackLines <= 0) {
+      this.incomingGarbage[0] = -leftoverAttackLines
+      return;
+    } else if (this.incomingGarbage.length > 0) {
+      // if there is still more garbage (and consequently we still have more leftover),
+      // shift the incomingGarbage and run this function again
+      this.incomingGarbage.shift()
+      return this.removeGarbage(leftoverAttackLines)
+    } else {
+      // else (no garb and we have leftover) return the remainder as an attack
+      return this.events.emit('garbage', attackAmount);
+    }
+  }
+
   calculateGarbage(rowsCleared) {
     const adjustedLines = rowsCleared < 4 ? rowsCleared - 1 : rowsCleared;
-    if (this.incomingGarbage > 0) { // if garbage
-      const leftover = adjustedLines - this.incomingGarbage;
-      if (leftover > 0) { // if cleared > garbage
-        this.incomingGarbage = 0;
-        this.events.emit('garbage', leftover);
-      } else { // didn't block enough
-        this.incomingGarbage = -leftover;
-      }
+    if (this.incomingGarbage.length > 0) { // if garbage
+      this.removeGarbage(adjustedLines) // recursively remove garbage
     } else { // no garbage, immediately send attack
       this.events.emit('garbage', adjustedLines);
     }
