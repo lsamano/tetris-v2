@@ -27,6 +27,10 @@ class Tetris {
     this.heldCanvas = element.querySelector('.held')
     initializeBox(this.heldCanvas, "heldContext", 30)
 
+    // Set up garbage bar
+    this.garbageCanvas = element.querySelector('.garbage')
+    initializeBox(this.garbageCanvas, "garbageContext", 30)
+
 /////////////////////////////
 
     // make arena matrix
