@@ -4,9 +4,6 @@ const localTetris = tetrisManager.createPlayer();
 // Adds white box around your Tetris game
 localTetris.element.classList.add('local');
 
-// Starts your game
-// localTetris.run();
-
 // Connect to server
 const connectionManager = new ConnectionManager(tetrisManager);
 connectionManager.connect(`ws://${window.location.hostname}:${window.location.port}`);
@@ -29,8 +26,12 @@ const repetitiveKeyListener = event => {
 const singleKeyListener = event => {
   if (event.repeat) return;
 
-  if (event.code === "Space") { // Pause game
-    return localTetris.togglePaused()
+  if (event.code === "Space") { // Pause or start game
+    if (startButton.disabled === true) {
+      return localTetris.togglePaused();
+    } else {
+      return startGame();
+    }
   }
 
   if (localTetris.paused === false) {
