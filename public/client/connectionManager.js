@@ -16,7 +16,7 @@ class ConnectionManager {
     });
 
     this.conn.addEventListener('message', event => {
-      console.log('Received message,', event.data);
+      // console.log('Received message,', event.data);
       this.receive(event.data);
     })
   }
@@ -94,7 +94,7 @@ class ConnectionManager {
 
   updatePeer(id, fragment, [prop, value]) {
     if (!this.peers.has(id)) {
-      console.log(id);
+      // console.log(id);
       throw new Error('Client does not exist', id);
     }
     const tetris = this.peers.get(id);
@@ -110,6 +110,8 @@ class ConnectionManager {
   updateSelf(rowCount) {
     localTetris.player.incomingGarbage.push(rowCount);
     // TODO: visualize rows in pillar
+
+
     // TODO: emit event for opponent to see
   }
 
@@ -128,7 +130,7 @@ class ConnectionManager {
 
   send(data) {
     const message = JSON.stringify(data);
-    console.log(`Sending message ${message}`);
+    // console.log(`Sending message ${message}`);
     this.conn.send(message);
   }
 }
