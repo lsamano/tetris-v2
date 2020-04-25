@@ -138,24 +138,26 @@ class Tetris {
   }
 
   updateForecast() {
-    this.forecastElements.forEach((element, i) => {
-      const currentForeContext = `foreContext${i}`;
-
-      this[currentForeContext].fillStyle = '#202028';
-      this[currentForeContext].fillRect(0, 0, element.width, element.height);
-      const pieceMatrix = this.getPieceMatrix(this.player.forecast[i]);
-      this.drawSideBox(pieceMatrix, this[currentForeContext]);
-    })
+    // have forecase boxes display pieces
+    this.forecastElements.forEach(this.updateSideBox)
   }
 
   updateHeld() {
     // have box display piece
     if (this.player.heldLetter) {
-      this.heldContext.fillStyle = '#202028'
-      this.heldContext.fillRect(0, 0, this.heldCanvas.width, this.heldCanvas.height)
-      const pieceMatrix = this.getPieceMatrix(this.player.heldLetter)
-      this.drawSideBox(pieceMatrix, this.heldContext);
+      this.updateSideBox(this.heldCanvas)
     }
+  }
+
+  updateSideBox = (element, i) => {
+    const context = i !== undefined ? `foreContext${i}` : "heldContext";
+    const letter = i !== undefined ? this.player.forecast[i] : this.player.heldLetter;
+
+    this[context].fillStyle = '#202028';
+    this[context].fillRect(0, 0, element.width, element.height);
+    const pieceMatrix = this.getPieceMatrix(letter);
+
+    this.drawSideBox(pieceMatrix, this[context]);
   }
 
   drawSideBox(matrix, providedContext) {
