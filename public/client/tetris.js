@@ -29,7 +29,7 @@ class Tetris {
 
     // Set up garbage bar
     this.garbageCanvas = element.querySelector('.garbage')
-    initializeBox(this.garbageCanvas, "garbageContext", 30)
+    initializeBox(this.garbageCanvas, "garbageContext", 35)
 
 /////////////////////////////
 
