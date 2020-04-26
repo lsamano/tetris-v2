@@ -49,11 +49,13 @@ Note: You can only hold once per turn.
 - Ability to play with other people via WebSockets
 - Ability to attack opponent player (called garbage lines)
 - Ability to nullify garbage lines
-
-# Latest Updates
 - Ability to start the game at will
 - Made player unable to rotate on key repeat
+
+# Latest Updates
 - Better Game Over mechanics
+- Player can see incoming attacks via indicator
+- Player can see opponents' indicators as well
 
 # Faithful Recreation
 - Colors reflect actual Tetris pieces used in-game
@@ -67,7 +69,7 @@ Note: You can only hold once per turn.
 
 # Known Bugs/Issues
 - Joining a session of a player who hasn't started their game yet reveals to you what their first piece and forecast is, even though those shouldn't show up right away
-- Add WebSocket ability to run on https
+- "I" piece does start at the very top
 
 # Sources
 Project started using this tutorial: https://youtu.be/H2aW5V46khA
