@@ -152,7 +152,7 @@ class Player {
     // set player at top with new piece
     this.matrix = this.tetris.getPieceMatrix(this.letter)
     this.position.y = 0
-    this.position.x = (this.arena.matrix[0].length / 2 | 0) - (this.matrix[0].length / 2 | 0)     // sets at middle and lowers it to fit in this.arena
+    this.position.x = (this.arena.matrix[0].length / 2 | 0) - Math.ceil(this.matrix[0].length / 2)     // sets at middle and lowers it to fit in this.arena
 
     // if there is collision upon reset, end game
     if (this.arena.collide(this)) {

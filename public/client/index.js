@@ -43,6 +43,7 @@ const singleKeyListener = event => {
     } else if (event.code === "KeyW") { // rotate right (cw)
       player.rotate(1)
     }
+
   }
 }
 
@@ -61,12 +62,7 @@ function playMusic() {
 }
 
 function startGame(event) {
-  startButton.disabled = true
-  startButton.classList.remove("hoverable")
-  startButton.classList.add("disabled")
-
-  localTetris.paused = false;
-  localTetris.run();
+  localTetris.startGame();
   // playMusic();
 }
 
