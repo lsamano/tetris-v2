@@ -170,8 +170,10 @@ class Tetris {
 
   receiveIncomingAttack(rowCount) {
     this.player.incomingGarbage.push(rowCount);
-    // TODO: visualize rows in pillar
-    this.drawSideBox([[1],[1],[1],[2],[2],[2],[3],[3],[3],[4],[4],[4],[5],[5],[5],[6],[6],[6],[1],[1] ], this.garbageContext)
+    // visualize rows in garbage indicator pillar
+    const totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num)
+    const newIndicatorArray = Array(20).fill([0]).fill([8], 20 - totalGarbage)
+    this.drawSideBox(newIndicatorArray, this.garbageContext)
 
     // TODO: emit event for opponent to see
   }
