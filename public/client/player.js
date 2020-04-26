@@ -135,6 +135,7 @@ class Player {
     // if there is incoming garbage, receive the attack
     if (!fromHold && this.incomingGarbage.length > 0) {
       this.arena.receiveAttack(this, this.incomingGarbage);
+      this.tetris.clearCanvas(this.tetris.garbageCanvas, this.tetris.garbageContext)
       this.incomingGarbage = [];
     }
 

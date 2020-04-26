@@ -168,6 +168,14 @@ class Tetris {
     });
   }
 
+  receiveIncomingAttack(rowCount) {
+    this.player.incomingGarbage.push(rowCount);
+    // TODO: visualize rows in pillar
+    this.drawSideBox([[1],[1],[1],[2],[2],[2],[3],[3],[3],[4],[4],[4],[5],[5],[5],[6],[6],[6],[1],[1] ], this.garbageContext)
+
+    // TODO: emit event for opponent to see
+  }
+
   clearCanvas(element, context) {
     context.fillStyle = '#202028';
     context.fillRect(0, 0, element.width, element.height);
