@@ -68,8 +68,7 @@ Note: You can only hold once per turn.
 - Ability to play using https
 
 # Known Bugs/Issues
-- Joining a session of a player who hasn't started their game yet reveals to you what their first piece and forecast is, even though those shouldn't show up right away
-- "I" piece does start at the very top
+- "I" piece doesn't start at the very top
 
 # Sources
 Project started using this tutorial: https://youtu.be/H2aW5V46khA
