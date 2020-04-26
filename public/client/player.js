@@ -165,6 +165,7 @@ class Player {
     this.events.emit('matrix', this.matrix);
     this.events.emit('heldLetter', this.heldLetter);
     this.events.emit('forecast', this.forecast);
+    this.events.emit('incomingGarbage', this.incomingGarbage);
   }
 
   gameOver() {
@@ -214,6 +215,7 @@ class Player {
       // else (no garb and we have leftover) return the remainder as an attack
       return this.events.emit('garbage', attackAmount);
     }
+    this.events.emit('incomingGarbage', this.incomingGarbage)
   }
 
   calculateGarbage(rowsCleared) {

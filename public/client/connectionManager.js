@@ -41,7 +41,9 @@ class ConnectionManager {
   watchEvents() {
     const local = this.localTetris;
     const player = local.player;
-    ['position', 'matrix', 'score', 'heldLetter', 'forecast'].forEach(prop => {
+
+    const propsArray = ['position', 'matrix', 'score', 'heldLetter', 'forecast', 'incomingGarbage']
+    propsArray.forEach(prop => {
       player.events.listen(prop, value => {
         this.send({
           type: 'state-update',
@@ -50,6 +52,7 @@ class ConnectionManager {
         })
       })
     })
+
     player.events.listen('garbage', value => {
       this.send({
         type: 'update-my-state',
@@ -102,7 +105,10 @@ class ConnectionManager {
 
     if (prop === 'score') {
       tetris.updateScore(value);
-    } else {
+    } else if (prop === 'incomingGarbage') {
+      tetris.updateIndicator();
+    }
+    else {
       tetris.drawNextTurn();
     }
   }

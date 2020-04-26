@@ -147,6 +147,13 @@ class Tetris {
     }
   }
 
+  updateIndicator() {
+    this.clearCanvas(this.garbageCanvas, this.garbageContext)
+    const totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
+    const newIndicatorArray = Array(20).fill([0]).fill([8], 20 - totalGarbage)
+    this.drawSideBox(newIndicatorArray, this.garbageContext)
+  }
+
   updateSideBox = (element, i) => {
     const context = i !== undefined ? `foreContext${i}` : "heldContext";
     const letter = i !== undefined ? this.player.forecast[i] : this.player.heldLetter;
@@ -170,12 +177,12 @@ class Tetris {
 
   receiveIncomingAttack(rowCount) {
     this.player.incomingGarbage.push(rowCount);
+    
     // visualize rows in garbage indicator pillar
-    const totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num)
-    const newIndicatorArray = Array(20).fill([0]).fill([8], 20 - totalGarbage)
-    this.drawSideBox(newIndicatorArray, this.garbageContext)
+    this.updateIndicator();
 
-    // TODO: emit event for opponent to see
+    // emit event for opponent to see
+    this.player.events.emit('incomingGarbage', this.player.incomingGarbage)
   }
 
   clearCanvas(element, context) {
@@ -247,7 +254,8 @@ class Tetris {
               position: this.player.position,
               score: this.player.score,
               heldLetter: this.player.heldLetter,
-              forecast: this.player.forecast
+              forecast: this.player.forecast,
+              incomingGarbage: this.player.incomingGarbage
           },
       };
   }
