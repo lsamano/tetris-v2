@@ -33,7 +33,7 @@ class Tetris {
 /////////////////////////////
 
     // make arena matrix
-    this.arena = new Arena(10, 20);
+    this.arena = new Arena(10, 21);
 
     // make default player
     this.player = new Player(this);
@@ -44,7 +44,7 @@ class Tetris {
 
     // colors array for obtaining tetris piece colors
     this.colors = [
-      null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032', 'grey'
+      null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032', 'grey', '#382c2f'
     ]
     // ghost colors
     this.ghostColors = [
@@ -77,6 +77,7 @@ class Tetris {
   drawNextTurn() {
     this.clearCanvas(this.canvas, this.context)
 
+    this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], {x: 0, y: 0})
    this.drawMatrix(this.arena.matrix, {x: 0, y: 0}) // draws previous board
    this.drawMatrix(
      this.player.matrix,
@@ -150,7 +151,7 @@ class Tetris {
   updateIndicator() {
     this.clearCanvas(this.garbageCanvas, this.garbageContext)
     const totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
-    const newIndicatorArray = Array(20).fill([0]).fill([8], 20 - totalGarbage)
+    const newIndicatorArray = Array(21).fill([0]).fill([8], 21 - totalGarbage)
     this.drawSideBox(newIndicatorArray, this.garbageContext)
   }
 
