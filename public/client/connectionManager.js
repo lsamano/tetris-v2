@@ -77,7 +77,8 @@ class ConnectionManager {
     const clients = peers.clients.filter(client => myId !== client.id);
     clients.forEach(client => {
       if (!this.peers.has(client.id)) {
-        const tetris = this.tetrisManager.createPlayer();
+        const tetris = this.tetrisManager.createPlayer(true);
+
         this.peers.set(client.id, tetris);
         tetris.unserialize(client.state);
       }

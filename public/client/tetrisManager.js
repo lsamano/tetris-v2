@@ -5,11 +5,16 @@ class TetrisManager {
     this.instances = new Set;
   }
 
-  createPlayer() {
+  createPlayer(opponent) {
     const element = this.document.importNode(this.template.content, true).children[0];
     const tetris = new Tetris(element);
     this.instances.add(tetris);
 
+    if (opponent) {
+      const startButton = element.querySelector(".start-button")
+      startButton.remove()
+    }
+    
     this.document.body.appendChild(tetris.element);
     return tetris;
   }
