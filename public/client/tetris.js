@@ -2,7 +2,7 @@ class Tetris {
   constructor(element) {
     this.element = element
     this.paused = true
-    this.gameEnded = false
+    this.gameOn = false
 
     // Initializes context, scales it, and sets it as dary grey
     const initializeBox = (element, contextString, scaleAmount) => {
@@ -245,7 +245,8 @@ class Tetris {
               score: this.player.score,
               heldLetter: this.player.heldLetter,
               forecast: this.player.forecast,
-              incomingGarbage: this.player.incomingGarbage
+              incomingGarbage: this.player.incomingGarbage,
+              gameOn: this.gameOn
           },
       };
   }
@@ -255,7 +256,10 @@ class Tetris {
     this.arena = Object.assign(state.arena);
     this.player = Object.assign(state.player);
     this.updateScore(this.player.score);
-    this.drawNextTurn();
+    if (state.player.gameOn) {
+      this.drawNextTurn();
+      this.updateIndicator();
+    }
   }
 
   updateScore(newScore) {
@@ -266,9 +270,22 @@ class Tetris {
   }
 
   togglePaused() {
-    if (!this.gameEnded) {
+    if (this.gameOn) {
       this.paused = !this.paused;
       this.run();
     }
   }
+
+  startGame() {
+    const startButton = this.element.querySelector(".start-button")
+    startButton.disabled = true
+    startButton.classList.remove("hoverable")
+    startButton.classList.add("disabled")
+
+    this.paused = false;
+    this.gameOn = true;
+    this.player.events.emit('gameOn', true);
+    this.run();
+  }
+
 }

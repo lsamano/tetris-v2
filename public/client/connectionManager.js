@@ -42,7 +42,10 @@ class ConnectionManager {
     const local = this.localTetris;
     const player = local.player;
 
-    const propsArray = ['position', 'matrix', 'score', 'heldLetter', 'forecast', 'incomingGarbage']
+    const propsArray = [
+      'position', 'matrix', 'score',
+      'heldLetter', 'forecast', 'incomingGarbage', 'gameOn'
+    ]
     propsArray.forEach(prop => {
       player.events.listen(prop, value => {
         this.send({
@@ -90,6 +93,7 @@ class ConnectionManager {
         this.peers.delete(id);
       }
     });
+
     const sorted = peers.clients.map(client => {
       return this.peers.get(client.id) || this.localTetris
     })
@@ -101,16 +105,16 @@ class ConnectionManager {
       // console.log(id);
       throw new Error('Client does not exist', id);
     }
-    const tetris = this.peers.get(id);
-    tetris[fragment][prop] = value;
+    const theirTetris = this.peers.get(id);
+    theirTetris[fragment][prop] = value;
 
     if (prop === 'score') {
-      tetris.updateScore(value);
+      theirTetris.updateScore(value);
     } else if (prop === 'incomingGarbage') {
-      tetris.updateIndicator();
+      theirTetris.updateIndicator();
     }
     else {
-      tetris.drawNextTurn();
+      theirTetris.drawNextTurn();
     }
   }
 

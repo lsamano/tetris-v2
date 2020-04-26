@@ -171,7 +171,7 @@ class Player {
   gameOver() {
     // pauses game and ends it
     this.tetris.paused = true
-    this.tetris.gameEnded = true
+    this.tetris.gameOn = false
   }
 
   getTetriminoLetter() {
