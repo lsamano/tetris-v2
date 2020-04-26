@@ -4,12 +4,11 @@ class Tetris {
     this.paused = true
     this.gameEnded = false
 
-    // Initializes canvases as dary grey and scales them
+    // Initializes context, scales it, and sets it as dary grey
     const initializeBox = (element, contextString, scaleAmount) => {
       this[contextString] = element.getContext('2d')
       this[contextString].scale(scaleAmount, scaleAmount);
-      this[contextString].fillStyle = '#202028'
-      this[contextString].fillRect(0, 0, element.width, element.height)
+      this.clearCanvas(element, this[contextString])
     }
 
     // Set up forecast
@@ -76,8 +75,7 @@ class Tetris {
   }
 
   drawNextTurn() {
-   this.context.fillStyle = '#202028'
-   this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    this.clearCanvas(this.canvas, this.context)
 
    this.drawMatrix(this.arena.matrix, {x: 0, y: 0}) // draws previous board
    this.drawMatrix(
@@ -153,8 +151,7 @@ class Tetris {
     const context = i !== undefined ? `foreContext${i}` : "heldContext";
     const letter = i !== undefined ? this.player.forecast[i] : this.player.heldLetter;
 
-    this[context].fillStyle = '#202028';
-    this[context].fillRect(0, 0, element.width, element.height);
+    this.clearCanvas(element, this[context])
     const pieceMatrix = this.getPieceMatrix(letter);
 
     this.drawSideBox(pieceMatrix, this[context]);
@@ -169,6 +166,11 @@ class Tetris {
         }
       });
     });
+  }
+
+  clearCanvas(element, context) {
+    context.fillStyle = '#202028';
+    context.fillRect(0, 0, element.width, element.height);
   }
 
   getPieceMatrix(type) {
