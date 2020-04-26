@@ -71,8 +71,6 @@ class Arena {
         }
       });
     });
-    // if merged, set ability to switch back to true
-    player.canHold = true;
     this.events.emit('matrix', this.matrix);
   }
 

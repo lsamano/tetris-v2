@@ -117,6 +117,11 @@ class Player {
   }
 
   nextTurn() {
+    // Allow holding again
+    if (!this.canHold) {
+      this.canHold = true;
+    }
+
     // calculate rows cleared
     const rowsCleared = this.arena.sweep(this);
 
