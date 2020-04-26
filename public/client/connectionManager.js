@@ -115,7 +115,7 @@ class ConnectionManager {
   }
 
   updateSelf(rowCount) {
-    this.localTetris.receiveIncomingAttack(rowCount);
+    this.localTetris.player.receiveIncomingAttack(rowCount);
   }
 
   receive(message) {

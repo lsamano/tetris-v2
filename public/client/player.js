@@ -227,6 +227,16 @@ class Player {
     }
   }
 
+  receiveIncomingAttack(rowCount) {
+    this.incomingGarbage.push(rowCount);
+
+    // visualize rows in garbage indicator pillar
+    this.tetris.updateIndicator();
+
+    // emit event for opponent to see
+    this.events.emit('incomingGarbage', this.incomingGarbage)
+  }
+
   getInitialForecast() {
     return this.shuffle(['I', 'L', 'J', 'O', 'S', 'T', 'Z'])
   }

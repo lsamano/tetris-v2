@@ -175,16 +175,6 @@ class Tetris {
     });
   }
 
-  receiveIncomingAttack(rowCount) {
-    this.player.incomingGarbage.push(rowCount);
-    
-    // visualize rows in garbage indicator pillar
-    this.updateIndicator();
-
-    // emit event for opponent to see
-    this.player.events.emit('incomingGarbage', this.player.incomingGarbage)
-  }
-
   clearCanvas(element, context) {
     context.fillStyle = '#202028';
     context.fillRect(0, 0, element.width, element.height);
