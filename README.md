@@ -68,7 +68,7 @@ Note: You can only hold once per turn.
 - Ability to play using https
 
 # Known Bugs/Issues
-- "I" piece doesn't start at the very top
+- None
 
 # Sources
 Project started using this tutorial: https://youtu.be/H2aW5V46khA
