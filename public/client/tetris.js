@@ -43,7 +43,7 @@ class Tetris {
 
     // colors array for obtaining tetris piece colors
     this.colors = [
-      null, 'blueviolet', 'gold', 'darkorange', 'blue', 'cyan', 'chartreuse', '#FF0032', 'grey', '#382c2f'
+      null, 'blueviolet', 'gold', 'darkorange', 'blue', '#20dfdf', '#80e619', '#FF0032', 'grey', '#382c2f'
     ]
     // ghost colors
     this.ghostColors = [
@@ -92,14 +92,30 @@ class Tetris {
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
-          this.context.fillStyle = ghost ? this.ghostColors[value]: this.colors[value]
-          this.context.fillRect(
-            (x + offset.x)*35,
-            (y + offset.y)*35,
-            35, 35)
+          const colorCode = ghost ? this.ghostColors[value] : this.colors[value]
+          const adj_x = (x + offset.x)*35
+          const adj_y = (y + offset.y)*35
+          this.applyGradients(this.context, colorCode, adj_x, adj_y, 35)
         }
       });
     });
+  }
+
+  applyGradients(context, colorCode, adj_x, adj_y, size) {
+    this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size) // base
+    this.addOneGradient(context, "#e6e6e600", "#D178784D", adj_x, adj_y, size) // shadow
+    this.addOneGradient(context, colorCode, "#e6e6e6", adj_x, adj_y, size, 3, 1.25) // inner bevel
+  }
+
+  addOneGradient(context, color1, color2, x, y, size, nudge = 0, multiplier = 1) {
+    const gradient = context.createLinearGradient(x, y, x+30*multiplier, y+30*multiplier);
+    gradient.addColorStop(0, color1);
+    gradient.addColorStop(1, color2);
+    context.fillStyle = gradient;
+    context.fillRect(
+      x+nudge,
+      y+nudge,
+      size-nudge*2, size-nudge*2);
   }
 
   ghostCollide(arena, player) {
@@ -168,8 +184,8 @@ class Tetris {
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
-          providedContext.fillStyle = this.colors[value];
-          providedContext.fillRect(x*scale, y*scale, scale, scale)
+          const colorCode = this.colors[value];
+          this.applyGradients(providedContext, colorCode, x*scale, y*scale, scale)
         }
       });
     });
