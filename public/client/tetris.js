@@ -4,10 +4,9 @@ class Tetris {
     this.paused = true
     this.gameOn = false
 
-    // Initializes context, scales it, and sets it as dary grey
-    const initializeBox = (element, contextString, scaleAmount) => {
+    // Initializes context, and sets it as dary grey
+    const initializeBox = (element, contextString) => {
       this[contextString] = element.getContext('2d')
-      this[contextString].scale(scaleAmount, scaleAmount);
       this.clearCanvas(element, this[contextString])
     }
 
@@ -15,20 +14,20 @@ class Tetris {
     this.forecastElements = element.querySelectorAll('.forecast');
     this.forecastElements.forEach((element, i) => {
       const currentForeContext = `foreContext${i}`
-      initializeBox(element, currentForeContext, 30)
+      initializeBox(element, currentForeContext)
     });
 
     // Set up canvas
     this.canvas = element.querySelector('.tetris')
-    initializeBox(this.canvas, "context", 35)
+    initializeBox(this.canvas, "context")
 
     // Set up held
     this.heldCanvas = element.querySelector('.held')
-    initializeBox(this.heldCanvas, "heldContext", 30)
+    initializeBox(this.heldCanvas, "heldContext")
 
     // Set up garbage bar
     this.garbageCanvas = element.querySelector('.garbage')
-    initializeBox(this.garbageCanvas, "garbageContext", 35)
+    initializeBox(this.garbageCanvas, "garbageContext")
 
 /////////////////////////////
 
@@ -95,9 +94,9 @@ class Tetris {
         if (value !== 0) {
           this.context.fillStyle = ghost ? this.ghostColors[value]: this.colors[value]
           this.context.fillRect(
-            x + offset.x,
-            y + offset.y,
-            1, 1)
+            (x + offset.x)*35,
+            (y + offset.y)*35,
+            35, 35)
         }
       });
     });
@@ -152,7 +151,7 @@ class Tetris {
     this.clearCanvas(this.garbageCanvas, this.garbageContext)
     const totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
     const newIndicatorArray = Array(21).fill([0]).fill([8], 21 - totalGarbage)
-    this.drawSideBox(newIndicatorArray, this.garbageContext)
+    this.drawSideBox(newIndicatorArray, this.garbageContext, 35)
   }
 
   updateSideBox = (element, i) => {
@@ -162,15 +161,15 @@ class Tetris {
     this.clearCanvas(element, this[context])
     const pieceMatrix = this.getPieceMatrix(letter);
 
-    this.drawSideBox(pieceMatrix, this[context]);
+    this.drawSideBox(pieceMatrix, this[context], 30);
   }
 
-  drawSideBox(matrix, providedContext) {
+  drawSideBox(matrix, providedContext, scale) {
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
           providedContext.fillStyle = this.colors[value];
-          providedContext.fillRect(x, y, 1, 1)
+          providedContext.fillRect(x*scale, y*scale, scale, scale)
         }
       });
     });
