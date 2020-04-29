@@ -43,7 +43,19 @@ const singleKeyListener = event => {
     } else if (event.code === "KeyW") { // rotate right (cw)
       player.rotate(1)
     }
-
+    
+    // The below keys are for dev purposes
+    if (event.code === "KeyG") {
+      player.arena.receiveAttack(player, [4])
+    } else if (event.code === "KeyH") {
+      player.arena.receiveAttack(player, [2])
+    } else if (event.code === "KeyX") {
+      player.events.emit('garbage', 4);
+    } else if (event.code === "KeyC") {
+      player.events.emit('garbage', 2);
+    } else if (event.code === "KeyP") {
+      player.receiveIncomingAttack(4)
+    }
   }
 }
 
