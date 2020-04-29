@@ -101,10 +101,13 @@ class Tetris {
     });
   }
 
-  applyGradients(context, colorCode, adj_x, adj_y, size) {
-    this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size) // base
-    this.addOneGradient(context, "#e6e6e600", "#D178784D", adj_x, adj_y, size) // shadow
-    this.addOneGradient(context, colorCode, "#e6e6e6", adj_x, adj_y, size, 3, 1.25) // inner bevel
+  applyGradients(context, colorCode, adj_x, adj_y, size, nudge = 3) {
+    // base
+    this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size)
+    // shadow
+    this.addOneGradient(context, "#e6e6e600", "#D178784D", adj_x, adj_y, size)
+    // inner bevel
+    this.addOneGradient(context, colorCode, "#e6e6e6", adj_x, adj_y, size, nudge, 1.25)
   }
 
   addOneGradient(context, color1, color2, x, y, size, nudge = 0, multiplier = 1) {
@@ -167,7 +170,7 @@ class Tetris {
     this.clearCanvas(this.garbageCanvas, this.garbageContext)
     const totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
     const newIndicatorArray = Array(21).fill([0]).fill([8], 21 - totalGarbage)
-    this.drawSideBox(newIndicatorArray, this.garbageContext, 35)
+    this.drawSideBox(newIndicatorArray, this.garbageContext, 35, 3)
   }
 
   updateSideBox = (element, i) => {
@@ -180,12 +183,12 @@ class Tetris {
     this.drawSideBox(pieceMatrix, this[context], 30);
   }
 
-  drawSideBox(matrix, providedContext, scale) {
+  drawSideBox(matrix, providedContext, scale, nudge = 2) {
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
           const colorCode = this.colors[value];
-          this.applyGradients(providedContext, colorCode, x*scale, y*scale, scale)
+          this.applyGradients(providedContext, colorCode, x*scale, y*scale, scale, nudge)
         }
       });
     });
