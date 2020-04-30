@@ -43,7 +43,7 @@ class Tetris {
 
     // colors array for obtaining tetris piece colors
     this.colors = [
-      null, 'blueviolet', 'gold', 'darkorange', 'blue', '#20dfdf', '#80e619', '#FF0032', 'grey', '#382c2f'
+      null, 'blueviolet', '#e6c719', 'darkorange', 'blue', '#20dfdf', '#80e619', '#FF0032', 'grey', '#382c2f'
     ]
     // ghost colors
     this.ghostColors = [
@@ -108,6 +108,8 @@ class Tetris {
     this.addOneGradient(context, "#e6e6e600", "#D178784D", adj_x, adj_y, size)
     // inner bevel
     this.addOneGradient(context, colorCode, "#e6e6e6", adj_x, adj_y, size, nudge, 1.25)
+    // innermost bevel
+    this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size, nudge+3, 1.5)
   }
 
   addOneGradient(context, color1, color2, x, y, size, nudge = 0, multiplier = 1) {
@@ -194,9 +196,15 @@ class Tetris {
     });
   }
 
-  clearCanvas(element, context) {
-    context.fillStyle = '#202028';
-    context.fillRect(0, 0, element.width, element.height);
+  clearCanvas(element, context, scale = 35) {
+    for (let h = 0; h < element.height; h += scale) {
+      for (let w = 0; w < element.width; w += scale) {
+        context.fillStyle = '#31313d';
+        context.fillRect(w, h, scale, scale);
+        this.addOneGradient(context, "#202028", "#16161c", w, h, scale, 1, 1)
+      }
+    }
+
   }
 
   getPieceMatrix(type) {
