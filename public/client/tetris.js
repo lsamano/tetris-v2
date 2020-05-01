@@ -50,19 +50,20 @@ class Tetris {
       null, '#cda5f3', '#fff099', '#ffd199', '#9999ff', '#c2f0f0', '#ccff99', '#e996a6'
     ]
 
-    let lastTime = 0
+    this.lastTime = 0
+    let requestId;
 
-    this._update = (time = 0) => {
-      const deltaTime = time - lastTime;
-      lastTime = time
-
-      this.player.update(deltaTime)
-
-      this.drawNextTurn()
+    this._update = (time = this.lastTime) => {
       if (this.paused) {
+        cancelAnimationFrame(requestId);
         return;
       }
-      requestAnimationFrame(this._update)
+      const deltaTime = time - this.lastTime;
+      this.lastTime = time
+      this.player.update(deltaTime)
+
+      this.drawNextFrame()
+      requestId = requestAnimationFrame(this._update)
     }
 
     // Set intial score at 0
@@ -70,10 +71,11 @@ class Tetris {
   }
 
   run() {
+    this.lastTime = performance.now();
     this._update();
   }
 
-  drawNextTurn() {
+  drawNextFrame() {
     this.clearCanvas(this.canvas, this.context)
 
     this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], {x: 0, y: 0})
@@ -105,7 +107,7 @@ class Tetris {
     // base
     this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size)
     // shadow
-    this.addOneGradient(context, "#e6e6e600", "#D178784D", adj_x, adj_y, size)
+    this.addOneGradient(context, "#e6e6e600", "#D178784f", adj_x, adj_y, size)
     // inner bevel
     this.addOneGradient(context, colorCode, "#e6e6e6", adj_x, adj_y, size, nudge, 1.25)
     // innermost bevel
@@ -284,7 +286,7 @@ class Tetris {
     this.player = Object.assign(state.player);
     this.updateScore(this.player.score);
     if (state.player.gameOn) {
-      this.drawNextTurn();
+      this.drawNextFrame();
       this.updateIndicator();
     }
   }
