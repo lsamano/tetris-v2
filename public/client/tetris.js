@@ -189,11 +189,18 @@ class Tetris {
   }
 
   drawSideBox(matrix, providedContext, scale, nudge = 2) {
+    if (matrix.length > 2) {
+      matrix.pop();
+    }
+
+    const centerXBy = (providedContext.canvas.width - matrix[0].length*scale) / 2
+    const centerYBy = (providedContext.canvas.height - matrix.length*scale) / 2
+
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
           const colorCode = this.colors[value];
-          this.applyGradients(providedContext, colorCode, x*scale, y*scale, scale, nudge)
+          this.applyGradients(providedContext, colorCode, x*scale+centerXBy, y*scale+centerYBy, scale, nudge)
         }
       });
     });
