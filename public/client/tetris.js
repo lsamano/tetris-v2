@@ -5,29 +5,29 @@ class Tetris {
     this.gameOn = false
 
     // Initializes context, and sets it as dary grey
-    const initializeBox = (element, contextString) => {
+    const initializeBox = (element, contextString, size) => {
       this[contextString] = element.getContext('2d')
-      this.clearCanvas(element, this[contextString])
+      this.clearCanvas(element, this[contextString], size)
     }
 
     // Set up forecast
     this.forecastElements = element.querySelectorAll('.forecast');
     this.forecastElements.forEach((element, i) => {
       const currentForeContext = `foreContext${i}`
-      initializeBox(element, currentForeContext)
+      initializeBox(element, currentForeContext, 30)
     });
 
     // Set up canvas
     this.canvas = element.querySelector('.tetris')
-    initializeBox(this.canvas, "context")
+    initializeBox(this.canvas, "context", 35)
 
     // Set up held
     this.heldCanvas = element.querySelector('.held')
-    initializeBox(this.heldCanvas, "heldContext")
+    initializeBox(this.heldCanvas, "heldContext", 30)
 
     // Set up garbage bar
     this.garbageCanvas = element.querySelector('.garbage')
-    initializeBox(this.garbageCanvas, "garbageContext")
+    initializeBox(this.garbageCanvas, "garbageContext", 35)
 
 /////////////////////////////
 
@@ -181,7 +181,7 @@ class Tetris {
     const context = i !== undefined ? `foreContext${i}` : "heldContext";
     const letter = i !== undefined ? this.player.forecast[i] : this.player.heldLetter;
 
-    this.clearCanvas(element, this[context])
+    this.clearCanvas(element, this[context], 30)
     const pieceMatrix = this.getPieceMatrix(letter);
 
     this.drawSideBox(pieceMatrix, this[context], 30);
