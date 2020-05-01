@@ -108,9 +108,10 @@ class Tetris {
     this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size)
     // shadow
     this.addOneGradient(context, "#e6e6e600", "#D178784f", adj_x, adj_y, size)
-    // inner bevel
+    // inner bevel with shadow
     this.addOneGradient(context, colorCode, "#e6e6e6", adj_x, adj_y, size, nudge, 1.25)
-    // innermost bevel
+    this.addOneGradient(context, "#D178784f", "#e6e6e600", adj_x, adj_y, size, nudge, 1.25)
+    // innermost square
     this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size, nudge+3, 1.5)
   }
 
