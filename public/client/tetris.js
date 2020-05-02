@@ -42,12 +42,10 @@ class Tetris {
     });
 
     // colors array for obtaining tetris piece colors
+    // null, violet, yellow, orange, blue, cyan, green, red, grey, white
     this.colors = [
-      null, 'blueviolet', '#e6c719', 'darkorange', 'blue', '#20dfdf', '#80e619', '#FF0032', 'grey', '#382c2f'
-    ]
-    // ghost colors
-    this.ghostColors = [
-      null, '#cda5f3', '#fff099', '#ffd199', '#9999ff', '#c2f0f0', '#ccff99', '#e996a6'
+      null, '#8A2BE2', '#e6c719', '#FF8C00', '#2b2bff',
+      '#20dfdf', '#80e619', '#FF0032', '#808080', '#382c2f'
     ]
 
     this.lastTime = 0
@@ -94,26 +92,30 @@ class Tetris {
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
-          if (ghost) {
-            const colorCode = this.colors[value]
-            const adj_x = (x + offset.x)*35
-            const adj_y = (y + offset.y)*35
+          const colorCode = this.colors[value]
+          const adj_x = (x + offset.x)*35
+          const adj_y = (y + offset.y)*35
 
-            let grd = this.context.createRadialGradient(adj_x+18, adj_y+18, 0, adj_x+18, adj_y+18, 35);
-            grd.addColorStop(0, `${this.ghostColors[value]}00`);
-            grd.addColorStop(1, colorCode);
-            this.context.fillStyle = grd;
-            this.context.fillRect(adj_x, adj_y, 35, 35);
+          if (ghost) {
+            this.applyRadialGradient(this.context, colorCode, adj_x, adj_y, 35)
 
           } else {
-            const colorCode = this.colors[value]
-            const adj_x = (x + offset.x)*35
-            const adj_y = (y + offset.y)*35
             this.applyGradients(this.context, colorCode, adj_x, adj_y, 35)
           }
         }
       });
     });
+  }
+
+  applyRadialGradient(context, colorCode, x, y, scale) {
+    const nudge = Math.ceil(scale / 2)
+    const xCenter = x + nudge
+    const yCenter = y + nudge
+    let grd = context.createRadialGradient(xCenter, yCenter, 0, xCenter, yCenter, scale);
+    grd.addColorStop(0, `${colorCode}00`);
+    grd.addColorStop(1, colorCode);
+    context.fillStyle = grd;
+    context.fillRect(x, y, scale, scale);
   }
 
   applyGradients(context, colorCode, adj_x, adj_y, size, nudge = 3) {
