@@ -94,10 +94,23 @@ class Tetris {
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
-          const colorCode = ghost ? this.ghostColors[value] : this.colors[value]
-          const adj_x = (x + offset.x)*35
-          const adj_y = (y + offset.y)*35
-          this.applyGradients(this.context, colorCode, adj_x, adj_y, 35)
+          if (ghost) {
+            const colorCode = this.colors[value]
+            const adj_x = (x + offset.x)*35
+            const adj_y = (y + offset.y)*35
+
+            let grd = this.context.createRadialGradient(adj_x+18, adj_y+18, 0, adj_x+18, adj_y+18, 35);
+            grd.addColorStop(0, `${this.ghostColors[value]}00`);
+            grd.addColorStop(1, colorCode);
+            this.context.fillStyle = grd;
+            this.context.fillRect(adj_x, adj_y, 35, 35);
+
+          } else {
+            const colorCode = this.colors[value]
+            const adj_x = (x + offset.x)*35
+            const adj_y = (y + offset.y)*35
+            this.applyGradients(this.context, colorCode, adj_x, adj_y, 35)
+          }
         }
       });
     });
