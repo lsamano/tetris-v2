@@ -32,6 +32,7 @@ body {
 
 .left-column {
   width: 160px;
+  margin-left: 10px;
 }
 
 .mid-column {
@@ -40,6 +41,7 @@ body {
 
 .right-column {
   width: 160px;
+  margin-right: 10px;
 }
 
 .full-game.local {
