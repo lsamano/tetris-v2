@@ -186,9 +186,10 @@ class Tetris {
 
   updateIndicator() {
     this.clearCanvas(this.garbageCanvas, this.garbageContext)
-    const totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
-    const newIndicatorArray = Array(21).fill([0]).fill([8], 21 - totalGarbage)
-    this.drawSideBox(newIndicatorArray, this.garbageContext, 35, 3)
+    let totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
+    totalGarbage = totalGarbage > 16 ? 16 : totalGarbage
+    const newIndicatorArray = Array(16).fill([0]).fill([8], 16 - totalGarbage)
+    this.drawInSideBox(newIndicatorArray, this.garbageContext, 0, 0, 35, 3)
   }
 
   updateSideBox = (element, i) => {
@@ -208,7 +209,10 @@ class Tetris {
 
     const centerXBy = (providedContext.canvas.width - matrix[0].length*scale) / 2
     const centerYBy = (providedContext.canvas.height - matrix.length*scale) / 2
+    this.drawInSideBox(matrix, providedContext, centerXBy, centerYBy, scale, nudge)
+  }
 
+  drawInSideBox(matrix, providedContext, centerXBy, centerYBy, scale, nudge) {
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
