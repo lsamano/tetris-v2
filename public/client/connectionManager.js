@@ -114,7 +114,7 @@ class ConnectionManager {
       theirTetris.updateIndicator();
     }
     else {
-      theirTetris.drawNextTurn();
+      theirTetris.drawNextFrame();
     }
   }
 
