@@ -76,7 +76,7 @@ class Tetris {
   drawNextFrame() {
     this.clearCanvas(this.canvas, this.context)
 
-    this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], {x: 0, y: 0})
+    this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], {x: 0, y: 0}, true)
    this.drawMatrix(this.arena.matrix, {x: 0, y: 0}) // draws previous board
    this.drawMatrix(
      this.player.matrix,
