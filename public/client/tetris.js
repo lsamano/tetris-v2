@@ -42,7 +42,8 @@ class Tetris {
     });
 
     // colors array for obtaining tetris piece colors
-    // null, violet, yellow, orange, blue, cyan, green, red, grey, white
+    // null, violet, yellow, orange, blue,
+    // cyan, green, red, grey, white
     this.colors = [
       null, '#8A2BE2', '#e6c719', '#FF8C00', '#2b2bff',
       '#20dfdf', '#80e619', '#FF0032', '#808080', '#382c2f'
@@ -189,8 +190,8 @@ class Tetris {
   updateIndicator() {
     this.clearCanvas(this.garbageCanvas, this.garbageContext)
     let totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
-    totalGarbage = totalGarbage > 16 ? 16 : totalGarbage
-    const newIndicatorArray = Array(16).fill([0]).fill([8], 16 - totalGarbage)
+    totalGarbage = totalGarbage > 17 ? 17 : totalGarbage
+    const newIndicatorArray = Array(17).fill([0]).fill([8], 17 - totalGarbage)
     this.drawInSideBox(newIndicatorArray, this.garbageContext, 0, 0, 35, 3)
   }
 
@@ -334,9 +335,7 @@ class Tetris {
 
   startGame() {
     const startButton = this.element.querySelector(".start-button")
-    startButton.disabled = true
-    startButton.classList.remove("hoverable")
-    startButton.classList.add("disabled")
+    startButton.remove();
 
     this.paused = false;
     this.gameOn = true;

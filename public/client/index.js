@@ -27,7 +27,7 @@ const singleKeyListener = event => {
   if (event.repeat) return;
 
   if (event.code === "Space") { // Pause or start game
-    if (startButton.disabled === true) {
+    if (localTetris.gameOn === true) {
       return localTetris.togglePaused();
     } else {
       return startGame();
@@ -43,7 +43,7 @@ const singleKeyListener = event => {
     } else if (event.code === "KeyW") { // rotate right (cw)
       player.rotate(1)
     }
-    
+
     // The below keys are for dev purposes
     if (event.code === "KeyG") {
       player.arena.receiveAttack(player, [4])

@@ -63,11 +63,28 @@ body {
 
 .garbage {
   float: right;
+  margin-top: 10px;
 }
 
 .disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.start-button {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -130%);
+  /* margin-top: -60px;
+  margin-left: -80px; */
+
+  background: linear-gradient(270deg, #ac511d, #c82858, #28b2c8, #28c84a, #c8c528, #2879c8, #6b28c8);
+  background-size: 1400% 1400%;
+
+  -webkit-animation: AnimationName 100s ease infinite;
+  -moz-animation: AnimationName 100s ease infinite;
+  animation: AnimationName 100s ease infinite;
 }
 
 /* Button styles below imported from https://codepen.io/davidicus/pen/emgQKJ */
@@ -84,7 +101,7 @@ button {
   text-decoration: none;
   text-transform: uppercase;
   width: 100%;
-  background-color:  coral;
+  /* background-color:  coral; */
 
   @media(min-width: 600px) {
     margin: 0 1em 2em;
