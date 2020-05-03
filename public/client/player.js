@@ -142,6 +142,7 @@ class Player {
       this.arena.receiveAttack(this, this.incomingGarbage);
       this.tetris.clearCanvas(this.tetris.garbageCanvas, this.tetris.garbageContext)
       this.incomingGarbage = [];
+      this.events.emit('incomingGarbage', this.incomingGarbage);
     }
 
     if (!providedLetter) {
@@ -170,7 +171,6 @@ class Player {
     this.events.emit('matrix', this.matrix);
     this.events.emit('heldLetter', this.heldLetter);
     this.events.emit('forecast', this.forecast);
-    this.events.emit('incomingGarbage', this.incomingGarbage);
   }
 
   gameOver() {
