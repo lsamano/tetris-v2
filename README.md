@@ -65,6 +65,7 @@ Note: You can only hold once per turn.
 
 # Upcoming Features
 - Implementing SRS (for advanced spins and wall kicks)
+- String combos, also for blocking
 - Perfect clear points + attack
 - Ability to play using https
 
