@@ -1,3 +1,4 @@
+![image of the game in action](images/img.png)
 # Tetris v2
 This is a Javascript Tetris game.
 
