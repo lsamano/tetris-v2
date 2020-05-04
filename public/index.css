@@ -37,6 +37,8 @@ body {
 
 .mid-column {
   width: 730px;
+  height: 800px;
+  position: relative;
 }
 
 .right-column {
@@ -72,12 +74,11 @@ body {
 }
 
 .start-button {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 45%;
   left: 50%;
-  transform: translate(-50%, -130%);
-  /* margin-top: -60px;
-  margin-left: -80px; */
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
   background: linear-gradient(270deg, #ac511d, #c82858, #28b2c8, #28c84a, #c8c528, #2879c8, #6b28c8);
   background-size: 1400% 1400%;
