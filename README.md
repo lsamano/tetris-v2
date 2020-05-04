@@ -39,7 +39,7 @@ Note: You can only hold once per turn.
 
 # Current Features
 - Able to clear lines and earn points
-- Able to lose the game if it reaches the top
+- If the blocks reach the top, it is Game Over (game will end)
 - Keeps score
 - Increases speed based on score
 - Able to hold pieces
@@ -53,9 +53,9 @@ Note: You can only hold once per turn.
 - Made player unable to rotate on key repeat
 
 # Latest Updates
-- Better Game Over mechanics
 - Player can see incoming attacks via indicator
 - Player can see opponents' indicators as well
+- Improved graphics
 
 # Faithful Recreation
 - Colors reflect actual Tetris pieces used in-game
@@ -64,7 +64,7 @@ Note: You can only hold once per turn.
 
 # Upcoming Features
 - Implementing SRS (for advanced spins and wall kicks)
-- Improved graphics
+- Perfect clear points + attack
 - Ability to play using https
 
 # Known Bugs/Issues
