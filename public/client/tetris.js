@@ -75,33 +75,45 @@ class Tetris {
   }
 
   drawNextFrame() {
-    this.clearCanvas(this.canvas, this.context)
-
-    this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], {x: 0, y: 0}, true)
-   this.drawMatrix(this.arena.matrix, {x: 0, y: 0}) // draws previous board
-   this.drawMatrix(
-     this.player.matrix,
-     { x: this.player.position.x, y: this.getGhostCoordinate() },
-     true
-   ); // draw ghost piece
-   this.drawMatrix(this.player.matrix, this.player.position); // draws active piece
-   this.updateHeld();
-   this.updateForecast();
+    const context = this.context
+    this.clearCanvas(this.canvas, context)
+    // this.drawMatrix(matrix, givenContext, offset, scale, nudge, ghost)
+    this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], context, {x: 0, y: 0}, 35, 0, true)
+     this.drawMatrix(this.arena.matrix, context, {x: 0, y: 0}, 35) // draws previous board
+     this.drawMatrix(
+       this.player.matrix,
+       context,
+       { x: this.player.position.x, y: this.getGhostCoordinate() },
+       35, 0, true
+     ); // draw ghost piece
+     this.drawMatrix(this.player.matrix, context, this.player.position, 35); // draws active piece
+     this.updateHeld();
+     this.updateForecast();
   }
 
-  drawMatrix(matrix, offset, ghost) {
+  drawMatrix(matrix, givenContext, offset, scale, nudge, ghost, center) {
+    // Fills a given context with a given matrix
+    // scale and nudge are for styling the bevel
+    // Can also center the matrix in the context
+    let centerXBy = 0;
+    let centerYBy = 0;
+    if (center) {
+      centerXBy = (givenContext.canvas.width - matrix[0].length*scale) / 2
+      centerYBy = (givenContext.canvas.height - matrix.length*scale) / 2
+    }
+
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
           const colorCode = this.colors[value]
-          const adj_x = (x + offset.x)*35
-          const adj_y = (y + offset.y)*35
+          const adj_x = (x + offset.x)*scale + centerXBy
+          const adj_y = (y + offset.y)*scale + centerYBy
 
           if (ghost) {
-            this.applyRadialGradient(this.context, colorCode, adj_x, adj_y, 35)
+            this.applyRadialGradient(givenContext, colorCode, adj_x, adj_y, scale)
 
           } else {
-            this.applyGradients(this.context, colorCode, adj_x, adj_y, 35)
+            this.applyGradients(givenContext, colorCode, adj_x, adj_y, scale, nudge)
           }
         }
       });
@@ -192,7 +204,7 @@ class Tetris {
     let totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
     totalGarbage = totalGarbage > 17 ? 17 : totalGarbage
     const newIndicatorArray = Array(17).fill([0]).fill([8], 17 - totalGarbage)
-    this.drawInSideBox(newIndicatorArray, this.garbageContext, 0, 0, 35, 3)
+    this.drawMatrix(newIndicatorArray, this.garbageContext, {x: 0, y: 0}, 35, 3)
   }
 
   updateSideBox = (element, i) => {
@@ -206,24 +218,11 @@ class Tetris {
   }
 
   drawSideBox(matrix, providedContext, scale, nudge = 2) {
+    // For drawing hold and forecast
     if (matrix.length > 2) {
-      matrix.pop();
+      matrix.pop(); // pops off blank rows for centering purposes
     }
-
-    const centerXBy = (providedContext.canvas.width - matrix[0].length*scale) / 2
-    const centerYBy = (providedContext.canvas.height - matrix.length*scale) / 2
-    this.drawInSideBox(matrix, providedContext, centerXBy, centerYBy, scale, nudge)
-  }
-
-  drawInSideBox(matrix, providedContext, centerXBy, centerYBy, scale, nudge) {
-    matrix.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value !== 0) {
-          const colorCode = this.colors[value];
-          this.applyGradients(providedContext, colorCode, x*scale+centerXBy, y*scale+centerYBy, scale, nudge)
-        }
-      });
-    });
+    this.drawMatrix(matrix, providedContext, {x: 0, y: 0}, scale, nudge, false, true)
   }
 
   clearCanvas(element, context, scale = 35) {
