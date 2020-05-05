@@ -77,7 +77,6 @@ class Tetris {
   drawNextFrame() {
     const context = this.context
     this.clearCanvas(this.canvas, context)
-    // this.drawMatrix(matrix, givenContext, offset, scale, nudge, ghost)
     this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], context, {x: 0, y: 0}, 35, 0, true)
      this.drawMatrix(this.arena.matrix, context, {x: 0, y: 0}, 35) // draws previous board
      this.drawMatrix(
@@ -131,16 +130,16 @@ class Tetris {
     context.fillRect(x, y, scale, scale);
   }
 
-  applyGradients(context, colorCode, adj_x, adj_y, size, nudge = 3) {
+  applyGradients(context, colorCode, x, y, size, nudge = 3) {
     // base
-    this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size)
+    this.addOneGradient(context, "#e6e6e6", colorCode, x, y, size)
     // shadow
-    this.addOneGradient(context, "#e6e6e600", "#D178784f", adj_x, adj_y, size)
+    this.addOneGradient(context, "#e6e6e600", "#D178784f", x, y, size)
     // inner bevel with shadow
-    this.addOneGradient(context, colorCode, "#e6e6e6", adj_x, adj_y, size, nudge, 1.25)
-    this.addOneGradient(context, "#D178784f", "#e6e6e600", adj_x, adj_y, size, nudge, 1.25)
+    this.addOneGradient(context, colorCode, "#e6e6e6", x, y, size, nudge, 1.25)
+    this.addOneGradient(context, "#D178784f", "#e6e6e600", x, y, size, nudge, 1.25)
     // innermost square
-    this.addOneGradient(context, "#e6e6e6", colorCode, adj_x, adj_y, size, nudge+3, 1.5)
+    this.addOneGradient(context, "#e6e6e6", colorCode, x, y, size, nudge+3, 1.5)
   }
 
   addOneGradient(context, color1, color2, x, y, size, nudge = 0, multiplier = 1) {
