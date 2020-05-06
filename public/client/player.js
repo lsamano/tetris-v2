@@ -148,8 +148,9 @@ class Player {
     if (!providedLetter) {
       // if this is a normal turn, get next letter from forecast
       this.letter = this.forecast.shift()
-      const newPiece = this.getTetriminoLetter()
-      this.forecast.push(newPiece)
+      if (this.forecast.length < 7) {
+        this.generateNewBag()
+      }
     } else {
       // if this follows a hold, use the former held letter
       this.letter =  providedLetter
@@ -181,10 +182,10 @@ class Player {
     this.tetris.gameOn = false
   }
 
-  getTetriminoLetter() {
-    const pieces = 'ILJOSTZ'
-    const randomIndex = pieces.length * Math.random() | 0
-    return pieces[randomIndex]
+  generateNewBag() {
+    const pieces = 'ILJOSTZ'.split('')
+    const randomizedBag = this.shuffle(pieces)
+    this.forecast = this.forecast.concat(randomizedBag)
   }
 
   calculateScore(additionalRowsCleared) {
