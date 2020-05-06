@@ -61,12 +61,13 @@ Note: You can only hold once per turn.
 # Faithful Recreation
 - Colors reflect actual Tetris pieces used in-game
 - Guaranteed one of each letter at the beginning of a session, just like the real game
+- "Random Generator" algorithm used to ensure player can play forever
 - Accurate point system for 1-4 line clears and soft drops
 
 # Upcoming Features
-- Implementing SRS (for advanced spins and wall kicks)
-- String combos, also for blocking
-- Perfect clear points + attack
+- Implementing SRS (for advanced spins and wall/floor kicks)
+- String combos, including using them for blocking
+- Perfect clear, including points and attack
 - Ability to play using https
 
 # Known Bugs/Issues
