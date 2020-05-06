@@ -176,7 +176,7 @@ class Player {
 
   gameOver() {
     // draws final board, pauses game, and ends it
-    this.tetris.drawMatrix(this.arena.matrix, {x: 0, y: 0})
+    this.tetris.drawMatrix(this.arena.matrix, this.tetris.context, {x: 0, y: 0}, 35)
     this.arena.events.emit('matrix', this.matrix);
     this.tetris.paused = true
     this.tetris.gameOn = false
