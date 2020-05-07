@@ -174,14 +174,6 @@ class Player {
     this.events.emit('forecast', this.forecast);
   }
 
-  // gameOver() {
-  //   // draws final board, pauses game, and ends it
-  //   this.tetris.drawMatrix(this.arena.matrix, this.tetris.context, {x: 0, y: 0}, 35)
-  //   this.arena.events.emit('matrix', this.matrix);
-  //   this.tetris.paused = true
-  //   this.tetris.gameOn = false
-  // }
-
   generateNewBag() {
     const pieces = 'ILJOSTZ'.split('')
     const randomizedBag = this.shuffle(pieces)
@@ -250,7 +242,8 @@ class Player {
   }
 
   shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    // Fisher-Yates shuffle
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
