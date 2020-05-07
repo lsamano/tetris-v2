@@ -3,6 +3,7 @@ class Tetris {
     this.element = element
     this.paused = true
     this.gameOn = false
+    this.gameDone = false
 
     // Initializes context, and sets it as dary grey
     const initializeBox = (element, contextString, size) => {
@@ -345,8 +346,9 @@ class Tetris {
     // draws final board, pauses game, and ends it
     this.drawMatrix(this.arena.matrix, this.context, {x: 0, y: 0}, 35)
     this.arena.events.emit('matrix', this.matrix);
-    this.paused = true
-    this.gameOn = false
+    this.paused = true;
+    this.gameOn = false;
+    this.gameDone = true;
   }
 
 }

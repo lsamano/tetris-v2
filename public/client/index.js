@@ -29,7 +29,7 @@ const singleKeyListener = event => {
   if (event.code === "Space") { // Pause or start game
     if (localTetris.gameOn === true) {
       return localTetris.togglePaused();
-    } else {
+    } else if (localTetris.gameDone === false) {
       return startGame();
     }
   }
