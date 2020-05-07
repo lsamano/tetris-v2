@@ -166,7 +166,7 @@ class Player {
       // merges final piece onto arena
       this.matrix.shift()
       this.arena.merge(this)
-      this.gameOver()
+      this.tetris.gameOver()
     }
     this.events.emit('position', this.position);
     this.events.emit('matrix', this.matrix);
@@ -174,13 +174,13 @@ class Player {
     this.events.emit('forecast', this.forecast);
   }
 
-  gameOver() {
-    // draws final board, pauses game, and ends it
-    this.tetris.drawMatrix(this.arena.matrix, this.tetris.context, {x: 0, y: 0}, 35)
-    this.arena.events.emit('matrix', this.matrix);
-    this.tetris.paused = true
-    this.tetris.gameOn = false
-  }
+  // gameOver() {
+  //   // draws final board, pauses game, and ends it
+  //   this.tetris.drawMatrix(this.arena.matrix, this.tetris.context, {x: 0, y: 0}, 35)
+  //   this.arena.events.emit('matrix', this.matrix);
+  //   this.tetris.paused = true
+  //   this.tetris.gameOn = false
+  // }
 
   generateNewBag() {
     const pieces = 'ILJOSTZ'.split('')

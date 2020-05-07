@@ -341,4 +341,12 @@ class Tetris {
     this.run();
   }
 
+  gameOver() {
+    // draws final board, pauses game, and ends it
+    this.drawMatrix(this.arena.matrix, this.context, {x: 0, y: 0}, 35)
+    this.arena.events.emit('matrix', this.matrix);
+    this.paused = true
+    this.gameOn = false
+  }
+
 }
