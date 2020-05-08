@@ -32,19 +32,12 @@ class Player {
     this.events.emit('position', this.position);
   }
 
-  rotate(direction) {
+  oldRotate(direction) {
     const originalPosition = this.position.x;
     const originalRotaStateIndex = this.rotaStateIndex
     let offset = 1;
     this._rotateMatrix(this.matrix, direction)
-    const newRotaState = this.rotaStateIndex + direction
-    if (newRotaState === 4) {
-      this.rotaStateIndex = 0
-    } else if (newRotaState === -1) {
-      this.rotaStateIndex = 3
-    } else {
-      this.rotaStateIndex = newRotaState
-    }
+    this.rotaStateIndex = this.getCircularIndex(direction)
 
     while (this.arena.collide(this)) {
       this.position.x += offset
@@ -59,25 +52,68 @@ class Player {
     this.events.emit('matrix', this.matrix);
   }
 
+  getCircularIndex(direction) {
+    const newRotaState = this.rotaStateIndex + direction
+    if (newRotaState === 4) {
+      return 0
+    } else if (newRotaState === -1) {
+      return 3
+    } else {
+      return newRotaState
+    }
+  }
+
   offsetData = () => ({
-    "0": [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
-    "R": [ {x:0, y:0}, {x:1, y:0}, {x:1, y:-1}, {x:0, y:2}, {x:1, y:2}, ],
-    "2": [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
-    "L": [ {x:0, y:0}, {x:-1, y:0}, {x:-1, y:-1}, {x:0, y:2}, {x:-1, y:2} ]
+    0: [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
+    1: [ {x:0, y:0}, {x:1, y:0}, {x:1, y:+1}, {x:0, y:-2}, {x:1, y:-2}, ],
+    2: [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
+    3: [ {x:0, y:0}, {x:-1, y:0}, {x:-1, y:+1}, {x:0, y:-2}, {x:-1, y:-2} ]
   })
 
-  realRotation(direction) {
-    // get current rotaState
-    // find attemptedRotaState
+  rotate(direction) {
+    const originalPositionX = this.position.x;
+    const originalPositionY = this.position.y;
+    // get current rotaState's offsetData
+    const currentOffsetData = this.offsetData()[this.rotaStateIndex]
+    // find attemptedRotaIndex and its offsetData
+    const attemptedRotaIndex = this.getCircularIndex(direction)
+    const attemptedOffsetData = this.offsetData()[attemptedRotaIndex]
     // apply rotation
+    this._rotateMatrix(this.matrix, direction)
 
-    // let offsetDataIndex = 0
     // while there is still offset data,
-    // subtract current offset[i] with attempted[i]
-    // apply offset
-    // if collision, offsetDataIndex += 1 and check next offsetData
-    // if no collision, change current rotaState to new one
+    for (let i = 0; i < currentOffsetData.length; i++) {
+      const currOffset = currentOffsetData[i] // {x:0, y:0}
+      const attemptedOffset = attemptedOffsetData[i] // {x:0, y:0}
+      // subtract currOffset[i] with attemptedOffset[i]
+      const translation = {
+        x: currOffset.x - attemptedOffset.x,
+        y: currOffset.y - attemptedOffset.y
+      }
+      // apply offset
+      const dummyPosition = {
+        x: this.position.x + translation.x,
+        y: this.position.y + translation.y
+      }
+      if (this.arena.collide({matrix:this.matrix, position: dummyPosition})) {
+        // if collision, check next offsetData
+        continue;
+      } else {
+        // if no collision, finalize position
+        // console.log(dummyPosition);
+        this.position.x = dummyPosition.x
+        this.position.y = dummyPosition.y
+        // change current rotaState to new one
+        this.rotaStateIndex = attemptedRotaIndex
+        return;
+      }
+
+    }
     // if end of offset data, return to originalPosition
+    this._rotateMatrix(this.matrix, -direction)
+    this.position.x = originalPositionX
+    this.position.y = originalPositionY
+    return;
   }
 
   _rotateMatrix(matrix, direction) {
@@ -173,6 +209,7 @@ class Player {
   }
 
   reset(providedLetter, fromHold) {
+    this.rotaStateIndex = 0
     // if there is incoming garbage, receive the attack
     if (!fromHold && this.incomingGarbage.length > 0) {
       this.arena.receiveAttack(this, this.incomingGarbage);
