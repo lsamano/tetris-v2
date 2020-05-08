@@ -2,9 +2,12 @@ class Player {
   constructor(tetris) {
     this.tetris = tetris
     this.arena = tetris.arena
+
     this.position = { x: 0, y: 0 }
     this.matrix = null // matrix of current piece
     this.letter = null // letter of current piece
+    this.rotaStateIndex = 0 // rotation state of current piece
+    this.AllRotaStates = ["0", "R", "2", "L"]
 
     this.events = new Events();
 
@@ -15,6 +18,7 @@ class Player {
     this.dropCounter = 0
     this.incomingGarbage = [];
     this.forecast = this.getInitialForecast();
+
 
     this.reset();
   }
@@ -30,18 +34,50 @@ class Player {
 
   rotate(direction) {
     const originalPosition = this.position.x;
+    const originalRotaStateIndex = this.rotaStateIndex
     let offset = 1;
     this._rotateMatrix(this.matrix, direction)
+    const newRotaState = this.rotaStateIndex + direction
+    if (newRotaState === 4) {
+      this.rotaStateIndex = 0
+    } else if (newRotaState === -1) {
+      this.rotaStateIndex = 3
+    } else {
+      this.rotaStateIndex = newRotaState
+    }
+
     while (this.arena.collide(this)) {
       this.position.x += offset
       offset = -(offset + (offset > 0 ? 1 : -1))
       if (offset > this.matrix[0].length + 1) {
         this._rotateMatrix(this.matrix, -direction)
         this.position.x = originalPosition
+        this.rotaStateIndex = originalRotaStateIndex
         return;
       }
     }
     this.events.emit('matrix', this.matrix);
+  }
+
+  offsetData = () => ({
+    "0": [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
+    "R": [ {x:0, y:0}, {x:1, y:0}, {x:1, y:-1}, {x:0, y:2}, {x:1, y:2}, ],
+    "2": [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
+    "L": [ {x:0, y:0}, {x:-1, y:0}, {x:-1, y:-1}, {x:0, y:2}, {x:-1, y:2} ]
+  })
+
+  realRotation(direction) {
+    // get current rotaState
+    // find attemptedRotaState
+    // apply rotation
+
+    // let offsetDataIndex = 0
+    // while there is still offset data,
+    // subtract current offset[i] with attempted[i]
+    // apply offset
+    // if collision, offsetDataIndex += 1 and check next offsetData
+    // if no collision, change current rotaState to new one
+    // if end of offset data, return to originalPosition
   }
 
   _rotateMatrix(matrix, direction) {
