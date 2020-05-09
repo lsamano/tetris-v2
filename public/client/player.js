@@ -7,7 +7,6 @@ class Player {
     this.matrix = null // matrix of current piece
     this.letter = null // letter of current piece
     this.rotaStateIndex = 0 // rotation state of current piece
-    this.AllRotaStates = ["0", "R", "2", "L"]
 
     this.events = new Events();
 
@@ -30,26 +29,6 @@ class Player {
       return;
     }
     this.events.emit('position', this.position);
-  }
-
-  oldRotate(direction) {
-    const originalPosition = this.position.x;
-    const originalRotaStateIndex = this.rotaStateIndex
-    let offset = 1;
-    this._rotateMatrix(this.matrix, direction)
-    this.rotaStateIndex = this.getCircularIndex(direction)
-
-    while (this.arena.collide(this)) {
-      this.position.x += offset
-      offset = -(offset + (offset > 0 ? 1 : -1))
-      if (offset > this.matrix[0].length + 1) {
-        this._rotateMatrix(this.matrix, -direction)
-        this.position.x = originalPosition
-        this.rotaStateIndex = originalRotaStateIndex
-        return;
-      }
-    }
-    this.events.emit('matrix', this.matrix);
   }
 
   getCircularIndex(direction) {
@@ -100,7 +79,6 @@ class Player {
         continue;
       } else {
         // if no collision, finalize position
-        // console.log(dummyPosition);
         this.position.x = dummyPosition.x
         this.position.y = dummyPosition.y
         // change current rotaState to new one
