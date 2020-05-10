@@ -212,16 +212,13 @@ class Tetris {
     const letter = i !== undefined ? this.player.forecast[i] : this.player.heldLetter;
 
     this.clearCanvas(element, this[context], 30)
-    const pieceMatrix = this.getPieceMatrix(letter);
+    const pieceMatrix = this.getPieceMatrix(letter, "trimmed");
 
     this.drawSideBox(pieceMatrix, this[context], 30);
   }
 
   drawSideBox(matrix, providedContext, scale, nudge = 2) {
     // For drawing hold and forecast
-    if (matrix.length > 2) {
-      matrix.pop(); // pops off blank rows for centering purposes
-    }
     this.drawMatrix(matrix, providedContext, {x: 0, y: 0}, scale, nudge, false, true)
   }
 
@@ -236,7 +233,54 @@ class Tetris {
 
   }
 
-  getPieceMatrix(type) {
+  getPieceMatrix(type, trimmed) {
+    if (trimmed) {
+      switch (type) {
+        case 'T':
+        return [
+          [0, 1, 0],
+          [1, 1, 1]
+        ]
+        case 'O':
+        return [
+          [2, 2],
+          [2, 2],
+        ]
+        case 'Z':
+        return [
+          [7, 7, 0],
+          [0, 7, 7]
+        ]
+        case 'S':
+        return [
+          [0, 6, 6],
+          [6, 6, 0]
+        ]
+        case 'J':
+        return [
+          [4, 0, 0],
+          [4, 4, 4],
+        ]
+        case 'L':
+        return [
+          [0, 0, 3],
+          [3, 3, 3],
+        ]
+        case 'I':
+        return [
+          [0, 0, 0, 0],
+          [5, 5, 5, 5],
+          [0, 0, 0, 0]
+        ]
+        default:
+        return [
+          [0, 5, 1, 0],
+          [8, 6, 4, 8],
+          [8, 7, 3, 8],
+          [0, 5, 2, 0]
+        ]
+      }
+    }
     switch (type) {
       case 'T':
       return [
