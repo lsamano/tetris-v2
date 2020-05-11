@@ -52,6 +52,7 @@ Note: You can only hold once per turn.
 - Ability to nullify garbage lines
 - Ability to start the game at will
 - Made player unable to rotate on key repeat
+- Able to wall kick, floor kick, and do advanced rotations
 
 # Latest Updates
 - Player can see incoming attacks via indicator
@@ -63,9 +64,9 @@ Note: You can only hold once per turn.
 - Guaranteed one of each letter at the beginning of a session, just like the real game
 - "Random Generator" algorithm used to ensure player can play forever
 - Accurate point system for 1-4 line clears and soft drops
+- SRS Implemented (for advanced spins and wall/floor kicks)
 
 # Upcoming Features
-- Implementing SRS (for advanced spins and wall/floor kicks)
 - String combos, including using them for blocking
 - Perfect clear, including points and attack
 - Ability to play using https
