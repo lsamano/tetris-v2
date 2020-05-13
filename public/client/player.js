@@ -42,6 +42,7 @@ class Player {
     }
   }
 
+  // returns SRS Offset Data based on letter
   offsetData = () => {
     if (this.letter === "O") {
       return {
@@ -71,10 +72,11 @@ class Player {
     const originalPositionX = this.position.x;
     const originalPositionY = this.position.y;
     // get current rotaState's offsetData
-    const currentOffsetData = this.offsetData()[this.rotaStateIndex]
+    const offsetData = this.offsetData()
+    const currentOffsetData = offsetData[this.rotaStateIndex]
     // find attemptedRotaIndex and its offsetData
     const attemptedRotaIndex = this.getCircularIndex(direction)
-    const attemptedOffsetData = this.offsetData()[attemptedRotaIndex]
+    const attemptedOffsetData = offsetData[attemptedRotaIndex]
     // apply rotation
     this._rotateMatrix(this.matrix, direction)
 
