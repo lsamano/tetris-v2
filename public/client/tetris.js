@@ -188,7 +188,7 @@ class Tetris {
   }
 
   updateForecast() {
-    // have forecase boxes display pieces
+    // have forecast boxes display pieces
     this.forecastElements.forEach(this.updateSideBox)
   }
 
@@ -200,6 +200,7 @@ class Tetris {
   }
 
   updateIndicator() {
+    // have garbage indicator display incoming garbage
     this.clearCanvas(this.garbageCanvas, this.garbageContext)
     let totalGarbage = this.player.incomingGarbage.reduce((total, num) => total + num, 0)
     totalGarbage = totalGarbage > 17 ? 17 : totalGarbage
@@ -234,7 +235,7 @@ class Tetris {
   }
 
   getPieceMatrix(type, trimmed) {
-    if (trimmed) {
+    if (trimmed) { // for showing sidebox pieces
       switch (type) {
         case 'T':
         return [
