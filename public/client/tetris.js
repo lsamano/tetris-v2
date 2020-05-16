@@ -209,6 +209,7 @@ class Tetris {
   }
 
   updateSideBox = (element, i) => {
+    // For drawing hold and forecast
     const context = i !== undefined ? `foreContext${i}` : "heldContext";
     const letter = i !== undefined ? this.player.forecast[i] : this.player.heldLetter;
 
@@ -224,6 +225,7 @@ class Tetris {
   }
 
   clearCanvas(element, context, scale = 35) {
+    // fills given element with black grid
     for (let h = 0; h < element.height; h += scale) {
       for (let w = 0; w < element.width; w += scale) {
         context.fillStyle = '#31313d';
