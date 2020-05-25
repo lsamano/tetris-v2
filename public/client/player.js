@@ -199,6 +199,8 @@ class Player {
       // nullify incoming garbage if cleared rows this turn
       // will also send attack if it can
       this.calculateGarbage(rowsCleared);
+      this.tetris.updateIndicator();
+
     } else if (this.incomingGarbage.length > 0) {
       // if there is incoming garbage, receive the attack
       this.arena.receiveAttack(this, this.incomingGarbage);
