@@ -148,14 +148,14 @@ class Player {
         // grab saved letter and switch
         [this.heldLetter, this.letter] = [this.letter, this.heldLetter]
         this.tetris.updateHeld() // update the savedLetter canvas
-        this.reset(this.letter, true) // use saved piece
+        this.reset(this.letter) // use saved piece
       } else {
         // save new piece to box
         this.heldLetter = this.letter
         // update the savedLetter canvas
         this.tetris.updateHeld()
         this.tetris.updateForecast()
-        this.reset(null, true) // move onto next piece
+        this.reset(null) // move onto next piece
       }
     }
   }
@@ -195,9 +195,16 @@ class Player {
     // calculate rows cleared
     const rowsCleared = this.arena.sweep(this);
 
-    // nullify incoming garbage
     if (rowsCleared > 0) {
+      // nullify incoming garbage if cleared rows this turn
+      // will also send attack if it can
       this.calculateGarbage(rowsCleared);
+    } else if (this.incomingGarbage.length > 0) {
+      // if there is incoming garbage, receive the attack
+      this.arena.receiveAttack(this, this.incomingGarbage);
+      this.tetris.clearCanvas(this.tetris.garbageCanvas, this.tetris.garbageContext)
+      this.incomingGarbage = [];
+      this.events.emit('incomingGarbage', this.incomingGarbage);
     }
 
     // put player back on top with new letter
@@ -206,15 +213,8 @@ class Player {
     this.events.emit('score', this.score);
   }
 
-  reset(providedLetter, fromHold) {
+  reset(providedLetter) {
     this.rotaStateIndex = 0
-    // if there is incoming garbage, receive the attack
-    if (!fromHold && this.incomingGarbage.length > 0) {
-      this.arena.receiveAttack(this, this.incomingGarbage);
-      this.tetris.clearCanvas(this.tetris.garbageCanvas, this.tetris.garbageContext)
-      this.incomingGarbage = [];
-      this.events.emit('incomingGarbage', this.incomingGarbage);
-    }
 
     if (!providedLetter) {
       // if this is a normal turn, get next letter from forecast
@@ -291,7 +291,7 @@ class Player {
 
   calculateGarbage(rowsCleared) {
     const adjustedLines = rowsCleared < 4 ? rowsCleared - 1 : rowsCleared;
-    if (this.incomingGarbage.length > 0) { // if garbage
+    if (this.incomingGarbage.length > 0) { // if there is incoming garbage
       this.removeGarbage(adjustedLines) // recursively remove garbage
     } else { // no garbage, immediately send attack
       this.events.emit('garbage', adjustedLines);
