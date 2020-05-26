@@ -17,16 +17,9 @@ Survive as long as possible and earn a high score!
 When playing with an opponent, survive longer than they do and sabotage their efforts by sending them "garbage" lines.
 
 # Controls
-| Key | Action |
-| --- | ------ |
-| ← (Left) | Move Left |
-| → (Right) | Move Right |
-| ↓ (Down) | Soft Drop |
-| ↑ (Up) | Hard Drop |
-| 🆀 (Q) | Rotate Left |
-| 🆆 (W) | Rotate Right |
-| 🅳 (D) | Hold |
-| [   ] (Space) | Pause |
+| Key |  ← (Left) | → (Right) | ↓ (Down) | ↑ (Up) | 🆀 (Q) | 🆆 (W) | 🅳 (D) | [   ] (Space) |
+| --- | ------ |------ |------ |------ |------ |------ |------ |------ |
+| **Action** | Move Left | Move Right | Soft Drop | Hard Drop | Rotate Left | Rotate Right | Hold |  Pause |
 
 **Soft Drop:** Manually moves the piece downward.
 
