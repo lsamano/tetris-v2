@@ -247,6 +247,7 @@ class Player {
     this.events.emit('forecast', this.forecast);
   }
 
+  // adds seven shuffled letters to the forecast
   generateNewBag() {
     const pieces = 'ILJOSTZ'.split('')
     const randomizedBag = this.shuffle(pieces)
@@ -275,10 +276,9 @@ class Player {
     // grab oldest incomingGarbage and subtract our leftover/rowsCleared
     const leftoverAttackLines = attackAmount - this.incomingGarbage[0];
 
-    // if we ran out of leftover/rowsCleared, set oldestGarb to new number remainder
     if (leftoverAttackLines <= 0) {
+      // if we ran out of leftover/rowsCleared, set oldestGarb to new number remainder
       this.incomingGarbage[0] = -leftoverAttackLines
-      return;
     } else if (this.incomingGarbage.length > 0) {
       // if there is still more garbage (and consequently we still have more leftover),
       // shift the incomingGarbage and run this function again
@@ -286,8 +286,9 @@ class Player {
       return this.removeGarbage(leftoverAttackLines)
     } else {
       // else (no garb and we have leftover) return the remainder as an attack
-      return this.events.emit('garbage', attackAmount);
+      this.events.emit('garbage', attackAmount);
     }
+    // update opponent's view of your incomingGarbage indicator
     this.events.emit('incomingGarbage', this.incomingGarbage)
   }
 
@@ -301,6 +302,7 @@ class Player {
   }
 
   receiveIncomingAttack(rowCount) {
+    // add to incomingGarbage array
     this.incomingGarbage.push(rowCount);
 
     // visualize rows in garbage indicator pillar
@@ -314,8 +316,8 @@ class Player {
     return this.shuffle(['I', 'L', 'J', 'O', 'S', 'T', 'Z'])
   }
 
+  // Fisher-Yates shuffle
   shuffle(array) {
-    // Fisher-Yates shuffle
     let currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
