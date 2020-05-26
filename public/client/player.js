@@ -103,6 +103,8 @@ class Player {
         this.position.y = dummyPosition.y
         // change current rotaState to new one
         this.rotaStateIndex = attemptedRotaIndex
+        // emit event
+        this.events.emit('matrix', this.matrix);
         return;
       }
 
