@@ -8,11 +8,11 @@ In the project directory, run the following,
 npm install
 npm start
 ```
-Now go to `localhost:9000` in your browser and press space to start playing immediately. *If you are playing with others, make sure you are using http, as the app will not be able to use WebSockets using https.*
+Now go to `localhost:9000` in your browser and press space to start playing immediately. *If you are playing with others, make sure you are using* **http**, *as the app will not be able to use WebSockets using https.*
 
 # Goal of the Game
 Drop pieces to the bottom of the screen. When you fill up an entire row, they will clear and earn you points. If you fill up to the top, it's game over!
-Survive as long as possible and earn as much points as possible!
+Survive as long as possible and earn a high score!
 
 When playing with an opponent, survive longer than they do and sabotage their efforts by sending them "garbage" lines.
 
@@ -28,11 +28,11 @@ When playing with an opponent, survive longer than they do and sabotage their ef
 | 🅳 (D) | Hold |
 | [   ] (Space) | Pause |
 
-Soft Drop: Manually moves the piece downward.
-Hard Drop: Sets the piece immediately where the ghost piece is.
-Hold: Saves the current piece for later use. If you have a piece saved already, it will swap your current piece with the one being held.
+**Soft Drop:** Manually moves the piece downward.
 
-Note: You can only hold once per turn.
+**Hard Drop:** Sets the piece immediately where the ghost piece is.
+
+**Hold:** Saves the current piece for later use. If you have a piece saved already, it will swap your current piece with the one being held. *Note: You can only hold once per turn.*
 
 # Scoring
 | # of Lines Cleared | Points | Garbage Lines Sent |
@@ -42,7 +42,7 @@ Note: You can only hold once per turn.
 | 3 lines | 500 pts |  2 lines |
 | 4 lines (Tetris) | 800 pts |  4 lines |
 
-Note: Both Hard and Soft Drop earns you 1pt per "step" downward.
+*Note: Both Hard and Soft Drop earns you 1pt per "step" downward.*
 
 # Current Features
 - Base Game
@@ -56,20 +56,21 @@ Note: Both Hard and Soft Drop earns you 1pt per "step" downward.
   - Ghost piece (shows where your piece will land if hard-dropped)
   - Piece Forecast shows next five pieces
   - See incoming attacks with the Garbage Indicator
-  - Player is able to wall kick, floor kick, and do advanced rotations
+  - Player is able to wall kick and floor kick for ease of play
+  - Player is able to do advanced rotations for high-level play
 - Multiplayer
-  - Ability to play with other people via WebSockets
-  - Ability to attack opponent player (called garbage lines)
-  - Ability to nullify garbage lines
+  - Play with other people via WebSockets for competitive play
+  - Attack your opponents with "garbage lines" when you clear lines
+  - Nullify incoming garbage lines to survive the longest
 - Quality of Life Updates
-  - Ability to start the game at will
-  - Made player unable to rotate on key repeat
-  - Improved graphics of Tetris pieces
+  - Able to start the game at will
+  - Player will not rotate on key repeat for precision movements
+  - Added improved graphics of Tetris pieces
 
 # Faithful Recreation
-This app is made to reflect the real game as much as possible. It includes
+This app is made to reflect the real game as much as possible. It includes...
 - Colors that reflect actual Tetris pieces used in-game
-- the "Random Generator" algorithm, to ensure player can play forever
+- The "Random Generator" algorithm, to ensure player can play forever
   - Guaranteed one of each letter every set of 7 pieces
 - An accurate point system for 1-4 line clears and hard/soft drops
 - The SRS algorithm for advanced spins and wall/floor kicks
