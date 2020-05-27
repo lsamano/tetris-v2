@@ -38,27 +38,27 @@ When playing with an opponent, survive longer than they do and sabotage their ef
 *Note: Both Hard and Soft Drop earns you 1pt per "step" downward.*
 
 # Current Features
-- Base Game
-  - Able to clear lines and earn points
-  - If the pieces stacked reaches the top, it is Game Over (game will end)
-  - Game keeps score based on how many lines were cleared
-  - Increases speed based on score
-- Advanced Features
-  - Able to hold pieces
-  - Able to Hard Drop (immediately drops piece into place)
-  - Ghost piece (shows where your piece will land if hard-dropped)
-  - Piece Forecast shows next five pieces
-  - See incoming attacks with the Garbage Indicator
-  - Player is able to wall kick and floor kick for ease of play
-  - Player is able to do advanced rotations for high-level play
-- Multiplayer
-  - Play with other people via WebSockets for competitive play
-  - Attack your opponents with "garbage lines" when you clear lines
-  - Nullify incoming garbage lines to survive the longest
-- Quality of Life Updates
-  - Able to start the game at will
-  - Player will not rotate on key repeat for precision movements
-  - Added improved graphics of Tetris pieces
+## Base Game
+- Able to clear lines and earn points
+- If the pieces stacked reaches the top, it is Game Over (game will end)
+- Game keeps score based on how many lines were cleared
+- Increases speed based on score
+## Advanced Features
+- Able to hold pieces
+- Able to Hard Drop (immediately drops piece into place)
+- Ghost piece (shows where your piece will land if hard-dropped)
+- Piece Forecast shows next five pieces
+- See incoming attacks with the Garbage Indicator
+- Player is able to wall kick and floor kick for ease of play
+- Player is able to do advanced rotations for high-level play
+## Multiplayer
+- Play with other people via WebSockets for competitive play
+- Attack your opponents with "garbage lines" when you clear lines
+- Nullify incoming garbage lines to survive the longest
+## Quality of Life Updates
+- Able to start the game at will
+- Player will not rotate on key repeat for precision movements
+- Added improved graphics of Tetris pieces
 
 # Faithful Recreation
 This app is made to reflect the real game as much as possible. It includes...
