@@ -1,4 +1,4 @@
-![image of the game in action](images/img.png)
+![image of the game in action](images/preview.png)
 # Tetris v2
 This is a Tetris game made using JavaScript, Canvas, Express, and WebSockets.
 
