@@ -32,6 +32,81 @@ class Tetris {
 
 /////////////////////////////
 
+    this.pieceMatrices = {
+      trimmed: {
+        'T': [
+          [0, 1, 0],
+          [1, 1, 1]
+        ],
+        'O': [
+          [2, 2],
+          [2, 2],
+        ],
+        'Z': [
+          [7, 7, 0],
+          [0, 7, 7]
+        ],
+        'S': [
+          [0, 6, 6],
+          [6, 6, 0]
+        ],
+        'J': [
+          [4, 0, 0],
+          [4, 4, 4],
+        ],
+        'L': [
+          [0, 0, 3],
+          [3, 3, 3],
+        ],
+        'I': [
+          [0, 0, 0, 0],
+          [5, 5, 5, 5],
+          [0, 0, 0, 0]
+        ],
+      },
+      regular: {
+        'T': [
+          [0, 1, 0],
+          [1, 1, 1],
+          [0, 0, 0]
+        ],
+        'O': [
+          [0, 2, 2],
+          [0, 2, 2],
+          [0, 0, 0]
+        ],
+        'Z': [
+          [7, 7, 0],
+          [0, 7, 7],
+          [0, 0, 0]
+        ],
+        'S': [
+          [0, 6, 6],
+          [6, 6, 0],
+          [0, 0, 0]
+        ],
+        'J': [
+          [4, 0, 0],
+          [4, 4, 4],
+          [0, 0, 0]
+        ],
+        'L': [
+          [0, 0, 3],
+          [3, 3, 3],
+          [0, 0, 0]
+        ],
+        'I': [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 5, 5, 5, 5],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]
+        ],
+      }
+    }
+
+/////////////////////////////
+
     // make arena matrix
     this.arena = new Arena(10, 21);
 
@@ -237,106 +312,19 @@ class Tetris {
   }
 
   getPieceMatrix(type, trimmed) {
-    if (trimmed) { // for showing sidebox pieces
-      switch (type) {
-        case 'T':
-        return [
-          [0, 1, 0],
-          [1, 1, 1]
-        ]
-        case 'O':
-        return [
-          [2, 2],
-          [2, 2],
-        ]
-        case 'Z':
-        return [
-          [7, 7, 0],
-          [0, 7, 7]
-        ]
-        case 'S':
-        return [
-          [0, 6, 6],
-          [6, 6, 0]
-        ]
-        case 'J':
-        return [
-          [4, 0, 0],
-          [4, 4, 4],
-        ]
-        case 'L':
-        return [
-          [0, 0, 3],
-          [3, 3, 3],
-        ]
-        case 'I':
-        return [
-          [0, 0, 0, 0],
-          [5, 5, 5, 5],
-          [0, 0, 0, 0]
-        ]
-        default:
-        return [
+    const trimToggle = trimmed ? "trimmed" : "regular";
+    const piece = this.pieceMatrices[trimToggle][type];
+    if (!piece) {
+      // Error, return default piece
+      return (
+        [
           [0, 5, 1, 0],
           [8, 6, 4, 8],
           [8, 7, 3, 8],
           [0, 5, 2, 0]
         ]
-      }
-    }
-    switch (type) {
-      case 'T':
-      return [
-        [0, 1, 0],
-        [1, 1, 1],
-        [0, 0, 0]
-      ]
-      case 'O':
-      return [
-        [0, 2, 2],
-        [0, 2, 2],
-        [0, 0, 0]
-      ]
-      case 'Z':
-      return [
-        [7, 7, 0],
-        [0, 7, 7],
-        [0, 0, 0]
-      ]
-      case 'S':
-      return [
-        [0, 6, 6],
-        [6, 6, 0],
-        [0, 0, 0]
-      ]
-      case 'J':
-      return [
-        [4, 0, 0],
-        [4, 4, 4],
-        [0, 0, 0]
-      ]
-      case 'L':
-      return [
-        [0, 0, 3],
-        [3, 3, 3],
-        [0, 0, 0]
-      ]
-      case 'I':
-      return [
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 5, 5, 5, 5],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0]
-      ]
-      default:
-      return [
-        [0, 5, 1, 0],
-        [8, 6, 4, 8],
-        [8, 7, 3, 8],
-        [0, 5, 2, 0]
-      ]
-    }
+      )
+    } else return JSON.parse(JSON.stringify(piece)); // deep clone
   }
 
   serialize() {
