@@ -239,8 +239,10 @@ class Player {
 
     // set player at top with new piece
     this.matrix = this.tetris.getPieceMatrix(this.letter)
-    this.position.y = 0
-    this.position.x = (this.arena.matrix[0].length / 2 | 0) - Math.ceil(this.matrix[0].length / 2)     // sets at middle and lowers it to fit in this.arena
+    // y = 0, unless I piece, which must be moved up 2 spaces
+    this.position.y = (this.letter === "I" ? -2 : 0)
+    // sets x at middle
+    this.position.x = (this.arena.matrix[0].length / 2 | 0) - Math.ceil(this.matrix[0].length / 2)
 
     // if there is collision upon reset, end game
     if (this.arena.collide(this)) {
@@ -249,6 +251,8 @@ class Player {
       this.arena.merge(this)
       this.tetris.gameOver()
     }
+
+    // emit events for opponent
     this.events.emit('position', this.position);
     this.events.emit('matrix', this.matrix);
     this.events.emit('heldLetter', this.heldLetter);
