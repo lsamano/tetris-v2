@@ -18,6 +18,29 @@ class Player {
     this.incomingGarbage = [];
     this.forecast = this.getInitialForecast();
 
+    ////////////////////
+    this.offsetData = {
+      "O": {
+        0: [ {x:0, y:0} ],
+        1: [ {x:0, y:1} ],
+        2: [ {x:-1, y:1} ],
+        3: [ {x:-1, y:0} ]
+      },
+      "I": {
+        0: [ {x:0, y:0}, {x:-1, y:0}, {x:2, y:0}, {x:-1, y:0}, {x:2, y:0} ],
+        1: [ {x:-1, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:-1}, {x:0, y:2}, ],
+        2: [ {x:-1, y:-1}, {x:1, y:-1}, {x:-2, y:-1}, {x:1, y:0}, {x:-2, y:0} ],
+        3: [ {x:0, y:-1}, {x:0, y:-1}, {x:0, y:-1}, {x:0, y:1}, {x:0, y:-2} ]
+      },
+      regular: {
+        0: [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
+        1: [ {x:0, y:0}, {x:1, y:0}, {x:1, y:+1}, {x:0, y:-2}, {x:1, y:-2}, ],
+        2: [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
+        3: [ {x:0, y:0}, {x:-1, y:0}, {x:-1, y:+1}, {x:0, y:-2}, {x:-1, y:-2} ]
+      }
+    }
+    ////////////////////
+
 
     this.reset();
   }
@@ -43,28 +66,11 @@ class Player {
   }
 
   // returns SRS Offset Data based on letter
-  offsetData = () => {
-    if (this.letter === "O") {
-      return {
-        0: [ {x:0, y:0} ],
-        1: [ {x:0, y:1} ],
-        2: [ {x:-1, y:1} ],
-        3: [ {x:-1, y:0} ]
-      }
-    } else if (this.letter === "I") {
-      return {
-        0: [ {x:0, y:0}, {x:-1, y:0}, {x:2, y:0}, {x:-1, y:0}, {x:2, y:0} ],
-        1: [ {x:-1, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:-1}, {x:0, y:2}, ],
-        2: [ {x:-1, y:-1}, {x:1, y:-1}, {x:-2, y:-1}, {x:1, y:0}, {x:-2, y:0} ],
-        3: [ {x:0, y:-1}, {x:0, y:-1}, {x:0, y:-1}, {x:0, y:1}, {x:0, y:-2} ]
-      }
+  getOffsetData = () => {
+    if (this.letter === "O" || this.letter === "I") {
+      return this.offsetData[this.letter]
     } else {
-      return {
-        0: [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
-        1: [ {x:0, y:0}, {x:1, y:0}, {x:1, y:+1}, {x:0, y:-2}, {x:1, y:-2}, ],
-        2: [ {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0} ],
-        3: [ {x:0, y:0}, {x:-1, y:0}, {x:-1, y:+1}, {x:0, y:-2}, {x:-1, y:-2} ]
-      }
+      return this.offsetData.regular
     }
   }
 
@@ -72,7 +78,7 @@ class Player {
     const originalPositionX = this.position.x;
     const originalPositionY = this.position.y;
     // get current rotaState's offsetData
-    const offsetData = this.offsetData()
+    const offsetData = this.getOffsetData()
     const currentOffsetData = offsetData[this.rotaStateIndex]
     // find attemptedRotaIndex and its offsetData
     const attemptedRotaIndex = this.getCircularIndex(direction)
