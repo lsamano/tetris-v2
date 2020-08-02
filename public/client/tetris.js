@@ -103,19 +103,11 @@ class Tetris {
           [0, 0, 0, 0, 0]
         ],
       }
-    }
+    };
 
-/////////////////////////////
+    this.capacityRow = [[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]];
 
-    // make arena matrix
-    this.arena = new Arena(10, 21);
-
-    // make default player
-    this.player = new Player(this);
-
-    this.player.events.listen('score', score => {
-      this.updateScore(score);
-    });
+    this.defaultCoordinates = {x: 0, y: 0};
 
     // colors array for obtaining tetris piece colors
     // null, violet, yellow, orange, blue,
@@ -125,9 +117,20 @@ class Tetris {
       '#20dfdf', '#80e619', '#FF0032', '#808080', '#382c2f'
     ]
 
-    this.lastTime = 0
+/////////////////////////////
+
+    // make arena matrix
+    this.arena = new Arena(10, 21);
+
+    // make default player
+    this.player = new Player(this);
+    this.player.events.listen('score', score => this.updateScore(score));
+
+    // used for the game timer below
+    this.lastTime = 0;
     let requestId;
 
+    // defines the game timer
     this._update = (time = this.lastTime) => {
       if (this.paused) {
         cancelAnimationFrame(requestId);
@@ -151,19 +154,25 @@ class Tetris {
   }
 
   drawNextFrame() {
-    const context = this.context
+    const context = this.context;
+    // fills canvas black
     this.clearCanvas(this.canvas, context)
-    this.drawMatrix([[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]], context, {x: 0, y: 0}, 35, 0, true)
-     this.drawMatrix(this.arena.matrix, context, {x: 0, y: 0}, 35) // draws previous board
-     this.drawMatrix(
-       this.player.matrix,
-       context,
-       { x: this.player.position.x, y: this.getGhostCoordinate() },
-       35, 0, true
-     ); // draw ghost piece
-     this.drawMatrix(this.player.matrix, context, this.player.position, 35); // draws active piece
-     this.updateHeld();
-     this.updateForecast();
+    // draws topmost capacity row
+    this.drawMatrix(this.capacityRow, context, this.defaultCoordinates, 35, 0, true)
+    // draws previous board
+    this.drawMatrix(this.arena.matrix, context, this.defaultCoordinates, 35)
+    // draws ghost piece
+    this.drawMatrix(
+      this.player.matrix,
+      context,
+      { x: this.player.position.x, y: this.getGhostCoordinate() },
+      35, 0, true
+    )
+    // draws active piece
+    this.drawMatrix(this.player.matrix, context, this.player.position, 35)
+    // update held and forecasts
+    this.updateHeld()
+    this.updateForecast()
   }
 
   drawMatrix(matrix, givenContext, offset, scale, nudge, ghost, center) {
