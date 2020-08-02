@@ -36,11 +36,11 @@ const singleKeyListener = event => {
 
   if (localTetris.paused === false) {
     const player = localTetris.player
-    if (event.code === "KeyD") { // D
+    if (event.code === "KeyD") { // D, hold letter
       player.hold()
-    } else if (event.code === "KeyQ") { // rotate left, (ccw)
+    } else if (event.code === "KeyQ") { // Q, rotate left, (ccw)
       player.rotate(-1)
-    } else if (event.code === "KeyW") { // rotate right (cw)
+    } else if (event.code === "KeyW") { // W, rotate right (cw)
       player.rotate(1)
     }
 
