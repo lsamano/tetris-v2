@@ -154,6 +154,14 @@ class Tetris {
   }
 
   drawNextFrame() {
+    // move left/Right (
+    // darken ghost, fill in ghost
+    // darken former piece, fill in new piece
+    // )
+    // move down (darken former piece, fill in new piece)
+    // hold (piece, bg, ghost, hold)
+    // fit in place and reset (piece, ghost, bg, arena, forecast)
+
     const context = this.context;
     // fills canvas black
     this.clearCanvas(this.canvas, context)
@@ -380,7 +388,15 @@ class Tetris {
 
   startGame() {
     const startButton = this.element.querySelector(".start-button")
-    startButton.remove();
+    startButton.style.display = "none";
+
+    // new Arena and Player, set score at 0 and clear held box
+    this.arena = new Arena(10, 21);
+    this.player = new Player(this);
+    this.updateScore(0)
+    this.player.events.listen('score', score => this.updateScore(score));
+    this.clearCanvas(this.heldCanvas, this["heldContext"], 30)
+    //// Some of the above code is repetitive and needs to be refactored
 
     this.paused = false;
     this.gameOn = true;
@@ -395,6 +411,11 @@ class Tetris {
     this.paused = true;
     this.gameOn = false;
     this.gameDone = true;
+
+    // show replay button
+    const startButton = this.element.querySelector(".start-button")
+    startButton.style.display = "block";
+    startButton.innerText = "Play Again?";
   }
 
 }
